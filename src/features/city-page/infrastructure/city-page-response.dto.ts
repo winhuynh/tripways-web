@@ -8,6 +8,8 @@ import type {
   CityInsights,
   CityInternalLinkGroup,
   CityOverview,
+  CityQuickFacts,
+  CityRouteExtreme,
 } from "../domain/models";
 
 export function parseCityOverviewResponse(value: unknown): CityOverview {
@@ -131,6 +133,20 @@ export function parseCityInsightsResponse(value: unknown): CityInsights {
   };
 }
 
+export function parseCityQuickFactsResponse(value: unknown): CityQuickFacts {
+  const envelope = parseEnvelope(value);
+  const data = record(envelope.data);
+  return {
+    airportCount: integer(data.airport_count),
+    directDestinationCount: integer(data.direct_destination_count),
+    directCountryCount: integer(data.direct_country_count),
+    airlineCount: integer(data.airline_count),
+    shortestRoute: nullableRouteExtreme(data.shortest_route),
+    longestRoute: nullableRouteExtreme(data.longest_route),
+    dataVersion: string(envelope.meta.data_version),
+  };
+}
+
 export function parseCityInternalLinksResponse(value: unknown): readonly CityInternalLinkGroup[] {
   return array(parseEnvelope(value).data).map((item) => {
     const group = record(item);
@@ -201,6 +217,17 @@ function parseLabelFacet(value: unknown) {
     value: string(facet.value),
     label: string(facet.label),
     count: integer(facet.count),
+  };
+}
+
+function nullableRouteExtreme(value: unknown): CityRouteExtreme | null {
+  if (value === null) return null;
+  const route = record(value);
+  return {
+    destinationName: string(route.destination_name),
+    destinationSlug: string(route.destination_slug),
+    routePath: string(route.route_path),
+    durationMinutes: integer(route.duration_minutes),
   };
 }
 

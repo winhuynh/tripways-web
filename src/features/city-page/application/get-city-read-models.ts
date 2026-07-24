@@ -16,6 +16,8 @@ export function createCityPageUseCases(repository: CityPageRepository) {
       readOptionalModel(() => repository.getAirlines(input), (value) => value.length === 0),
     getInsights: (input: CityPageIdentity) =>
       readOptionalModel(() => repository.getInsights(input), () => false),
+    getQuickFacts: (input: CityPageIdentity) =>
+      readOptionalModel(() => repository.getQuickFacts(input), () => false),
     getInternalLinks: (input: CityPageIdentity) =>
       readOptionalModel(() => repository.getInternalLinks(input), (value) => value.length === 0),
     getFaqs: (input: CityPageIdentity) =>

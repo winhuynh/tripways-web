@@ -497,6 +497,57 @@ h1::first-line {
   font-size: 12px;
 }
 
+.quick-facts-card {
+  min-height: 300px;
+}
+
+.quick-facts-card h3 {
+  margin-bottom: 20px;
+  text-transform: uppercase;
+}
+
+.quick-facts-card dl {
+  display: grid;
+  gap: 18px;
+}
+
+.quick-facts-card dl > div {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: 16px;
+}
+
+.quick-facts-card dt {
+  color: var(--ink-soft);
+  font-size: 10px;
+  font-weight: 850;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.quick-facts-card dd {
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 850;
+  text-align: right;
+}
+
+.quick-facts-card dd a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: var(--blue);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+}
+
+.quick-facts-card--loading {
+  display: grid;
+  place-items: center;
+  color: var(--ink-soft);
+  font-size: 12px;
+}
+
 .newsletter-card {
   background: var(--blue);
   color: white;

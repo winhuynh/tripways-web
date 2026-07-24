@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import {
   parseCityAirportsResponse,
   parseCityOverviewResponse,
+  parseCityQuickFactsResponse,
 } from "./city-page-response.dto";
 
 const envelope = (data: unknown, meta: Record<string, unknown> = {}) => ({
@@ -98,6 +99,52 @@ describe("city page DTO parser", () => {
       domesticDestinationPercentage: 33,
       internationalDestinationPercentage: 67,
       dominantAirlineBusinessModel: "low_cost",
+    });
+  });
+
+  it("maps a complete city quick facts read model", () => {
+    const result = parseCityQuickFactsResponse(
+      envelope(
+        {
+          airport_count: 2,
+          direct_destination_count: 5,
+          direct_country_count: 5,
+          airline_count: 2,
+          shortest_route: {
+            destination_name: "Chiang Mai",
+            destination_slug: "chiang-mai",
+            route_path: "/flights/bangkok-to-chiang-mai",
+            duration_minutes: 75,
+          },
+          longest_route: {
+            destination_name: "Paris",
+            destination_slug: "paris",
+            route_path: "/flights/bangkok-to-paris",
+            duration_minutes: 785,
+          },
+        },
+        { data_version: "version-1" },
+      ),
+    );
+
+    expect(result).toEqual({
+      airportCount: 2,
+      directDestinationCount: 5,
+      directCountryCount: 5,
+      airlineCount: 2,
+      shortestRoute: {
+        destinationName: "Chiang Mai",
+        destinationSlug: "chiang-mai",
+        routePath: "/flights/bangkok-to-chiang-mai",
+        durationMinutes: 75,
+      },
+      longestRoute: {
+        destinationName: "Paris",
+        destinationSlug: "paris",
+        routePath: "/flights/bangkok-to-paris",
+        durationMinutes: 785,
+      },
+      dataVersion: "version-1",
     });
   });
 });

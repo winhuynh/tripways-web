@@ -12,6 +12,9 @@ import {
   CityHero,
   CityInsightsSection,
   CityLinksSection,
+  CityQuickFactsFallback,
+  CityQuickFactsSection,
+  CityQuickFactsUnavailable,
   CityRouteMap,
   CityRouteSearch,
   CollectionsSection,
@@ -163,7 +166,29 @@ async function DestinationsSection({
   if (result.status === "empty") {
     return <section className="section-card section-message"><h2>No matching destinations</h2></section>;
   }
-  return <CityDestinationsSection cityName={cityName} result={result.data} />;
+  return (
+    <CityDestinationsSection
+      cityName={cityName}
+      quickFactsSlot={
+        <Suspense fallback={<CityQuickFactsFallback />}>
+          <QuickFactsSection cityName={cityName} identity={identity} />
+        </Suspense>
+      }
+      result={result.data}
+    />
+  );
+}
+
+async function QuickFactsSection({
+  cityName,
+  identity,
+}: {
+  cityName: string;
+  identity: CityPageIdentity;
+}) {
+  const result = await cityPage.getQuickFacts(identity);
+  if (result.status !== "available") return <CityQuickFactsUnavailable />;
+  return <CityQuickFactsSection cityName={cityName} quickFacts={result.data} />;
 }
 
 async function AirportsSection({

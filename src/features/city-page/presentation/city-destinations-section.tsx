@@ -1,12 +1,16 @@
+import type { ReactNode } from "react";
+
 import type { CityDestinationResult } from "../domain/models";
 import { AdSlot } from "@/features/advertising";
 
 export function CityDestinationsSection({
   result,
   cityName,
+  quickFactsSlot,
 }: {
   result: CityDestinationResult;
   cityName: string;
+  quickFactsSlot: ReactNode;
 }) {
   return (
     <section id="destinations">
@@ -58,10 +62,7 @@ export function CityDestinationsSection({
           ))}
         </div>
         <aside className="page-aside">
-          <div className="aside-card">
-            <h3>Quick facts</h3>
-            <p>Use the filters above to compare direct destinations by airport and duration.</p>
-          </div>
+          {quickFactsSlot}
           <div className="newsletter-card">
             <p className="eyebrow">Travel deals</p>
             <h3>Weekly route inspiration</h3>

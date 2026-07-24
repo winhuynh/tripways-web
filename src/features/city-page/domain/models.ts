@@ -122,6 +122,23 @@ export type CityInsights = Readonly<{
   directCountryCount: number;
 }>;
 
+export type CityRouteExtreme = Readonly<{
+  destinationName: string;
+  destinationSlug: string;
+  routePath: string;
+  durationMinutes: number;
+}>;
+
+export type CityQuickFacts = Readonly<{
+  airportCount: number;
+  directDestinationCount: number;
+  directCountryCount: number;
+  airlineCount: number;
+  shortestRoute: CityRouteExtreme | null;
+  longestRoute: CityRouteExtreme | null;
+  dataVersion: string;
+}>;
+
 export type CityInternalLinkGroup = Readonly<{
   cluster: string;
   links: readonly Readonly<{

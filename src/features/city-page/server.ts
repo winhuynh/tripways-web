@@ -22,6 +22,8 @@ export const cityPage = {
     createUseCases().getAirlines(...args),
   getInsights: (...args: Parameters<ReturnType<typeof createUseCases>["getInsights"]>) =>
     createUseCases().getInsights(...args),
+  getQuickFacts: (...args: Parameters<ReturnType<typeof createUseCases>["getQuickFacts"]>) =>
+    createUseCases().getQuickFacts(...args),
   getInternalLinks: (
     ...args: Parameters<ReturnType<typeof createUseCases>["getInternalLinks"]>
   ) => createUseCases().getInternalLinks(...args),

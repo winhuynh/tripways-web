@@ -12,9 +12,10 @@ import {
   parseCityInsightsResponse,
   parseCityInternalLinksResponse,
   parseCityOverviewResponse,
+  parseCityQuickFactsResponse,
 } from "./city-page-response.dto";
 
-const CITY_PAGE_READ_CONTRACT = "city-page-v2";
+const CITY_PAGE_READ_CONTRACT = "city-page-v3";
 
 export function createEdgeCityPageRepository(
   environment: CityPageEnvironment,
@@ -58,6 +59,8 @@ export function createEdgeCityPageRepository(
       query("get_destinations", toDestinationDto(input), parseCityDestinationsResponse),
     getAirlines: (input) => query("get_airlines", toIdentityDto(input), parseCityAirlinesResponse),
     getInsights: (input) => query("get_insights", toIdentityDto(input), parseCityInsightsResponse),
+    getQuickFacts: (input) =>
+      query("get_quick_facts", toIdentityDto(input), parseCityQuickFactsResponse),
     getInternalLinks: (input) =>
       query("get_internal_links", toIdentityDto(input), parseCityInternalLinksResponse),
     getFaqs: (input) => query("get_faqs", toIdentityDto(input), parseCityFaqsResponse),

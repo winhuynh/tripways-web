@@ -12,6 +12,7 @@ function repository(): CityPageRepository {
     getDestinations: vi.fn().mockResolvedValue({ destinations: [], total: 0, facets: {} }),
     getAirlines: vi.fn().mockRejectedValue(new Error("unavailable")),
     getInsights: vi.fn().mockResolvedValue({}),
+    getQuickFacts: vi.fn().mockResolvedValue({}),
     getInternalLinks: vi.fn().mockResolvedValue([]),
     getFaqs: vi.fn().mockResolvedValue([]),
   } as unknown as CityPageRepository;
@@ -22,6 +23,8 @@ describe("city page use cases", () => {
     const port = repository();
     await createCityPageUseCases(port).getAirports(identity);
     expect(port.getAirports).toHaveBeenCalledWith(identity);
+    await createCityPageUseCases(port).getQuickFacts(identity);
+    expect(port.getQuickFacts).toHaveBeenCalledWith(identity);
   });
 
   it("isolates empty and unavailable secondary read models", async () => {
