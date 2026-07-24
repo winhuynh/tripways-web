@@ -1,26 +1,20 @@
 import type { Metadata } from "next";
 
-import { SiteFooter } from "@/components/layout/site-footer";
-import { SiteHeader } from "@/components/layout/site-header";
-
 import "./globals.css";
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
   title: {
-    default: "Tripways — Explore flight routes",
-    template: "%s — Tripways",
+    default: "Tripways",
+    template: "%s | Tripways",
   },
-  description: "Explore direct and one-stop flight routes from the Tripways route graph.",
+  description: "Explore direct-flight routes by city, airport, and airline.",
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
-      <body>
-        <SiteHeader />
-        <main>{children}</main>
-        <SiteFooter />
-      </body>
+      <body>{children}</body>
     </html>
   );
 }

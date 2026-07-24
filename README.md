@@ -32,8 +32,9 @@ Create a local environment file in this repository without committing it:
 cp .env.example .env.local
 ```
 
-Set `SUPABASE_URL` to the reported `API_URL` and `SUPABASE_SERVICE_ROLE_KEY` to the reported
-`SERVICE_ROLE_KEY`. Then start the web app:
+Set `SUPABASE_URL` to the reported `API_URL` and `SUPABASE_ANON_KEY` to the reported `ANON_KEY`.
+The web calls the Route Discovery Edge boundary and never receives a service-role key. Then start
+the web app:
 
 ```bash
 pnpm dev

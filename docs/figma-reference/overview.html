@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Tripways UI Overview</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg: #10141d;
+        --panel: #181e29;
+        --line: #2b3442;
+        --muted: #9ba9bc;
+        --blue: #4da3ff;
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        background:
+          radial-gradient(circle at 20% 0%, rgb(20 125 245 / 16%), transparent 32rem),
+          var(--bg);
+        color: #f8fafc;
+        font-family: Arial, Helvetica, sans-serif;
+      }
+
+      header {
+        max-width: 1680px;
+        margin: 0 auto;
+        padding: 64px 40px 40px;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: clamp(40px, 6vw, 84px);
+        letter-spacing: -0.06em;
+        line-height: 0.95;
+      }
+
+      header p {
+        max-width: 760px;
+        margin: 24px 0 0;
+        color: var(--muted);
+        font-size: 18px;
+        line-height: 1.65;
+      }
+
+      main {
+        max-width: 1680px;
+        margin: 0 auto;
+        padding: 0 40px 80px;
+      }
+
+      section {
+        margin-top: 48px;
+        padding-top: 32px;
+        border-top: 1px solid var(--line);
+      }
+
+      .section-heading {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: end;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 24px;
+      }
+
+      h2 {
+        margin: 0;
+        font-size: 28px;
+        letter-spacing: -0.03em;
+      }
+
+      .route {
+        color: var(--blue);
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        font-size: 13px;
+      }
+
+      .frames {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 375px;
+        align-items: start;
+        gap: 24px;
+      }
+
+      article {
+        overflow: hidden;
+        border: 1px solid var(--line);
+        border-radius: 20px;
+        background: var(--panel);
+        box-shadow: 0 24px 80px rgb(0 0 0 / 28%);
+      }
+
+      article > div {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        min-height: 52px;
+        padding: 12px 16px;
+        border-bottom: 1px solid var(--line);
+      }
+
+      article span {
+        color: var(--muted);
+        font-size: 12px;
+      }
+
+      img {
+        display: block;
+        width: 100%;
+        height: auto;
+        background: #fff;
+      }
+
+      .runtime-error {
+        color: #fbbf24;
+        font-weight: 700;
+      }
+
+      footer {
+        max-width: 1680px;
+        margin: 0 auto;
+        padding: 0 40px 64px;
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      @media (max-width: 900px) {
+        header, main, footer { padding-left: 20px; padding-right: 20px; }
+        .frames { grid-template-columns: 1fr; }
+        .frames article:last-child { max-width: 375px; }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Tripways<br />UI overview</h1>
+      <p>
+        Pixel-reference board từ ứng dụng local, chụp ở Desktop 1440px và Mobile 375px.
+        Các ảnh có thể kéo trực tiếp vào Figma để làm draft/reference.
+      </p>
+    </header>
+
+    <main>
+      <section>
+        <div class="section-heading">
+          <h2>Homepage</h2>
+          <span class="route">http://localhost:3000/</span>
+        </div>
+        <div class="frames">
+          <article>
+            <div><strong>Desktop</strong><span>1440px · full page</span></div>
+            <img src="screenshots/homepage-desktop.png" alt="Tripways homepage desktop" />
+          </article>
+          <article>
+            <div><strong>Mobile</strong><span>375px · full page</span></div>
+            <img src="screenshots/homepage-mobile.png" alt="Tripways homepage mobile" />
+          </article>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-heading">
+          <h2>Flights from SGN</h2>
+          <span class="route">http://localhost:3000/flights-from/SGN</span>
+        </div>
+        <div class="frames">
+          <article>
+            <div>
+              <strong>Desktop</strong>
+              <span class="runtime-error">Current runtime error · 1440px</span>
+            </div>
+            <img
+              src="screenshots/flights-from-sgn-desktop.png"
+              alt="Flights from SGN desktop current runtime error"
+            />
+          </article>
+          <article>
+            <div>
+              <strong>Mobile</strong>
+              <span class="runtime-error">Current runtime error · 375px</span>
+            </div>
+            <img
+              src="screenshots/flights-from-sgn-mobile.png"
+              alt="Flights from SGN mobile current runtime error"
+            />
+          </article>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-heading">
+          <h2>Route SGN → SIN</h2>
+          <span class="route">http://localhost:3000/routes/SGN/SIN</span>
+        </div>
+        <div class="frames">
+          <article>
+            <div><strong>Desktop</strong><span>1440px · full page</span></div>
+            <img
+              src="screenshots/route-sgn-sin-desktop.png"
+              alt="SGN to SIN route desktop"
+            />
+          </article>
+          <article>
+            <div><strong>Mobile</strong><span>375px · full page</span></div>
+            <img
+              src="screenshots/route-sgn-sin-mobile.png"
+              alt="SGN to SIN route mobile"
+            />
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      Generated from the local Tripways web runtime on 2026-07-18. Reference only.
+    </footer>
+  </body>
+</html>
