@@ -1,0 +1,24 @@
+/**
+ * Spacing primitives
+ * ------------------
+ * Shared layout vocabulary based on a four-pixel grid.
+ */
+
+:root {
+  --space-0: 0;
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+
+  --layout-page-gutter: clamp(var(--space-4), 4vw, var(--space-10));
+  --layout-card-padding: clamp(var(--space-4), 2vw, var(--space-6));
+  --layout-section-gap: clamp(var(--space-10), 6vw, var(--space-16));
+}

@@ -1,0 +1,16 @@
+/**
+ * Size primitives
+ * ---------------
+ * Stable control, icon, and accessible target sizes.
+ */
+
+:root {
+  --size-control-sm: 2.25rem;
+  --size-control-md: 2.75rem;
+  --size-control-lg: 3.25rem;
+  --size-icon-sm: 1rem;
+  --size-icon-md: 1.25rem;
+  --size-icon-lg: 1.5rem;
+  --size-touch-target: 3rem;
+  --size-content-max: 73.75rem;
+}

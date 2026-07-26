@@ -1,0 +1,13 @@
+/**
+ * Radius primitives
+ * -----------------
+ * Reusable surface and control radii.
+ */
+
+:root {
+  --radius-sm: 0.375rem;
+  --radius-md: 0.75rem;
+  --radius-card: 1rem;
+  --radius-lg: 1.25rem;
+  --radius-pill: 9999px;
+}

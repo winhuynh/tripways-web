@@ -1,0 +1,58 @@
+/**
+ * Editorial semantic theme
+ * ------------------------
+ * Application roles derived from primitive tokens.
+ *
+ * Responsibilities:
+ * - expose stable semantic color and typography roles
+ * - preserve narrow aliases while existing UI migrates incrementally
+ *
+ * Non-responsibilities:
+ * - defining feature- or component-specific presentation
+ * - providing dark mode before a product requirement exists
+ */
+
+:root {
+  color-scheme: light;
+
+  /* Brand and actions */
+  --color-primary: var(--palette-primary-500);
+  --color-on-primary: var(--palette-neutral-0);
+  --color-primary-hover: var(--palette-primary-600);
+  --color-primary-subtle: var(--palette-primary-50);
+  --color-accent: var(--palette-tertiary-500);
+  --color-on-accent: var(--palette-neutral-0);
+
+  /* Page and surfaces */
+  --color-background: var(--palette-neutral-50);
+  --color-on-background: var(--palette-neutral-950);
+  --color-surface: var(--palette-neutral-0);
+  --color-surface-muted: var(--palette-neutral-100);
+  --color-surface-accent: var(--palette-primary-50);
+  --color-on-surface: var(--palette-neutral-900);
+  --color-on-surface-muted: var(--palette-secondary-500);
+  --color-border: var(--palette-neutral-300);
+  --color-border-strong: var(--palette-secondary-300);
+
+  /* Feedback and utilities */
+  --color-link: var(--palette-primary-700);
+  --color-success: var(--palette-success-500);
+  --color-warning: var(--palette-warning-500);
+  --color-error: var(--palette-error-500);
+  --color-overlay: rgb(23 21 19 / 24%);
+  --shadow-surface: 0 10px 30px rgb(23 21 19 / 8%);
+
+  /* Typography roles */
+  --type-headline-family: var(--font-headline);
+  --type-body-family: var(--font-body);
+  --type-label-family: var(--font-label);
+
+  /* Temporary compatibility aliases */
+  --navy: var(--color-on-background);
+  --blue: var(--color-primary);
+  --blue-dark: var(--color-link);
+  --ink-soft: var(--color-on-surface-muted);
+  --line: var(--color-border);
+  --surface: var(--color-surface-muted);
+  --surface-blue: var(--color-surface-accent);
+}

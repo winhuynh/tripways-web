@@ -1,4 +1,4 @@
-import type { CityAirport, CityDestination } from "../domain/models";
+import type { CityAirport } from "../domain/models";
 
 export function CityRouteSearch({ cityName }: { cityName: string }) {
   return (
@@ -25,33 +25,17 @@ export function CityRouteSearch({ cityName }: { cityName: string }) {
   );
 }
 
-export function CityRouteMap({
-  airports,
-  destinations,
-}: {
-  airports: readonly CityAirport[];
-  destinations: readonly CityDestination[];
-}) {
-  return (
-    <section aria-label="Direct route map" className="draft-map">
-      <div className="map-grid" aria-hidden="true" />
-      <div className="map-copy">
-        <strong>{airports.map((airport) => airport.iata).join(" + ")} direct network</strong>
-        <span>{destinations.length} featured routes shown</span>
-      </div>
-      <span className="map-origin">Bangkok</span>
-      <span className="map-destination map-destination--one">Europe</span>
-      <span className="map-destination map-destination--two">East Asia</span>
-      <span className="map-destination map-destination--three">Oceania</span>
-    </section>
-  );
-}
-
 export function CityFilterToolbar({
   airports,
+  selectedAirport = "",
+  selectedDeparture = "",
+  selectedDuration = "",
   total,
 }: {
   airports: readonly CityAirport[];
+  selectedAirport?: string;
+  selectedDeparture?: string;
+  selectedDuration?: string;
   total: number;
 }) {
   return (
@@ -59,7 +43,7 @@ export function CityFilterToolbar({
       <form action="#destinations" method="get">
         <label>
           <span>Airport</span>
-          <select defaultValue="" name="airport">
+          <select defaultValue={selectedAirport} name="airport">
             <option value="">All airports</option>
             {airports.map((airport) => (
               <option key={airport.iata} value={airport.iata}>
@@ -70,7 +54,7 @@ export function CityFilterToolbar({
         </label>
         <label>
           <span>Duration</span>
-          <select defaultValue="" name="duration">
+          <select defaultValue={selectedDuration} name="duration">
             <option value="">Any duration</option>
             <option value="180">Under 3 hours</option>
             <option value="360">Under 6 hours</option>
@@ -78,7 +62,7 @@ export function CityFilterToolbar({
         </label>
         <label>
           <span>Departure</span>
-          <select defaultValue="" name="departure">
+          <select defaultValue={selectedDeparture} name="departure">
             <option value="">Any time</option>
             <option value="morning">Morning</option>
             <option value="evening">Evening</option>

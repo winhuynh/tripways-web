@@ -15,7 +15,6 @@ export { CityAirportsSection } from "./presentation/city-airports-section";
 export { CityDestinationsSection } from "./presentation/city-destinations-section";
 export {
   CityFilterToolbar,
-  CityRouteMap,
   CityRouteSearch,
 } from "./presentation/city-discovery-tools";
 export { CityFaqSection, FaqStructuredData } from "./presentation/city-faq-section";

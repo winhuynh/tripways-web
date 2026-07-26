@@ -15,7 +15,6 @@ import {
   CityQuickFactsFallback,
   CityQuickFactsSection,
   CityQuickFactsUnavailable,
-  CityRouteMap,
   CityRouteSearch,
   CollectionsSection,
   FaqStructuredData,
@@ -25,8 +24,11 @@ import {
   SiteHeader,
 } from "@/features/city-page";
 import type { CityPageIdentity } from "@/features/city-page";
+import { buildCityRouteMapQuery } from "@/features/city-page/application/build-city-route-map-query";
 import { CityPageError } from "@/features/city-page/domain/city-page-error";
 import { cityPage } from "@/features/city-page/server";
+import { RouteMap } from "@/features/route-map";
+import { routeMap } from "@/features/route-map/server";
 
 type PageProps = {
   params: Promise<{ citySlug: string }>;
@@ -75,7 +77,7 @@ export default async function CityPageRoute({ params, searchParams }: PageProps)
         <CityHero overview={overview} />
         <CityRouteSearch cityName={overview.city.name} />
         <Suspense fallback={<SectionFallback label="route map" />}>
-          <MapSection identity={identity} />
+          <MapSection filters={filters} identity={identity} />
         </Suspense>
         <Suspense fallback={<SectionFallback label="route filters" />}>
           <FilterSection filters={filters} identity={identity} />
@@ -114,20 +116,20 @@ export default async function CityPageRoute({ params, searchParams }: PageProps)
   );
 }
 
-async function MapSection({ identity }: { identity: CityPageIdentity }) {
-  const [airports, destinations] = await Promise.all([
-    cityPage.getAirports(identity),
-    cityPage.getDestinations({ ...identity, limit: 8, offset: 0 }),
-  ]);
-  if (airports.status !== "available" || destinations.status !== "available") {
+async function MapSection({
+  identity,
+  filters,
+}: {
+  identity: CityPageIdentity;
+  filters: Record<string, string | string[] | undefined>;
+}) {
+  const result = await routeMap.getRouteMap(
+    buildCityRouteMapQuery(identity, filters),
+  );
+  if (result.status !== "available") {
     return <SectionUnavailable title="Direct route map" />;
   }
-  return (
-    <CityRouteMap
-      airports={airports.data}
-      destinations={destinations.data.destinations}
-    />
-  );
+  return <RouteMap readModel={result.data} />;
 }
 
 async function FilterSection({
@@ -145,6 +147,9 @@ async function FilterSection({
   return (
     <CityFilterToolbar
       airports={airports.data}
+      selectedAirport={validAirportFilter(filters.airport)}
+      selectedDeparture={validDepartureFilter(filters.departure)}
+      selectedDuration={validDurationFilter(filters.duration)}
       total={destinations.data.total}
     />
   );
@@ -271,6 +276,30 @@ function destinationQuery(
 
 function single(value: string | string[] | undefined): string | undefined {
   return Array.isArray(value) ? value[0] : value;
+}
+
+function validAirportFilter(
+  value: string | string[] | undefined,
+): string {
+  const airport = single(value)?.trim().toUpperCase();
+  return airport && /^[A-Z]{3}$/.test(airport) ? airport : "";
+}
+
+function validDurationFilter(
+  value: string | string[] | undefined,
+): string {
+  const duration = single(value);
+  return duration === "180" || duration === "360" ? duration : "";
+}
+
+function validDepartureFilter(
+  value: string | string[] | undefined,
+): string {
+  const departure = single(value);
+  return departure &&
+      ["morning", "afternoon", "evening", "night"].includes(departure)
+    ? departure
+    : "";
 }
 
 function isNotFound(error: unknown): boolean {
