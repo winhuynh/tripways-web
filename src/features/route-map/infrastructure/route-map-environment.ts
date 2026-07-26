@@ -2,6 +2,7 @@ import "server-only";
 
 import type { RouteMapEnvironment } from "./edge-route-map-repository";
 
+/** Reads and validates the server-only configuration used by route-map reads. */
 export function readRouteMapEnvironment(): RouteMapEnvironment {
   const supabaseUrl = requiredEnvironment(
     "SUPABASE_URL",

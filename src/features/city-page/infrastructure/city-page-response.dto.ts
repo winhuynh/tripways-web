@@ -12,6 +12,9 @@ import type {
   CityRouteExtreme,
 } from "../domain/models";
 
+/**
+ * Validates and maps the required City Hub overview Edge envelope.
+ */
 export function parseCityOverviewResponse(value: unknown): CityOverview {
   const envelope = parseEnvelope(value);
   const data = record(envelope.data);
@@ -63,6 +66,10 @@ export function parseCityOverviewResponse(value: unknown): CityOverview {
   };
 }
 
+/**
+ * Validates and maps airport identities, editorial copy, and route statistics
+ * returned by the airport read RPC.
+ */
 export function parseCityAirportsResponse(value: unknown): readonly CityAirport[] {
   return array(parseEnvelope(value).data).map((item) => {
     const data = record(item);
@@ -91,6 +98,9 @@ export function parseCityAirportsResponse(value: unknown): readonly CityAirport[
   });
 }
 
+/**
+ * Validates and maps the filtered destination catalogue and its facets.
+ */
 export function parseCityDestinationsResponse(value: unknown): CityDestinationResult {
   const envelope = parseEnvelope(value);
   const meta = envelope.meta;
@@ -106,6 +116,9 @@ export function parseCityDestinationsResponse(value: unknown): CityDestinationRe
   };
 }
 
+/**
+ * Validates and maps the optional City Hub airline directory.
+ */
 export function parseCityAirlinesResponse(value: unknown): readonly CityAirline[] {
   return array(parseEnvelope(value).data).map((item) => {
     const data = record(item);
@@ -121,6 +134,9 @@ export function parseCityAirlinesResponse(value: unknown): readonly CityAirline[
   });
 }
 
+/**
+ * Validates and maps aggregate City Hub route insights.
+ */
 export function parseCityInsightsResponse(value: unknown): CityInsights {
   const data = record(parseEnvelope(value).data);
   return {
@@ -133,6 +149,9 @@ export function parseCityInsightsResponse(value: unknown): CityInsights {
   };
 }
 
+/**
+ * Validates and maps the dedicated Quick Facts read model.
+ */
 export function parseCityQuickFactsResponse(value: unknown): CityQuickFacts {
   const envelope = parseEnvelope(value);
   const data = record(envelope.data);
@@ -147,6 +166,9 @@ export function parseCityQuickFactsResponse(value: unknown): CityQuickFacts {
   };
 }
 
+/**
+ * Validates and maps semantic internal links grouped by backend cluster.
+ */
 export function parseCityInternalLinksResponse(value: unknown): readonly CityInternalLinkGroup[] {
   return array(parseEnvelope(value).data).map((item) => {
     const group = record(item);
@@ -166,6 +188,9 @@ export function parseCityInternalLinksResponse(value: unknown): readonly CityInt
   });
 }
 
+/**
+ * Validates and maps reviewed FAQ content used by UI and structured data.
+ */
 export function parseCityFaqsResponse(value: unknown): readonly CityFaq[] {
   return array(parseEnvelope(value).data).map((item) => {
     const data = record(item);

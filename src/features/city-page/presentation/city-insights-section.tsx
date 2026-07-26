@@ -1,6 +1,16 @@
 import type { CityInsights } from "../domain/models";
 
-export function CityInsightsSection({ insights }: { insights: CityInsights }) {
+/**
+ * Renders the aggregate route-insight read model as a compact editorial fact
+ * strip.
+ */
+export function CityInsightsSection({
+  cityName,
+  insights,
+}: {
+  cityName: string;
+  insights: CityInsights;
+}) {
   const items = [
     ["Most popular", insights.mostPopularDestination],
     ["Shortest route", insights.shortestDestination],
@@ -22,7 +32,9 @@ export function CityInsightsSection({ insights }: { insights: CityInsights }) {
       <div className="section-heading">
         <div>
           <p className="eyebrow">Route facts</p>
-          <h2>Bangkok travel insights</h2>
+          <h2>
+            <span>{cityName}</span> <em>Travel Insights</em>
+          </h2>
         </div>
       </div>
       <dl className="insights-grid">

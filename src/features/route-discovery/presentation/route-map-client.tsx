@@ -13,6 +13,7 @@ type RouteMapClientProps = {
   origin: Airport;
 };
 
+/** Mounts the legacy discovery map and owns its MapLibre lifecycle. */
 export function RouteMapClient({ destinations, origin }: RouteMapClientProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<MapLibreMap | null>(null);

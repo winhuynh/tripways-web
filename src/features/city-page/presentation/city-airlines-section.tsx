@@ -1,5 +1,8 @@
 import type { CityAirline } from "../domain/models";
 
+/**
+ * Renders the optional airline directory read model for a City Hub.
+ */
 export function CityAirlinesSection({ airlines }: { airlines: readonly CityAirline[] }) {
   return (
     <section id="airlines">

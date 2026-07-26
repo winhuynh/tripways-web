@@ -22,6 +22,7 @@ export type RouteMapData = {
   bounds: [southwest: Position, northeast: Position];
 };
 
+/** Builds map-ready airport points, great-circle lines, and viewport bounds. */
 export function buildRouteMapData(
   origin: Airport,
   destinations: readonly Airport[],

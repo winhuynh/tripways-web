@@ -1,23 +1,30 @@
 import { NextResponse } from "next/server";
 
+import {
+  CityDestinationsHttpError,
+  createCityDestinationsHttpResponse,
+  parseCityDestinationsHttpRequest,
+} from "@/features/city-page";
 import { cityPage } from "@/features/city-page/server";
 
+/**
+ * Adapts the public destination HTTP request to the City Page application
+ * boundary and returns its stable JSON envelope.
+ */
 export async function GET(request: Request) {
-  const search = new URL(request.url).searchParams;
-  const citySlug = search.get("city")?.trim().toLowerCase();
-  if (!citySlug) {
-    return NextResponse.json({ data: null, error: { code: "ERR_INVALID_REQUEST" } }, { status: 400 });
+  try {
+    const query = parseCityDestinationsHttpRequest(request);
+    const result = await cityPage.getDestinations(query);
+
+    return NextResponse.json(createCityDestinationsHttpResponse(result));
+  } catch (error) {
+    if (error instanceof CityDestinationsHttpError) {
+      return NextResponse.json(
+        { data: null, error: { code: error.code } },
+        { status: error.status },
+      );
+    }
+
+    throw error;
   }
-
-  const result = await cityPage.getDestinations({
-    citySlug,
-    locale: "en-GB",
-    originAirports: search.get("airport")
-      ? [search.get("airport")!.trim().toUpperCase()]
-      : undefined,
-    limit: 20,
-    offset: 0,
-  });
-
-  return NextResponse.json({ data: result, error: null });
 }

@@ -56,12 +56,14 @@ export const AIRPORTS: readonly Airport[] = [
   },
 ] as const;
 
+/** Finds an airport from the small discovery catalogue by normalized IATA code. */
 export function getAirport(value: string): Airport | undefined {
   const normalizedIata = value.trim().toUpperCase();
 
   return AIRPORTS.find((airport) => airport.iata === normalizedIata);
 }
 
+/** Lists the discovery candidates while excluding the selected origin airport. */
 export function listDestinationCandidates(originIata: string): Airport[] {
   const normalizedOrigin = originIata.trim().toUpperCase();
 

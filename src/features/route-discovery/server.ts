@@ -9,6 +9,7 @@ function createProvider() {
   return createEdgeRouteDiscoveryProvider(readRouteDiscoveryEnvironment());
 }
 
+/** Server-only facade used by route handlers and server components. */
 export const routeDiscovery = {
   searchRoutes: (input: Parameters<ReturnType<typeof createSearchRoutes>>[0]) =>
     createSearchRoutes(createProvider())(input),

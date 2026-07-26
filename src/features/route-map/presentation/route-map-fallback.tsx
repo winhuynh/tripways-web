@@ -5,6 +5,7 @@ type RouteMapFallbackProps = Readonly<{
   state: "loading" | "error" | "empty";
 }>;
 
+/** Keeps the route-map section stable during loading, errors, or empty results. */
 export function RouteMapFallback({
   origin,
   state,

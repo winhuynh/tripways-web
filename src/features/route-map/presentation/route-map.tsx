@@ -2,6 +2,7 @@ import type { RouteMapReadModel } from "../domain/route-map-model";
 import { RouteMapClient } from "./route-map-client";
 import { RouteMapFallback } from "./route-map-fallback";
 
+/** Public route-map UI boundary with an explicit empty state. */
 export function RouteMap({
   readModel,
 }: Readonly<{ readModel: RouteMapReadModel }>) {

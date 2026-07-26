@@ -38,6 +38,7 @@ export type RouteMapGeoJson = {
   bounds: [southwest: Position, northeast: Position];
 };
 
+/** Converts a route-map read model into interactive point and arc collections. */
 export function buildRouteGeoJson(readModel: RouteMapReadModel): RouteMapGeoJson {
   const { origin, destinations } = readModel;
   const routeFeatures = destinations.map((destination): RouteFeature => ({

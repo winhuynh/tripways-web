@@ -2,6 +2,10 @@ import type { CityPageRepository } from "./city-page-repository";
 import { readOptionalModel } from "./read-model-result";
 import type { CityDestinationQuery, CityPageIdentity } from "../domain/models";
 
+/**
+ * Creates City Hub read use cases while normalizing optional section failures
+ * into explicit available, empty, or unavailable results.
+ */
 export function createCityPageUseCases(repository: CityPageRepository) {
   return {
     getOverview: (input: CityPageIdentity) => repository.getOverview(input),

@@ -11,6 +11,10 @@ import type {
   CityQuickFacts,
 } from "../domain/models";
 
+/**
+ * Defines every independently cacheable read required by the City Hub
+ * application layer.
+ */
 export type CityPageRepository = Readonly<{
   getOverview(input: CityPageIdentity): Promise<CityOverview>;
   getAirports(input: CityPageIdentity): Promise<readonly CityAirport[]>;

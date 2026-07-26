@@ -1,6 +1,10 @@
 @import "tailwindcss";
 @import "maplibre-gl/dist/maplibre-gl.css";
 @import "./design/index.css";
+@import "../features/home-page/presentation/home-page.css";
+@import "../features/city-page/presentation/city-page.css";
+@import "../shared/ui/editorial-elements.css";
+@import "../shared/ui/site-footer.css";
 
 * {
   box-sizing: border-box;
@@ -144,10 +148,6 @@ h1 {
   letter-spacing: -0.055em;
   line-height: 0.95;
   text-transform: uppercase;
-}
-
-h1::first-line {
-  color: var(--navy);
 }
 
 .hero-subheadline {

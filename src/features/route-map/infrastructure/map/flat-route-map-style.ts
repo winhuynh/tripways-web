@@ -2,10 +2,12 @@ import type { StyleSpecification } from "maplibre-gl";
 
 const MAPLIBRE_WORLD_SIZE_AT_ZOOM_ZERO = 512;
 
+/** Calculates the zoom that fits one whole world copy into the viewport width. */
 export function calculateGlobalRouteMapZoom(viewportWidth: number): number {
   return Math.log2(viewportWidth / MAPLIBRE_WORLD_SIZE_AT_ZOOM_ZERO);
 }
 
+/** Flat, low-emphasis world style that keeps discovery routes visually dominant. */
 export const FLAT_ROUTE_MAP_STYLE: StyleSpecification = {
   version: 8,
   glyphs: "https://tiles.openfreemap.org/fonts/{fontstack}/{range}.pbf",

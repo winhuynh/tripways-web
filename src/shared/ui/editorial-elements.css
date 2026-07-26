@@ -1,0 +1,220 @@
+.editorial-site-header {
+  position: sticky;
+  z-index: 40;
+  top: 0;
+  border-bottom: 1px solid rgb(193 198 213 / 55%);
+  background: rgb(253 249 242 / 88%);
+  backdrop-filter: blur(12px);
+}
+
+.editorial-site-header__inner {
+  display: flex;
+  width: min(1440px, 100%);
+  min-height: 64px;
+  align-items: center;
+  margin-inline: auto;
+  padding-inline: 24px;
+}
+
+.editorial-brand {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 8px;
+  color: var(--color-on-background);
+  font-family: var(--type-body-family);
+  font-size: 20px;
+  font-weight: 900;
+  letter-spacing: -0.05em;
+  line-height: 1;
+}
+
+.editorial-brand img {
+  width: 21px;
+  height: 18px;
+}
+
+.editorial-site-header nav {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  margin-left: auto;
+}
+
+.editorial-site-header nav a {
+  color: var(--color-on-background);
+  font-family: var(--type-label-family);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+}
+
+.editorial-site-header nav a:first-child,
+.editorial-site-header nav a:hover {
+  color: var(--color-primary);
+}
+
+.editorial-site-header__account {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-left: 32px;
+}
+
+.editorial-site-header__account a {
+  display: inline-flex;
+  min-height: 32px;
+  align-items: center;
+  border-radius: 8px;
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  padding-inline: 20px;
+}
+
+.editorial-site-header__account img {
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-pill);
+  object-fit: cover;
+}
+
+.editorial-button {
+  display: inline-flex;
+  min-height: 60px;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  border-radius: var(--radius-md);
+  color: white;
+  font-family: var(--type-body-family);
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.11em;
+  padding: 0 48px;
+  text-transform: uppercase;
+  transition:
+    box-shadow 160ms ease,
+    transform 160ms ease;
+}
+
+.editorial-button--primary {
+  background: var(--color-primary);
+}
+
+.editorial-button--accent {
+  background: #f05a28;
+  box-shadow:
+    0 10px 15px -3px rgb(240 90 40 / 20%),
+    0 4px 6px -4px rgb(240 90 40 / 20%);
+}
+
+.editorial-button:hover {
+  box-shadow: 0 12px 28px rgb(23 21 19 / 16%);
+  transform: translateY(-1px);
+}
+
+.editorial-button:focus-visible,
+.editorial-site-header a:focus-visible {
+  outline: 3px solid rgb(19 127 236 / 30%);
+  outline-offset: 3px;
+}
+
+.editorial-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 0;
+  color: var(--color-on-surface-muted);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  line-height: 1.5;
+  text-transform: uppercase;
+}
+
+.editorial-eyebrow > span {
+  display: block;
+  width: 40px;
+  height: 1px;
+  background: var(--color-on-background);
+}
+
+.editorial-section-heading {
+  display: grid;
+  gap: 16px;
+}
+
+.editorial-section-heading h2 {
+  margin: 0;
+  color: var(--color-primary);
+  font-size: clamp(36px, 4vw, 48px);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.editorial-section-heading > p:not(.editorial-eyebrow) {
+  max-width: 448px;
+  margin: 0;
+  color: var(--color-on-background);
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.editorial-text-link {
+  border-bottom: 2px solid var(--color-primary);
+  color: var(--color-on-background);
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 0.2em;
+  padding-bottom: 6px;
+}
+
+@media (max-width: 980px) {
+  .editorial-site-header nav {
+    gap: 18px;
+  }
+
+  .editorial-site-header nav a {
+    font-size: 10px;
+  }
+}
+
+@media (max-width: 760px) {
+  .editorial-site-header__inner {
+    min-height: 58px;
+    padding-inline: 16px;
+  }
+
+  .editorial-site-header nav {
+    display: none;
+  }
+
+  .editorial-site-header__account {
+    margin-left: auto;
+  }
+
+  .editorial-site-header__account img {
+    display: none;
+  }
+
+  .editorial-brand {
+    font-size: 17px;
+  }
+}
+
+@media (max-width: 420px) {
+  .editorial-site-header__account a {
+    min-height: 30px;
+    padding-inline: 14px;
+  }
+
+  .editorial-button {
+    width: 100%;
+    max-width: 280px;
+    padding-inline: 28px;
+  }
+}

@@ -17,6 +17,10 @@ import {
 
 const CITY_PAGE_READ_CONTRACT = "city-page-v3";
 
+/**
+ * Creates the server-only City Page repository that calls the Edge transport,
+ * applies cache tags, and validates every external response envelope.
+ */
 export function createEdgeCityPageRepository(
   environment: CityPageEnvironment,
   fetchImpl: typeof fetch = fetch,

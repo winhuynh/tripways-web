@@ -2,6 +2,10 @@ import Link from "next/link";
 
 import type { CityOverview } from "../domain/models";
 
+/**
+ * Renders the required City Hub overview content and aggregate facts supplied
+ * by the overview read model.
+ */
 export function CityHero({ overview }: { overview: CityOverview }) {
   const facts = [
     ["Direct destinations", overview.quickFacts.directDestinationCount],
@@ -16,19 +20,34 @@ export function CityHero({ overview }: { overview: CityOverview }) {
     <section className="city-hero">
       <nav aria-label="Breadcrumb" className="breadcrumb">
         <Link href="/">Home</Link>
-        <span>/</span>
-        <span>Flights from {overview.city.name}</span>
+        <span>›</span>
+        <a href={`/flights-from/${overview.country.slug}`}>
+          {overview.country.name}
+        </a>
+        <span>›</span>
+        <span>{overview.city.name} flights</span>
       </nav>
       <div className="hero-heading">
         <div>
-          <p className="eyebrow">City direct-flight hub</p>
-          <h1>{overview.content.h1}</h1>
+          <span className="city-hero__rule" aria-hidden="true" />
+          <h1 aria-label={overview.content.h1}>
+            <span>Direct</span> <em>flights</em>
+            <br />
+            <em>from</em>
+            <br />
+            <span>{overview.city.name}</span>
+          </h1>
           <p className="hero-subheadline">{overview.content.subheadline}</p>
           <p className="hero-intro">{overview.content.intro}</p>
         </div>
-        <span className="data-badge">◉ Reviewed route data</span>
+        <span className="data-badge">
+          <span aria-hidden="true">◉</span> Reviewed route data
+        </span>
       </div>
-      <dl className="quick-facts" aria-label="Bangkok direct flight facts">
+      <dl
+        className="quick-facts"
+        aria-label={`${overview.city.name} direct flight facts`}
+      >
         {facts.map(([label, value]) => (
           <div key={label}>
             <dt>{label}</dt>

@@ -6,6 +6,10 @@ type SearchParameters = Record<
   string | string[] | undefined
 >;
 
+/**
+ * Projects City Hub URL filters into the reusable Route Map feature query
+ * while dropping malformed codes and unsupported values.
+ */
 export function buildCityRouteMapQuery(
   identity: CityPageIdentity,
   filters: SearchParameters,

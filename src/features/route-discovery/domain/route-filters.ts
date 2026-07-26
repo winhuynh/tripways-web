@@ -54,6 +54,7 @@ function parseCodeList(
   return values.length > 0 ? values : undefined;
 }
 
+/** Converts URL search values into bounded, provider-ready route filters. */
 export function parseRouteFilters(searchParams: SearchParams): RouteFilters {
   const maxStops = parseBoundedInteger(searchParams.stops, 0, 1);
   const maxDuration = parseBoundedInteger(searchParams.duration, 1, 4320);

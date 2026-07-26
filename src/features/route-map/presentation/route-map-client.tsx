@@ -18,6 +18,10 @@ import {
 import { buildRouteMapPopupHtml } from "./route-map-popup";
 import { RouteMapFallback } from "./route-map-fallback";
 
+/**
+ * Owns MapLibre setup, route hover/click interaction, and teardown for a
+ * reusable city or airport route-map read model.
+ */
 export function RouteMapClient({
   readModel,
 }: Readonly<{ readModel: RouteMapReadModel }>) {

@@ -1,5 +1,6 @@
 import type { RouteMapDestination } from "../domain/route-map-model";
 
+/** Builds escaped popup markup for a selected destination route. */
 export function buildRouteMapPopupHtml(
   destination: RouteMapDestination,
 ): string {

@@ -35,6 +35,10 @@ export const metadata: Metadata = {
   description: "Explore direct-flight routes by city, airport, and airline.",
 };
 
+/**
+ * Applies global typography variables and document language to every App
+ * Router page.
+ */
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html

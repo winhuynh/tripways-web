@@ -6,6 +6,7 @@ export type RouteSearchInput = Partial<RouteFilters> & {
   to: string;
 };
 
+/** Port implemented by infrastructure providers that can search discovery routes. */
 export type RouteDiscoveryProvider = Readonly<{
   searchRoutes(input: RouteSearchInput): Promise<RouteSearchResult>;
 }>;

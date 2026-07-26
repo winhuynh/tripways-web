@@ -7,6 +7,7 @@ export type RouteDiscoveryEnvironment = Readonly<{
   supabaseAnonKey: string;
 }>;
 
+/** Reads and validates the server-only configuration needed by route discovery. */
 export function readRouteDiscoveryEnvironment(): RouteDiscoveryEnvironment {
   const supabaseUrl = process.env.SUPABASE_URL;
   const supabaseAnonKey = process.env.SUPABASE_ANON_KEY;

@@ -6,6 +6,10 @@ export type CityPageEnvironment = Readonly<{
   cityPageEdgeUrl: string;
 }>;
 
+/**
+ * Reads server-only City Page Edge configuration and derives the default Edge
+ * endpoint without exposing credentials to client components.
+ */
 export function readCityPageEnvironment(): CityPageEnvironment {
   const supabaseUrl = process.env.SUPABASE_URL?.trim().replace(/\/$/, "");
   const supabaseAnonKey = process.env.SUPABASE_ANON_KEY?.trim();

@@ -8,6 +8,10 @@ export type DestinationRoute = Readonly<{
   result: RouteSearchResult;
 }>;
 
+/**
+ * Creates the use case that searches several destinations while isolating
+ * individual provider failures from the successful route results.
+ */
 export function createDiscoverDestinations(provider: RouteDiscoveryProvider) {
   return async (
     origin: Airport,

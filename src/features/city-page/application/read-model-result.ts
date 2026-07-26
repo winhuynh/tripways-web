@@ -3,6 +3,10 @@ export type ReadModelResult<T> =
   | Readonly<{ status: "empty" }>
   | Readonly<{ status: "unavailable" }>;
 
+/**
+ * Executes an optional read model and converts transport failures or empty
+ * values into render-safe section states.
+ */
 export async function readOptionalModel<T>(
   operation: () => Promise<T>,
   isEmpty: (value: T) => boolean,

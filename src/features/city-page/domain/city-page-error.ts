@@ -14,3 +14,13 @@ export class CityPageError extends Error {
     this.name = "CityPageError";
   }
 }
+
+/**
+ * Identifies the stable domain errors that the App Router must translate into
+ * a not-found response instead of a generic unavailable page.
+ */
+export function isCityPageNotFound(error: unknown): boolean {
+  return error instanceof CityPageError &&
+    (error.code === "ERR_CITY_NOT_FOUND" ||
+      error.code === "ERR_CITY_PAGE_NOT_FOUND");
+}

@@ -6,6 +6,7 @@ type RouteMapFallbackProps = {
   state: "loading" | "error";
 };
 
+/** Preserves map space and route context while the interactive map cannot render. */
 export function RouteMapFallback({
   destinations,
   origin,

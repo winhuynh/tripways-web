@@ -8,6 +8,7 @@ describe("CityAirportsSection", () => {
     const markup = renderToStaticMarkup(
       <CityAirportsSection
         airportSummary="Bangkok is served by two major international gateways."
+        cityName="Singapore"
         airports={[
           {
             iata: "DMK",
@@ -36,6 +37,7 @@ describe("CityAirportsSection", () => {
     );
 
     expect(markup).toContain("Bangkok is served by two major international gateways.");
+    expect(markup).toContain("Singapore airport operations");
     expect(markup).toContain("LOW-COST HUB");
     expect(markup).toContain("3 destinations");
     expect(markup).toContain("1 airline");

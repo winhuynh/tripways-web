@@ -1,12 +1,15 @@
 import type { CityFaq } from "../domain/models";
 
+/**
+ * Renders reviewed City Hub FAQs as accessible disclosure controls.
+ */
 export function CityFaqSection({ faqs }: { faqs: readonly CityFaq[] }) {
   return (
-    <section id="faq">
+    <section className="city-faq" id="faq">
       <div className="section-heading section-heading--center">
         <div>
-          <p className="eyebrow">Plan with confidence</p>
-          <h2>Frequently asked questions</h2>
+          <p className="eyebrow">Frequently asked</p>
+          <h2 className="sr-only">Frequently asked questions</h2>
         </div>
       </div>
       <div className="faq-list">
@@ -21,6 +24,9 @@ export function CityFaqSection({ faqs }: { faqs: readonly CityFaq[] }) {
   );
 }
 
+/**
+ * Serializes the same reviewed FAQs into an escaped schema.org FAQPage block.
+ */
 export function FaqStructuredData({ faqs }: { faqs: readonly CityFaq[] }) {
   const data = {
     "@context": "https://schema.org",

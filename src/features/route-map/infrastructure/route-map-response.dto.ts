@@ -1,5 +1,6 @@
 import type { RouteMapReadModel } from "../domain/route-map-model";
 
+/** Validates and maps the untrusted route-map Edge Function response. */
 export function parseRouteMapResponse(value: unknown): RouteMapReadModel {
   try {
     const envelope = record(value);

@@ -10,6 +10,7 @@ function createUseCase() {
   );
 }
 
+/** Server-only route-map facade consumed by page-level section loaders. */
 export const routeMap = {
   getRouteMap: (...args: Parameters<ReturnType<typeof createUseCase>>) =>
     createUseCase()(...args),

@@ -1,5 +1,9 @@
 import type { AdFormat, AdPlacement } from "../domain/ad-placement";
 
+/**
+ * Reserves an accessible, provider-agnostic advertising placement. A future
+ * ad integration can mount inside this stable UI boundary.
+ */
 export function AdSlot({
   format,
   placement,

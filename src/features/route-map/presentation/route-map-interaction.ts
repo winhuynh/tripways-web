@@ -19,6 +19,7 @@ export type RouteMapInteractionPort = Readonly<{
   removeFeatureState(target: FeatureStateTarget): void;
 }>;
 
+/** MapLibre paint expressions for active, default, and dimmed route arcs. */
 export const ROUTE_LINE_PAINT = {
   "line-color": [
     "case",
@@ -46,6 +47,7 @@ export const ROUTE_LINE_PAINT = {
   ],
 } satisfies NonNullable<LineLayerSpecification["paint"]>;
 
+/** MapLibre paint expressions that distinguish origin and destination dots. */
 export const ROUTE_POINT_PAINT = {
   "circle-radius": [
     "case",
@@ -73,6 +75,7 @@ export const ROUTE_POINT_PAINT = {
   "circle-stroke-width": 1.5,
 } satisfies NonNullable<CircleLayerSpecification["paint"]>;
 
+/** Highlights one route and dims every unrelated route and destination point. */
 export function focusRouteFeatures(
   port: RouteMapInteractionPort,
   destinationSlugs: readonly string[],
@@ -100,6 +103,7 @@ export function focusRouteFeatures(
   }
 }
 
+/** Clears all transient route and destination interaction state. */
 export function resetRouteFeatures(
   port: RouteMapInteractionPort,
   destinationSlugs: readonly string[],

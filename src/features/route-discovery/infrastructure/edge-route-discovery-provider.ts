@@ -9,6 +9,7 @@ import type { RouteSearchResult } from "../domain/route-option";
 import type { RouteDiscoveryEnvironment } from "./route-discovery-environment";
 import { parseRouteSearchResponse } from "./route-search-response.dto";
 
+/** Implements route discovery through the Supabase Edge Function boundary. */
 export function createEdgeRouteDiscoveryProvider(
   environment: RouteDiscoveryEnvironment,
   fetchImpl: typeof fetch = fetch,

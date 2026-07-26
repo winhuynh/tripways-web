@@ -1,6 +1,7 @@
 import { RouteDiscoveryError } from "../domain/route-discovery-error";
 import type { RouteOption, RouteSearchResult } from "../domain/route-option";
 
+/** Validates the untrusted Edge Function payload before it enters the domain. */
 export function parseRouteSearchResponse(value: unknown): RouteSearchResult {
   if (!isRecord(value)) contractError();
   if (value.status === "error") {

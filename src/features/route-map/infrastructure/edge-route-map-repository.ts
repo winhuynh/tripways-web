@@ -9,6 +9,7 @@ export type RouteMapEnvironment = Readonly<{
   supabasePublishableKey: string;
 }>;
 
+/** Implements the route-map repository through the City Page Edge Function. */
 export function createEdgeRouteMapRepository(
   environment: RouteMapEnvironment,
   fetchImpl: typeof fetch = fetch,

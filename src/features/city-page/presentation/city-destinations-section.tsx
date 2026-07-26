@@ -2,7 +2,12 @@ import type { ReactNode } from "react";
 
 import type { CityDestinationResult } from "../domain/models";
 import { AdSlot } from "@/features/advertising";
+import { CityNewsletterCard } from "./city-newsletter-card";
 
+/**
+ * Renders the filtered destination catalogue and accepts Quick Facts as an
+ * independent server slot so sidebar loading cannot block route cards.
+ */
 export function CityDestinationsSection({
   result,
   cityName,
@@ -13,64 +18,77 @@ export function CityDestinationsSection({
   quickFactsSlot: ReactNode;
 }) {
   return (
-    <section id="destinations">
+    <section className="city-destinations" id="destinations">
       <div className="section-heading">
         <div>
           <p className="eyebrow">Route discovery</p>
-          <h2>Destinations from {cityName}</h2>
+          <h2>
+            <span>Destinations</span> <em>from {cityName}</em>
+          </h2>
         </div>
-        <span>{result.total} routes found</span>
+        <a className="city-section-link" href="#route-search">
+          Refine search
+        </a>
       </div>
       <div className="content-with-aside">
         <div className="destination-grid">
-          {result.destinations.map((destination) => (
+          {result.destinations.map((destination, index) => (
             <article className="destination-card" key={destination.citySlug}>
-              <div className="destination-card__image" aria-hidden="true">
-                {destination.cityName.slice(0, 1)}
+              <div
+                aria-hidden="true"
+                className={`destination-card__media destination-card__media--${(index % 4) + 1}`}
+              >
+                <span>Year-round</span>
+                <span>Direct route</span>
               </div>
-              <p className="route-status">Direct route · reviewed data</p>
-              <h3>{destination.cityName}</h3>
-              <p>
-                {destination.countryName} · {destination.destinationAirports.join(", ")}
-              </p>
-              <dl>
-                <div>
-                  <dt>From</dt>
-                  <dd>{destination.originAirports.join(", ")}</dd>
+              <div className="destination-card__body">
+                <div className="destination-card__identity">
+                  <p>
+                    {destination.countryName} · {destination.countryIso2}
+                  </p>
+                  <span aria-hidden="true">
+                    {destination.destinationAirports[0] ?? destination.cityName.slice(0, 3)}
+                  </span>
                 </div>
-                <div>
-                  <dt>Duration</dt>
-                  <dd>{formatMinutes(destination.shortestDurationMinutes)}</dd>
-                </div>
-                <div>
-                  <dt>Airlines</dt>
-                  <dd>{destination.airlines.join(", ")}</dd>
-                </div>
-                <div>
-                  <dt>Frequency</dt>
-                  <dd>
-                    {destination.frequencyPerWeek === null
-                      ? "Unknown"
-                      : `${destination.frequencyPerWeek}/week`}
-                  </dd>
-                </div>
-              </dl>
-              <a className="card-link" href={destination.routePath}>
-                View route
-              </a>
+                <h3>{destination.cityName}</h3>
+                <p className="destination-card__airports">
+                  {destination.destinationAirports.join(" · ")}
+                </p>
+                <p className="route-status">
+                  <span aria-hidden="true">✣</span>
+                  From {destination.originAirports.join(" & ")}
+                </p>
+                <dl>
+                  <div>
+                    <dt>Carriers</dt>
+                    <dd>{destination.airlines.join(", ") || "Published route"}</dd>
+                  </div>
+                  <div>
+                    <dt>Duration</dt>
+                    <dd>{formatMinutes(destination.shortestDurationMinutes)}</dd>
+                  </div>
+                  <div>
+                    <dt>Frequency</dt>
+                    <dd>
+                      {destination.frequencyPerWeek === null
+                        ? "Seasonal"
+                        : formatFrequency(destination.frequencyPerWeek)}
+                    </dd>
+                  </div>
+                </dl>
+                <a className="card-link" href={destination.routePath}>
+                  View route
+                </a>
+              </div>
             </article>
           ))}
+          <a className="destination-catalogue-link" href="#route-search">
+            View all {result.total} destinations <span aria-hidden="true">→</span>
+          </a>
         </div>
         <aside className="page-aside">
           {quickFactsSlot}
-          <div className="newsletter-card">
-            <p className="eyebrow">Travel deals</p>
-            <h3>Weekly route inspiration</h3>
-            <p>Newsletter integration will be connected after the discovery experience.</p>
-            <button disabled type="button">
-              Coming later
-            </button>
-          </div>
+          <CityNewsletterCard cityName={cityName} />
           <AdSlot format="rectangle" placement="city_destination_sidebar" />
         </aside>
       </div>
@@ -80,4 +98,10 @@ export function CityDestinationsSection({
 
 function formatMinutes(value: number): string {
   return `${Math.floor(value / 60)}h ${value % 60}m`;
+}
+
+function formatFrequency(value: number): string {
+  const daily = value / 7;
+  if (Number.isInteger(daily) && daily > 0) return `${daily} daily`;
+  return `${value} weekly`;
 }

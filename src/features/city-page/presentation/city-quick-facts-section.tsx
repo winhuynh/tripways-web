@@ -1,5 +1,9 @@
 import type { CityQuickFacts, CityRouteExtreme } from "../domain/models";
 
+/**
+ * Renders the dedicated City Quick Facts read model used in the destination
+ * sidebar.
+ */
 export function CityQuickFactsSection({
   cityName,
   quickFacts,
@@ -22,6 +26,9 @@ export function CityQuickFactsSection({
   );
 }
 
+/**
+ * Preserves the Quick Facts sidebar slot while its read model streams.
+ */
 export function CityQuickFactsFallback() {
   return (
     <section
@@ -34,6 +41,9 @@ export function CityQuickFactsFallback() {
   );
 }
 
+/**
+ * Keeps the sidebar layout stable when the Quick Facts read fails.
+ */
 export function CityQuickFactsUnavailable() {
   return (
     <section className="aside-card quick-facts-card">

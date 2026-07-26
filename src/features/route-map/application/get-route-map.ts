@@ -11,6 +11,10 @@ export type RouteMapLoadResult =
       reason: "unsupported_origin" | "read_failed";
     }>;
 
+/**
+ * Creates the reusable map read use case and converts transport failures into
+ * an isolated unavailable state so the surrounding page can still render.
+ */
 export function createGetRouteMap(repository: RouteMapRepository) {
   return async function getRouteMap(
     query: RouteMapQuery,

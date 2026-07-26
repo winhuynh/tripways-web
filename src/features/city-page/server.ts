@@ -10,6 +10,11 @@ function createUseCases() {
   );
 }
 
+/**
+ * Exposes lazily constructed server-only City Hub use cases. Recreating the
+ * adapter per call keeps environment reads local and avoids module-load
+ * failures during static rendering and tests.
+ */
 export const cityPage = {
   getOverview: (...args: Parameters<ReturnType<typeof createUseCases>["getOverview"]>) =>
     createUseCases().getOverview(...args),
