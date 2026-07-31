@@ -25,5 +25,8 @@ describe("shared site chrome", () => {
     expect(markup).toContain('type="email"');
     expect(markup).toContain("DIRECTORIES");
     expect(markup).toContain("ECOSYSTEM");
+    expect(markup).toContain('aria-label="Legal navigation"');
+    expect(markup).toContain('href="/terms"');
+    expect(markup).not.toContain("Legal preview");
   });
 });

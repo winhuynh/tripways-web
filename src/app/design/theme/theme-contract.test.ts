@@ -23,9 +23,9 @@ describe("editorial design theme", () => {
   it("defines the approved headline, body, and label typography roles", () => {
     const typography = readDesignFile("tokens/typography.css");
 
-    expect(typography).toContain("--font-headline: var(--font-playfair-display)");
-    expect(typography).toContain("--font-body: var(--font-merriweather)");
-    expect(typography).toContain("--font-label: var(--font-inter)");
+    expect(typography).toContain('--font-headline: "Times New Roman"');
+    expect(typography).toContain("--font-body: Georgia");
+    expect(typography).toContain("--font-label: Arial");
   });
 
   it("maps primitives to semantic roles and keeps narrow legacy aliases", () => {
@@ -38,7 +38,7 @@ describe("editorial design theme", () => {
     expect(theme).toContain("--navy: var(--color-on-background);");
   });
 
-  it("wires self-hosted font variables and semantic globals into the app", () => {
+  it("uses network-independent system fonts and semantic globals", () => {
     const layout = readFileSync(
       new URL("../../layout.tsx", import.meta.url),
       "utf8",
@@ -48,11 +48,8 @@ describe("editorial design theme", () => {
       "utf8",
     );
 
-    expect(layout).toContain("Playfair_Display");
-    expect(layout).toContain("Merriweather");
-    expect(layout).toContain('variable: "--font-playfair-display"');
-    expect(layout).toContain('variable: "--font-merriweather"');
-    expect(layout).toContain('variable: "--font-inter"');
+    expect(layout).not.toContain("next/font/google");
+    expect(layout).toContain('<html lang="en">');
     expect(globals).toContain('@import "./design/index.css";');
     expect(globals).toContain("background: var(--color-background);");
     expect(globals).toContain("font-family: var(--type-body-family);");

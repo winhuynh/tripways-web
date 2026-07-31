@@ -19,9 +19,7 @@ export async function createCityPageMetadata(
       title: overview.seo.title,
       description: overview.seo.description,
       alternates: { canonical: overview.seo.canonicalPath },
-      robots: overview.seo.isIndexable
-        ? { index: true, follow: true }
-        : { index: false, follow: true },
+      robots: { index: false, follow: true },
       openGraph: {
         title: overview.seo.ogTitle,
         description: overview.seo.ogDescription,
@@ -33,6 +31,7 @@ export async function createCityPageMetadata(
 
     return {
       title: "City direct flights | Tripways",
+      alternates: { canonical: `/flights-from/${identity.citySlug}` },
       robots: { index: false, follow: false },
     };
   }

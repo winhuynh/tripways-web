@@ -8,7 +8,8 @@
     "build": "next build",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
-    "test": "vitest run"
+    "test": "vitest run",
+    "verify:p0a": "npm run lint && npm run typecheck && npm run test && npm run build"
   },
   "dependencies": {
     "maplibre-gl": "^5.24.0",

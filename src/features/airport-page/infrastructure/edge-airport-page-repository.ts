@@ -2,8 +2,13 @@ import "server-only";
 
 import type { AirportPageRepository } from "../application/airport-page-repository";
 import { AirportPageError } from "../domain/airport-page-error";
+import type { AirportPageErrorCode } from "../domain/airport-page-error";
 import type { AirportPageIdentity } from "../domain/models";
 import type { AirportPageEnvironment } from "./airport-page-environment";
+import {
+  buildPageDataCacheIdentity,
+  requestPageData,
+} from "../../../lib/server/page-data-transport";
 import {
   parseAirportPageResponse,
   parseAirportRoutesResponse,
@@ -17,24 +22,26 @@ export function createEdgeAirportPageRepository(
     action: "get_page" | "search_routes",
     input: Record<string, unknown>,
   ): Promise<unknown> {
-    const rpc = action === "get_page"
-      ? "rpc_get_airport_page"
-      : "rpc_search_airport_direct_routes";
-    const response = await fetchImpl(`${environment.supabaseUrl}/rest/v1/rpc/${rpc}`, {
-      method: "POST",
-      headers: {
-        apikey: environment.supabaseServiceRoleKey,
-        authorization: `Bearer ${environment.supabaseServiceRoleKey}`,
-        "content-type": "application/json",
-      },
-      body: JSON.stringify({ p_input: input }),
-      cache: "no-store",
+    return requestPageData({
+      url: environment.airportPageEdgeUrl,
+      anonKey: environment.supabaseAnonKey,
+      body: { action, input },
+      cacheIdentity: buildPageDataCacheIdentity({
+        locale: String(input.locale),
+        entityIdentity: `airport:${String(input.airport_iata)}`,
+        filters: { action, ...input },
+        dataVersion: environment.dataVersion,
+      }),
+      timeoutMs: environment.timeoutMs,
+      notFoundCodes: ["ERR_AIRPORT_NOT_FOUND", "ERR_AIRPORT_PAGE_NOT_FOUND"],
+      unavailableCode: "ERR_AIRPORT_PAGE_UNAVAILABLE",
+      createError: (code) =>
+        new AirportPageError(code as AirportPageErrorCode, code.includes("NOT_FOUND")
+          ? "Airport page was not found."
+          : "Airport page is unavailable."),
+      parse: (value) => value,
+      fetchImpl,
     });
-    const payload: unknown = await response.json().catch(() => null);
-    if (!response.ok) throw new AirportPageError("ERR_AIRPORT_PAGE_UNAVAILABLE", "Airport page is unavailable.");
-    const code = errorCode(payload);
-    if (code) throw new AirportPageError(code, "Airport page is unavailable.");
-    return payload;
   }
 
   return {
@@ -59,12 +66,4 @@ export function createEdgeAirportPageRepository(
 
 function identityDto(input: AirportPageIdentity): Record<string, unknown> {
   return { airport_iata: input.airportIata, locale: input.locale };
-}
-
-function errorCode(value: unknown): string | null {
-  if (typeof value !== "object" || value === null || Array.isArray(value)) return null;
-  const error = (value as Record<string, unknown>).error;
-  if (typeof error !== "object" || error === null || Array.isArray(error)) return null;
-  const code = (error as Record<string, unknown>).code;
-  return typeof code === "string" ? code : null;
 }

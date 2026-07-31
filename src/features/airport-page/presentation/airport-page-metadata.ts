@@ -6,6 +6,7 @@ import { airportPage } from "../server";
 
 export async function createAirportPageMetadata(
   identity: AirportPageIdentity,
+  canonicalPath = `/airports/${identity.airportIata.toLowerCase()}`,
 ): Promise<Metadata> {
   try {
     const page = await airportPage.getPage(identity);
@@ -13,9 +14,7 @@ export async function createAirportPageMetadata(
       title: page.seo.title,
       description: page.seo.description,
       alternates: { canonical: page.meta.canonicalPath },
-      robots: page.meta.isIndexable
-        ? { index: true, follow: true }
-        : { index: false, follow: true },
+      robots: { index: false, follow: true },
       openGraph: {
         title: page.seo.ogTitle,
         description: page.seo.ogDescription,
@@ -24,6 +23,10 @@ export async function createAirportPageMetadata(
     };
   } catch (error) {
     if (isAirportPageNotFound(error)) return {};
-    return { title: "Airport routes | Tripways", robots: { index: false, follow: false } };
+    return {
+      title: "Airport routes | Tripways",
+      alternates: { canonical: canonicalPath },
+      robots: { index: false, follow: false },
+    };
   }
 }

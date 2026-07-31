@@ -16,7 +16,7 @@ const homePageReadModel: HomePageReadModel = {
       key: "airport",
       inventoryLabel: "Inventory 01",
       title: "Explore by Airport",
-      href: "/flights-from/bangkok#airports",
+      href: "/airports/suvarnabhumi-bkk",
       icon: "airport",
     },
     {
@@ -50,28 +50,16 @@ const homePageReadModel: HomePageReadModel = {
   ],
   corridors: [
     {
-      key: "tokyo-seoul",
-      origin: "Tokyo",
-      destination: "Seoul",
-      href: "/flights-from/tokyo",
+      key: "bangkok-singapore",
+      origin: "Bangkok",
+      destination: "Singapore",
+      href: "/flights-from/bangkok#destinations",
     },
     {
-      key: "singapore-bali",
+      key: "singapore-bangkok",
       origin: "Singapore",
-      destination: "Bali",
-      href: "/flights-from/singapore",
-    },
-    {
-      key: "london-new-york",
-      origin: "London",
-      destination: "New York",
-      href: "/flights-from/london",
-    },
-    {
-      key: "da-nang-bangkok",
-      origin: "Da Nang",
       destination: "Bangkok",
-      href: "/flights-from/da-nang",
+      href: "/flights-from/singapore#destinations",
     },
   ],
   valuePropositions: [

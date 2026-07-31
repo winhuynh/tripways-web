@@ -17,8 +17,10 @@ type PageProps = {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   try {
+    const airportSlug = (await params).airportSlug;
     return createAirportPageMetadata(
-      createAirportPageIdentity((await params).airportSlug),
+      createAirportPageIdentity(airportSlug),
+      `/airports/${airportSlug}`,
     );
   } catch {
     return {};

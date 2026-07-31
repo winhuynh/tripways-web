@@ -1,11 +1,12 @@
 import { Suspense } from "react";
 
-import { SiteFooter, SiteHeader } from "@/shared/ui";
+import {
+  RouteInformationDisclaimer,
+  SiteFooter,
+  SiteHeader,
+} from "@/shared/ui";
 
-import type {
-  CityOverview,
-  CityPageIdentity,
-} from "../domain/models";
+import type { CityOverview, CityPageIdentity } from "../domain/models";
 import type { CityPageSearchParameters } from "../application/city-page-query";
 import { cityPage } from "../server";
 import { CityHero } from "./city-hero";
@@ -89,6 +90,7 @@ export function CityPage({
           <CityLinksLoader resultPromise={internalLinksPromise} />
         </Suspense>
       </main>
+      <RouteInformationDisclaimer />
       <SiteFooter />
     </div>
   );

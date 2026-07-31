@@ -56,8 +56,12 @@ export function parseCityOverviewResponse(value: unknown): CityOverview {
     },
     quickFacts: {
       airportCount: integer(facts.airport_count),
-      directDestinationCount: integer(facts.direct_destination_count),
-      directCountryCount: integer(facts.direct_country_count),
+      directDestinationCount: integer(
+        facts.direct_destination_count ?? facts.direct_counterpart_city_count,
+      ),
+      directCountryCount: integer(
+        facts.direct_country_count ?? facts.direct_counterpart_country_count,
+      ),
       airlineCount: integer(facts.airline_count),
       shortestRouteMinutes: nullableInteger(facts.shortest_route_minutes),
       longestRouteMinutes: nullableInteger(facts.longest_route_minutes),

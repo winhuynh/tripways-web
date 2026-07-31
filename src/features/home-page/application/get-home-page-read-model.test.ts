@@ -17,8 +17,24 @@ describe("getHomePageReadModel", () => {
       ctaHref: "/flights-from/bangkok#route-search",
     });
     expect(readModel.directories).toHaveLength(5);
-    expect(readModel.corridors).toHaveLength(4);
+    expect(readModel.corridors).toHaveLength(2);
     expect(readModel.valuePropositions).toHaveLength(3);
+  });
+
+  it("links only to complete local city and airport inventory", () => {
+    const hrefs = [
+      readModelHref(getHomePageReadModel().hero),
+      ...getHomePageReadModel().directories.map(readModelHref),
+      ...getHomePageReadModel().corridors.map(readModelHref),
+    ];
+
+    expect(hrefs.every((href) =>
+      href.startsWith("/flights-from/bangkok") ||
+      href.startsWith("/flights-from/singapore") ||
+      href.startsWith("/airports/suvarnabhumi-bkk") ||
+      href.startsWith("/airports/don-mueang-dmk") ||
+      href.startsWith("/airports/singapore-changi-sin")
+    )).toBe(true);
   });
 
   it("uses stable unique keys for every homepage collection", () => {
@@ -34,3 +50,7 @@ describe("getHomePageReadModel", () => {
     }
   });
 });
+
+function readModelHref(value: { href?: string; ctaHref?: string }): string {
+  return value.href ?? value.ctaHref ?? "";
+}

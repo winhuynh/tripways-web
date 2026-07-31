@@ -58,6 +58,53 @@ describe("city page DTO parser", () => {
     expect(result.quickFacts.airportCount).toBe(2);
   });
 
+  it("maps the current RPC counterpart quick-fact field names", () => {
+    const result = parseCityOverviewResponse(
+      envelope({
+        city: {
+          name: "Bangkok",
+          slug: "bangkok",
+          latitude: 13.7,
+          longitude: 100.5,
+          timezone: "Asia/Bangkok",
+        },
+        country: {
+          iso2: "TH",
+          name: "Thailand",
+          slug: "thailand",
+          region: "Asia",
+        },
+        content: {
+          h1: "Direct flights",
+          subheadline: "Explore",
+          intro: "Intro",
+          airport_summary: "Two",
+        },
+        seo: {
+          title: "Direct flights",
+          description: "Description",
+          canonical_path: "/flights-from/bangkok",
+          og_title: "Direct flights",
+          og_description: "Description",
+          og_image_path: null,
+          is_indexable: false,
+          noindex_reason: "fixture",
+        },
+        quick_facts: {
+          airport_count: 2,
+          direct_counterpart_city_count: 5,
+          direct_counterpart_country_count: 4,
+          airline_count: 2,
+          shortest_route_minutes: 75,
+          longest_route_minutes: 785,
+        },
+      }, { data_version: "current-rpc-v1" }),
+    );
+
+    expect(result.quickFacts.directDestinationCount).toBe(5);
+    expect(result.quickFacts.directCountryCount).toBe(4);
+  });
+
   it("rejects malformed section payloads", () => {
     expect(() => parseCityAirportsResponse(envelope([{ iata: "BKK" }]))).toThrow(
       "invalid response",

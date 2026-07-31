@@ -1,6 +1,10 @@
 import Link from "next/link";
 
-import { SiteFooter, SiteHeader } from "@/shared/ui";
+import {
+  RouteInformationDisclaimer,
+  SiteFooter,
+  SiteHeader,
+} from "@/shared/ui";
 
 import type {
   AirportPageModel,
@@ -37,10 +41,19 @@ export function AirportPage({
               <p className="airport-hero__intro">{model.content.intro}</p>
             </div>
             <dl className="airport-hero__facts">
-              <Fact label="Direct from here" value={model.quickFacts.outboundDestinations} />
-              <Fact label="Direct origins" value={model.quickFacts.inboundOrigins} />
+              <Fact
+                label="Direct from here"
+                value={model.quickFacts.outboundDestinations}
+              />
+              <Fact
+                label="Direct origins"
+                value={model.quickFacts.inboundOrigins}
+              />
               <Fact label="Airlines" value={model.quickFacts.airlines} />
-              <Fact label="Countries served" value={model.quickFacts.outboundCountries} />
+              <Fact
+                label="Countries served"
+                value={model.quickFacts.outboundCountries}
+              />
             </dl>
           </div>
         </section>
@@ -54,13 +67,17 @@ export function AirportPage({
             </div>
             <nav aria-label="Route direction" className="airport-direction">
               <Link
-                aria-current={filters.direction === "outbound" ? "page" : undefined}
+                aria-current={
+                  filters.direction === "outbound" ? "page" : undefined
+                }
                 href={`${base}?direction=outbound#routes`}
               >
                 From {model.airport.iata}
               </Link>
               <Link
-                aria-current={filters.direction === "inbound" ? "page" : undefined}
+                aria-current={
+                  filters.direction === "inbound" ? "page" : undefined
+                }
                 href={`${base}?direction=inbound#routes`}
               >
                 To {model.airport.iata}
@@ -72,15 +89,28 @@ export function AirportPage({
             <input name="direction" type="hidden" value={filters.direction} />
             <label>
               Airline code
-              <input defaultValue={filters.airlines?.[0]} maxLength={2} name="airline" placeholder="TG" />
+              <input
+                defaultValue={filters.airlines?.[0]}
+                maxLength={2}
+                name="airline"
+                placeholder="TG"
+              />
             </label>
             <label>
               Country code
-              <input defaultValue={filters.countries?.[0]} maxLength={2} name="country" placeholder="SG" />
+              <input
+                defaultValue={filters.countries?.[0]}
+                maxLength={2}
+                name="country"
+                placeholder="SG"
+              />
             </label>
             <label>
               Max duration
-              <select defaultValue={filters.maxDurationMinutes ?? ""} name="duration">
+              <select
+                defaultValue={filters.maxDurationMinutes ?? ""}
+                name="duration"
+              >
                 <option value="">Any duration</option>
                 <option value="180">Up to 3 hours</option>
                 <option value="360">Up to 6 hours</option>
@@ -91,12 +121,16 @@ export function AirportPage({
           </form>
 
           <p className="airport-route-count">
-            {routes.total} direct {routes.direction === "outbound" ? "destination" : "origin"}
+            {routes.total} direct{" "}
+            {routes.direction === "outbound" ? "destination" : "origin"}
             {routes.total === 1 ? "" : "s"}
           </p>
           <div className="airport-route-grid">
             {routes.routes.map((route) => (
-              <article className="airport-route-card" key={`${route.airportIata}-${route.citySlug}`}>
+              <article
+                className="airport-route-card"
+                key={`${route.airportIata}-${route.citySlug}`}
+              >
                 <div>
                   <span>{route.countryCode}</span>
                   <strong>{route.airportIata}</strong>
@@ -104,15 +138,26 @@ export function AirportPage({
                 <h3>{route.cityName}</h3>
                 <p>{route.airportName}</p>
                 <dl>
-                  <div><dt>Airlines</dt><dd>{route.airlines.join(", ")}</dd></div>
-                  <div><dt>Flight time</dt><dd>{duration(route.shortestDurationMinutes)}</dd></div>
-                  <div><dt>Weekly</dt><dd>{route.frequencyPerWeek ?? "Unknown"}</dd></div>
+                  <div>
+                    <dt>Airlines</dt>
+                    <dd>{route.airlines.join(", ")}</dd>
+                  </div>
+                  <div>
+                    <dt>Flight time</dt>
+                    <dd>{duration(route.shortestDurationMinutes)}</dd>
+                  </div>
+                  <div>
+                    <dt>Weekly</dt>
+                    <dd>{route.frequencyPerWeek ?? "Unknown"}</dd>
+                  </div>
                 </dl>
               </article>
             ))}
           </div>
           {routes.routes.length === 0 ? (
-            <p className="airport-empty">No routes match these filters. Try a broader search.</p>
+            <p className="airport-empty">
+              No routes match these filters. Try a broader search.
+            </p>
           ) : null}
         </section>
 
@@ -121,7 +166,10 @@ export function AirportPage({
             <div>
               <p className="airport-kicker">PLAN THE GROUND LEG</p>
               <h2>Airport essentials</h2>
-              <p>Useful context for getting there, parking and waiting before a flight.</p>
+              <p>
+                Useful context for getting there, parking and waiting before a
+                flight.
+              </p>
             </div>
           </div>
           <div className="airport-essential-grid">
@@ -132,7 +180,9 @@ export function AirportPage({
                 <strong>{access.destinationLabel}</strong>
                 <p>{access.summary}</p>
                 {access.durationMinMinutes ? (
-                  <small>{access.durationMinMinutes}–{access.durationMaxMinutes} min</small>
+                  <small>
+                    {access.durationMinMinutes}–{access.durationMaxMinutes} min
+                  </small>
                 ) : null}
               </article>
             ))}
@@ -159,7 +209,9 @@ export function AirportPage({
                 <p>{lounge.locationSummary}</p>
                 <p>{lounge.accessSummary}</p>
                 <ul>
-                  {lounge.amenities.map((amenity) => <li key={amenity}>{amenity.replace("_", " ")}</li>)}
+                  {lounge.amenities.map((amenity) => (
+                    <li key={amenity}>{amenity.replace("_", " ")}</li>
+                  ))}
                 </ul>
               </article>
             ))}
@@ -169,7 +221,10 @@ export function AirportPage({
         {model.notices.map((notice) => (
           <aside className="airport-notice" key={notice.title}>
             <span>GOOD TO KNOW</span>
-            <div><h2>{notice.title}</h2><p>{notice.body}</p></div>
+            <div>
+              <h2>{notice.title}</h2>
+              <p>{notice.body}</p>
+            </div>
           </aside>
         ))}
 
@@ -184,13 +239,19 @@ export function AirportPage({
           ))}
         </section>
       </main>
+      <RouteInformationDisclaimer />
       <SiteFooter />
     </div>
   );
 }
 
 function Fact({ label, value }: { label: string; value: number }) {
-  return <div><dt>{label}</dt><dd>{value}</dd></div>;
+  return (
+    <div>
+      <dt>{label}</dt>
+      <dd>{value}</dd>
+    </div>
+  );
 }
 
 function duration(minutes: number): string {

@@ -5,6 +5,10 @@ import { CityPageError } from "../domain/city-page-error";
 import type { CityDestinationQuery, CityPageIdentity } from "../domain/models";
 import type { CityPageEnvironment } from "./city-page-environment";
 import {
+  buildPageDataCacheIdentity,
+  requestPageData,
+} from "../../../lib/server/page-data-transport";
+import {
   parseCityAirlinesResponse,
   parseCityAirportsResponse,
   parseCityDestinationsResponse,
@@ -14,8 +18,6 @@ import {
   parseCityOverviewResponse,
   parseCityQuickFactsResponse,
 } from "./city-page-response.dto";
-
-const CITY_PAGE_READ_CONTRACT = "city-page-v3";
 
 /**
  * Creates the server-only City Page repository that calls the Edge transport,
@@ -30,30 +32,29 @@ export function createEdgeCityPageRepository(
     input: Record<string, unknown>,
     parse: (value: unknown) => T,
   ): Promise<T> {
-    const response = await fetchImpl(environment.cityPageEdgeUrl, {
-        method: "POST",
-        headers: {
-          apikey: environment.supabaseAnonKey,
-          authorization: `Bearer ${environment.supabaseAnonKey}`,
-          "content-type": "application/json",
-          "x-tripways-read-contract": CITY_PAGE_READ_CONTRACT,
-        },
-        body: JSON.stringify({ action, input }),
-        next: {
-          revalidate: 3600,
-          tags: [`${CITY_PAGE_READ_CONTRACT}:${input.city_slug}:${action}`],
-        },
+    return requestPageData({
+      url: environment.cityPageEdgeUrl,
+      anonKey: environment.supabaseAnonKey,
+      body: { action, input },
+      cacheIdentity: buildPageDataCacheIdentity({
+        locale: String(input.locale),
+        entityIdentity: `city:${String(input.city_slug)}`,
+        filters: { action, ...input },
+        dataVersion: environment.dataVersion,
+      }),
+      timeoutMs: environment.timeoutMs,
+      notFoundCodes: ["ERR_CITY_NOT_FOUND", "ERR_CITY_PAGE_NOT_FOUND"],
+      unavailableCode: "ERR_CITY_PAGE_UNAVAILABLE",
+      createError: (code) =>
+        new CityPageError(
+          code as ConstructorParameters<typeof CityPageError>[0],
+          code.includes("NOT_FOUND")
+            ? "City page was not found."
+            : "City Page is unavailable.",
+        ),
+      parse,
+      fetchImpl,
     });
-
-    const payload: unknown = await response.json().catch(() => null);
-    if (!response.ok) {
-      const code = readErrorCode(payload);
-      if (code === "ERR_CITY_NOT_FOUND" || code === "ERR_CITY_PAGE_NOT_FOUND") {
-        throw new CityPageError(code, "City page was not found.");
-      }
-      throw new CityPageError("ERR_CITY_PAGE_UNAVAILABLE", "City Page is unavailable.");
-    }
-    return parse(payload);
   }
 
   return {
@@ -90,12 +91,4 @@ function toDestinationDto(input: CityDestinationQuery): Record<string, unknown> 
     ...(input.limit ? { limit: input.limit } : {}),
     ...(input.offset !== undefined ? { offset: input.offset } : {}),
   };
-}
-
-function readErrorCode(value: unknown): string | null {
-  if (typeof value !== "object" || value === null || Array.isArray(value)) return null;
-  const error = (value as Record<string, unknown>).error;
-  if (typeof error !== "object" || error === null || Array.isArray(error)) return null;
-  const code = (error as Record<string, unknown>).code;
-  return typeof code === "string" ? code : null;
 }
