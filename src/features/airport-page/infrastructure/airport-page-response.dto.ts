@@ -23,6 +23,7 @@ export function parseAirportPageResponse(value: unknown): AirportPageModel {
       icao: nullableText(airport.icao),
       name: text(airport.name),
       slug: text(airport.slug),
+      imagePath: nullableText(airport.image_path),
       timezone: nullableText(airport.timezone),
       city: { name: text(city.name), slug: text(city.slug) },
       country: {
@@ -55,6 +56,16 @@ export function parseAirportPageResponse(value: unknown): AirportPageModel {
       shortestRouteMinutes: nullableInteger(facts.shortest_route_minutes),
       longestRouteMinutes: nullableInteger(facts.longest_route_minutes),
     },
+    airlines: array(data.airlines).map((item) => {
+      const airline = record(item);
+      return {
+        iata: nullableText(airline.iata),
+        name: text(airline.name),
+        slug: text(airline.slug),
+        logoPath: nullableText(airline.logo_path),
+        routeCount: integer(airline.route_count),
+      };
+    }),
     accessOptions: array(data.access_options).map((item) => {
       const access = record(item);
       return {

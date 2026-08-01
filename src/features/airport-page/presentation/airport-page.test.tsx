@@ -14,6 +14,7 @@ describe("AirportPage", () => {
             icao: "VTBS",
             name: "Suvarnabhumi Airport",
             slug: "suvarnabhumi-airport",
+            imagePath: "airports/BKK/hero.webp",
             timezone: "Asia/Bangkok",
             city: { name: "Bangkok", slug: "bangkok" },
             country: { code: "TH", name: "Thailand", slug: "thailand" },
@@ -42,6 +43,13 @@ describe("AirportPage", () => {
             shortestRouteMinutes: 125,
             longestRouteMinutes: 800,
           },
+          airlines: [{
+            iata: "TG",
+            name: "Thai Airways",
+            slug: "thai-airways",
+            logoPath: "airlines/TG/logo.svg",
+            routeCount: 1,
+          }],
           accessOptions: [{
             type: "rail",
             name: "Airport Rail Link",

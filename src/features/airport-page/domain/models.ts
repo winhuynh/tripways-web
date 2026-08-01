@@ -37,6 +37,7 @@ export type AirportPageModel = Readonly<{
     icao: string | null;
     name: string;
     slug: string;
+    imagePath: string | null;
     timezone: string | null;
     city: Readonly<{ name: string; slug: string }>;
     country: Readonly<{ code: string; name: string; slug: string }>;
@@ -65,6 +66,13 @@ export type AirportPageModel = Readonly<{
     shortestRouteMinutes: number | null;
     longestRouteMinutes: number | null;
   }>;
+  airlines: readonly Readonly<{
+    iata: string | null;
+    name: string;
+    slug: string;
+    logoPath: string | null;
+    routeCount: number;
+  }>[];
   accessOptions: readonly Readonly<{
     type: string;
     name: string;

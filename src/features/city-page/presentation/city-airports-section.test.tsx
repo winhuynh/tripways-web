@@ -13,8 +13,9 @@ describe("CityAirportsSection", () => {
           {
             iata: "DMK",
             icao: "VTBD",
-            name: "Don Mueang International Airport",
-            slug: "don-mueang-international-airport",
+          name: "Don Mueang International Airport",
+          slug: "don-mueang-international-airport",
+          imagePath: null,
             airportType: "large_airport",
             latitude: 13.9126,
             longitude: 100.6068,

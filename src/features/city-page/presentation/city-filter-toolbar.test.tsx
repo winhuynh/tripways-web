@@ -12,8 +12,9 @@ describe("CityFilterToolbar", () => {
           {
             iata: "BKK",
             icao: "VTBS",
-            name: "Suvarnabhumi Airport",
-            slug: "suvarnabhumi-airport",
+          name: "Suvarnabhumi Airport",
+          slug: "suvarnabhumi-airport",
+          imagePath: null,
             airportType: "large_airport",
             latitude: 13.69,
             longitude: 100.7501,

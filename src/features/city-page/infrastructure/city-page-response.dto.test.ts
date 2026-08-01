@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import {
+  parseCityAirlinesResponse,
   parseCityAirportsResponse,
   parseCityOverviewResponse,
   parseCityQuickFactsResponse,
@@ -119,6 +120,7 @@ describe("city page DTO parser", () => {
           icao: "VTBD",
           name: "Don Mueang International Airport",
           slug: "don-mueang-international-airport",
+          image_path: "airports/DMK/hero.webp",
           airport_type: "large_airport",
           latitude: 13.9126,
           longitude: 100.6068,
@@ -141,12 +143,32 @@ describe("city page DTO parser", () => {
 
     expect(airport).toMatchObject({
       iata: "DMK",
+      imagePath: "airports/DMK/hero.webp",
       hubLabel: "LOW-COST HUB",
       displayOrder: 2,
       domesticDestinationPercentage: 33,
       internationalDestinationPercentage: 67,
       dominantAirlineBusinessModel: "low_cost",
     });
+  });
+
+  it("maps nullable airline logo paths", () => {
+    const [airline] = parseCityAirlinesResponse(
+      envelope([
+        {
+          iata: "TG",
+          icao: "THA",
+          name: "Thai Airways",
+          slug: "thai-airways",
+          logo_path: "airlines/TG/logo.svg",
+          origin_airports: ["BKK"],
+          direct_destination_count: 12,
+          page_path: "/airlines/thai-airways/flights-from/bangkok",
+        },
+      ]),
+    );
+
+    expect(airline.logoPath).toBe("airlines/TG/logo.svg");
   });
 
   it("maps a complete city quick facts read model", () => {

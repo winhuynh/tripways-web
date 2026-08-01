@@ -49,6 +49,7 @@ export type CityAirport = Readonly<{
   icao: string | null;
   name: string;
   slug: string;
+  imagePath: string | null;
   airportType: string;
   latitude: number;
   longitude: number;
@@ -108,6 +109,7 @@ export type CityAirline = Readonly<{
   icao: string | null;
   name: string;
   slug: string;
+  logoPath: string | null;
   originAirports: readonly string[];
   directDestinationCount: number;
   pagePath: string;
