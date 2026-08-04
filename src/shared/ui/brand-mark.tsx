@@ -11,9 +11,9 @@ type BrandMarkProps = Readonly<{
 export function BrandMark({ className }: BrandMarkProps) {
   return (
     <Link
-      aria-label="Tripways home"
+      aria-label="Tripways terms"
       className={["editorial-brand", className].filter(Boolean).join(" ")}
-      href="/"
+      href="/terms"
     >
       <Image
         alt=""

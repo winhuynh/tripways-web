@@ -157,7 +157,7 @@ export default function TermsPage() {
           </LegalSection>
 
           <p className="terms-page__return">
-            <Link href="/">Return to Tripways</Link>
+            <Link href="/terms">Tripways Terms</Link>
           </p>
         </div>
       </main>

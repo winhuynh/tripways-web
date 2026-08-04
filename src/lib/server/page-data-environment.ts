@@ -29,10 +29,10 @@ export function readPageDataEnvironment(): PageDataEnvironment {
     supabaseAnonKey,
     cityPageEdgeUrl:
       process.env.CITY_PAGE_EDGE_URL?.trim() ||
-      `${supabaseUrl}/functions/v1/city-page-query`,
+      `${supabaseUrl}/functions/v1/page-query`,
     airportPageEdgeUrl:
       process.env.AIRPORT_PAGE_EDGE_URL?.trim() ||
-      `${supabaseUrl}/functions/v1/airport-page-query`,
+      `${supabaseUrl}/functions/v1/page-query`,
     dataVersion,
     timeoutMs,
   };

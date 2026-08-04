@@ -12,7 +12,7 @@ export function readRouteMapEnvironment(): RouteMapEnvironment {
 
   return {
     cityPageEdgeUrl: configuredEdgeUrl ||
-      `${supabaseUrl.replace(/\/$/, "")}/functions/v1/city-page-query`,
+      `${supabaseUrl.replace(/\/$/, "")}/functions/v1/page-query`,
     supabasePublishableKey: requiredEnvironment(
       "SUPABASE_ANON_KEY",
       process.env.SUPABASE_ANON_KEY,
