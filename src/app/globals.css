@@ -2,6 +2,7 @@
 @import "maplibre-gl/dist/maplibre-gl.css";
 @import "./design/index.css";
 @import "../shared/ui/editorial-elements.css";
+@import "../shared/ui/informational-page.css";
 @import "../shared/ui/site-footer.css";
 
 * {

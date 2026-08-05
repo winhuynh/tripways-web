@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 
+import { SiteFooter, SiteHeader } from "@/shared/ui";
+
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -12,13 +14,16 @@ export const metadata: Metadata = {
 };
 
 /**
- * Applies global typography variables and document language to every App
- * Router page.
+ * Applies the shared site shell and document metadata to every App Router page.
  */
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <SiteHeader />
+        {children}
+        <SiteFooter />
+      </body>
     </html>
   );
 }

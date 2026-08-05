@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
-import { SiteFooter, SiteHeader } from "@/shared/ui";
-
 import "./terms-page.css";
 
 export const metadata: Metadata = {
@@ -13,8 +11,7 @@ export const metadata: Metadata = {
 
 export default function TermsPage() {
   return (
-    <div className="terms-shell">
-      <SiteHeader />
+    <div>
       <main className="terms-page">
         <header className="terms-page__header">
           <p>LEGAL</p>
@@ -161,7 +158,6 @@ export default function TermsPage() {
           </p>
         </div>
       </main>
-      <SiteFooter />
     </div>
   );
 }
