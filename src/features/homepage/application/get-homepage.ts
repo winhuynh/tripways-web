@@ -1,0 +1,1 @@
+import{loadPageModel}from"@/lib/server/page-data/page-client";import{parseHomepageResponse}from"../infrastructure/homepage-response.dto";export function getHomepage(locale="en-GB"){return loadPageModel({pageType:"homepage",entityKey:"home",locale,parse:parseHomepageResponse})}

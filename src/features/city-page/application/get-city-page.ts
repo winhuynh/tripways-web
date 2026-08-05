@@ -1,0 +1,1 @@
+import{loadPageModel}from"@/lib/server/page-data/page-client";import{parseCityPageResponse}from"../infrastructure/city-page-response.dto";export function getCityPage(slug:string,locale="en-GB"){return loadPageModel({pageType:"city",entityKey:slug,locale,parse:parseCityPageResponse})}

@@ -1,40 +1,36 @@
-import { existsSync, readdirSync } from "node:fs";
+import { existsSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 
 import robots from "./robots";
 import sitemap from "./sitemap";
 
-describe("frontend reset indexing contract", () => {
-  it("publishes only the retained Terms page in the sitemap", () => {
-    expect(sitemap().map((entry) => new URL(entry.url).pathname)).toEqual(["/terms"]);
+describe("public frontend indexing contract", () => {
+  it("publishes the homepage and stable informational pages", () => {
+    expect(sitemap().map((entry) => new URL(entry.url).pathname)).toEqual([
+      "/", "/about", "/accessibility", "/contact", "/cookies", "/privacy", "/terms",
+    ]);
   });
 
-  it("blocks the pSEO namespaces while they are being rebuilt", () => {
+  it("allows public pages while keeping API routes out of search", () => {
     expect(robots().rules).toEqual({
       userAgent: "*",
-      allow: "/terms",
-      disallow: ["/flights-from/", "/airports/", "/routes/", "/api/"],
+      allow: "/",
+      disallow: ["/api/"],
     });
   });
 
-  it("removes every old page route and page-specific feature file", () => {
-    expect(existsSync(new URL("./page.tsx", import.meta.url))).toBe(false);
-
+  it("restores all four page families", () => {
     for (const relativePath of [
+      "./page.tsx",
       "./flights-from",
       "./airports",
-      "./api/city-page",
-      "../features/home-page",
+      "./flights",
+      "../features/homepage",
       "../features/city-page",
       "../features/airport-page",
+      "../features/route-page",
     ]) {
-      const directory = new URL(relativePath, import.meta.url);
-      const files = existsSync(directory)
-        ? readdirSync(directory, { recursive: true }).filter((entry) =>
-            entry.toString().includes("."),
-          )
-        : [];
-      expect(files).toEqual([]);
+      expect(existsSync(new URL(relativePath, import.meta.url))).toBe(true);
     }
   });
 });

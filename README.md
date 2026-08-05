@@ -40,14 +40,16 @@ the web app:
 pnpm dev
 ```
 
-Open:
+Open the four public page families:
 
 - `http://localhost:3000/`
-- `http://localhost:3000/flights-from/SGN`
-- `http://localhost:3000/routes/SGN/LHR`
+- `http://localhost:3000/flights-from/bangkok`
+- `http://localhost:3000/flights/bangkok-to-london`
+- `http://localhost:3000/airports/suvarnabhumi-bkk`
 
-The SGN to LHR development fixture should return two direct routes and one valid one-stop route via
-SIN. Fixture data is development-only and must not be used for production or indexable pages.
+Page shells load immutable canonical read models through `page-query`. Interactive route filters use
+`route-search-query`. Fixture data is development-only and remains non-indexable through backend
+publication metadata.
 
 ## Quality checks
 
@@ -60,6 +62,6 @@ pnpm build
 
 ## Current boundary
 
-Implemented: fixture airport navigation, stored route filters, Route Discovery RPC loading, and
-responsive route pages. Skipped intentionally: auth, live prices, dated availability, booking,
-real map tiles, newsletter persistence, CMS, deployment, and production pSEO publication.
+Implemented: Homepage, City Hub, Route Page, journey-led Airport Page, typed page readers, shared
+route-search models, and responsive semantic UI. Skipped intentionally: auth, live prices, dated
+availability, booking, unapproved affiliate offers, CMS, deployment, and production publication.

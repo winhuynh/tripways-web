@@ -1,0 +1,1 @@
+import{loadPageModel}from"@/lib/server/page-data/page-client";import{parseRoutePageResponse}from"../infrastructure/route-page-response.dto";export function getRoutePage(slug:string,locale="en-GB"){return loadPageModel({pageType:"route",entityKey:slug,locale,parse:parseRoutePageResponse})}

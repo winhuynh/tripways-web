@@ -18,8 +18,8 @@ describe("local release candidate reproducibility", () => {
       "SUPABASE_ANON_KEY",
       "PAGE_DATA_VERSION",
       "PAGE_DATA_TIMEOUT_MS",
-      "CITY_PAGE_EDGE_URL",
-      "AIRPORT_PAGE_EDGE_URL",
+      "PAGE_QUERY_EDGE_URL",
+      "ROUTE_SEARCH_QUERY_EDGE_URL",
       "NEXT_PUBLIC_SITE_URL",
     ]) {
       expect(example).toContain(`${name}=`);
@@ -33,5 +33,47 @@ describe("local release candidate reproducibility", () => {
     };
     expect(packageJson.scripts["verify:p0a"]).toContain("npm run build");
     expect(packageJson.scripts["verify:p0a"]).toContain("npm run test");
+    expect(packageJson.scripts.build).toBe("next build --webpack");
+  });
+
+  it("keeps backend-dependent pSEO pages dynamic during production builds", () => {
+    for (const path of [
+      "src/app/page.tsx",
+      "src/app/flights-from/[citySlug]/page.tsx",
+      "src/app/flights/[routeSlug]/page.tsx",
+      "src/app/airports/[airportSlug]/page.tsx",
+    ]) {
+      expect(read(path)).toMatch(/export const dynamic\s*=\s*"force-dynamic"/);
+    }
+  });
+
+  it("uses backend-owned SEO titles without applying the site template twice", () => {
+    for (const path of [
+      "src/app/page.tsx",
+      "src/app/flights-from/[citySlug]/page.tsx",
+      "src/app/flights/[routeSlug]/page.tsx",
+      "src/app/airports/[airportSlug]/page.tsx",
+    ]) {
+      expect(read(path)).toMatch(/title:\s*{\s*absolute:/);
+    }
+  });
+
+  it("connects every discovery form to the canonical route-search application", () => {
+    for (const path of [
+      "src/app/page.tsx",
+      "src/app/flights-from/[citySlug]/page.tsx",
+      "src/app/flights/[routeSlug]/page.tsx",
+      "src/app/airports/[airportSlug]/page.tsx",
+    ]) {
+      expect(read(path)).toContain("searchRoutes(");
+    }
+    for (const path of [
+      "src/features/homepage/presentation/homepage-screen.tsx",
+      "src/features/city-page/presentation/city-page-screen.tsx",
+      "src/features/route-page/presentation/route-page-screen.tsx",
+      "src/features/airport-page/presentation/airport-page-screen.tsx",
+    ]) {
+      expect(read(path)).toContain("<RouteResults");
+    }
   });
 });

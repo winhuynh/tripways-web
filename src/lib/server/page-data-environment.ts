@@ -3,8 +3,8 @@ import "server-only";
 export type PageDataEnvironment = Readonly<{
   supabaseUrl: string;
   supabaseAnonKey: string;
-  cityPageEdgeUrl: string;
-  airportPageEdgeUrl: string;
+  pageQueryUrl: string;
+  routeSearchQueryUrl: string;
   dataVersion: string;
   timeoutMs: number;
 }>;
@@ -27,12 +27,12 @@ export function readPageDataEnvironment(): PageDataEnvironment {
   return {
     supabaseUrl,
     supabaseAnonKey,
-    cityPageEdgeUrl:
-      process.env.CITY_PAGE_EDGE_URL?.trim() ||
+    pageQueryUrl:
+      process.env.PAGE_QUERY_EDGE_URL?.trim() ||
       `${supabaseUrl}/functions/v1/page-query`,
-    airportPageEdgeUrl:
-      process.env.AIRPORT_PAGE_EDGE_URL?.trim() ||
-      `${supabaseUrl}/functions/v1/page-query`,
+    routeSearchQueryUrl:
+      process.env.ROUTE_SEARCH_QUERY_EDGE_URL?.trim() ||
+      `${supabaseUrl}/functions/v1/route-search-query`,
     dataVersion,
     timeoutMs,
   };

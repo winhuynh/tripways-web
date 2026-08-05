@@ -11,23 +11,23 @@ afterEach(() => {
 });
 
 describe("readPageDataEnvironment", () => {
-  it("uses the shared page-query function for city and airport reads", () => {
+  it("uses canonical page-query and route-search-query endpoints", () => {
     process.env = {
       ...originalEnvironment,
       SUPABASE_URL: "http://127.0.0.1:55321/",
       SUPABASE_ANON_KEY: "local-anon",
       PAGE_DATA_VERSION: "local-v1",
     };
-    delete process.env.CITY_PAGE_EDGE_URL;
-    delete process.env.AIRPORT_PAGE_EDGE_URL;
+    delete process.env.PAGE_QUERY_EDGE_URL;
+    delete process.env.ROUTE_SEARCH_QUERY_EDGE_URL;
 
     const environment = readPageDataEnvironment();
 
-    expect(environment.cityPageEdgeUrl).toBe(
+    expect(environment.pageQueryUrl).toBe(
       "http://127.0.0.1:55321/functions/v1/page-query",
     );
-    expect(environment.airportPageEdgeUrl).toBe(
-      "http://127.0.0.1:55321/functions/v1/page-query",
+    expect(environment.routeSearchQueryUrl).toBe(
+      "http://127.0.0.1:55321/functions/v1/route-search-query",
     );
   });
 });

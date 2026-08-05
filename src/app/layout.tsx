@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     default: "Tripways",
     template: "%s | Tripways",
   },
-  description: "Tripways legal information and terms of service.",
+  description: "Discover direct flights, compare routes, and plan airport journeys with Tripways.",
 };
 
 /**

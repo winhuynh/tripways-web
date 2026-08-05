@@ -4,6 +4,7 @@
 @import "../shared/ui/editorial-elements.css";
 @import "../shared/ui/informational-page.css";
 @import "../shared/ui/site-footer.css";
+@import "../shared/ui/pseo-elements.css";
 
 * {
   box-sizing: border-box;
