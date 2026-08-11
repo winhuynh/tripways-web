@@ -16,7 +16,7 @@ export function parseRouteSearchResponse(value: unknown): RouteSearchModel {
           international: booleanValue(row.is_international), stops: numberValue(row.stops),
           connections: stringList(row.connection_airports), airlines: stringList(row.operating_airlines),
           flightMinutes: numberValue(row.total_flight_minutes), layoverMinutes: numberValue(row.layover_minutes),
-          durationMinutes: numberValue(row.total_duration_minutes), routePath: text(row.route_path),
+          durationMinutes: numberValue(row.total_duration_minutes), routePath: nullableText(row.route_path),
           price: parsePrice(row.price),
         };
       }),

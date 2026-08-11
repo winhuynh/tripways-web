@@ -26,7 +26,9 @@ export function createEdgeRouteDiscoveryProvider(
             "content-type": "application/json",
           },
           body: JSON.stringify({ action: "search_routes", input }),
-          cache: "no-store",
+          // Route discovery is near-realtime, so use a short 5-minute cache window
+          // rather than bypassing all caching with no-store.
+          next: { revalidate: 300 },
         },
       );
 

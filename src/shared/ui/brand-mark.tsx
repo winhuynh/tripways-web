@@ -13,7 +13,7 @@ export function BrandMark({ className }: BrandMarkProps) {
     <Link
       aria-label="Tripways"
       className={["editorial-brand", className].filter(Boolean).join(" ")}
-      href="/terms"
+      href="/"
     >
       <Image
         alt=""

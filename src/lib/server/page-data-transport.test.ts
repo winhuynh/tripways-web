@@ -64,4 +64,32 @@ describe("shared page-data transport", () => {
       }),
     ).rejects.toThrow("ERR_CITY_PAGE_UNAVAILABLE");
   });
+
+  it("bypasses the Next data cache in local development", async () => {
+    vi.stubEnv("NODE_ENV", "development");
+    const fetchImpl = vi.fn<typeof fetch>().mockResolvedValue(
+      new Response(JSON.stringify({ data: { slug: "bangkok" }, error: null }), {
+        status: 200,
+      }),
+    );
+
+    await requestPageData({
+      url: "http://local/city",
+      anonKey: "anon",
+      body: {},
+      cacheIdentity: "city:bangkok",
+      timeoutMs: 100,
+      notFoundCodes: [],
+      unavailableCode: "ERR_CITY_PAGE_UNAVAILABLE",
+      createError: (code) => new Error(code),
+      parse: (value) => value,
+      fetchImpl,
+    });
+
+    expect(fetchImpl).toHaveBeenCalledWith(
+      "http://local/city",
+      expect.objectContaining({ cache: "no-store" }),
+    );
+    vi.unstubAllEnvs();
+  });
 });

@@ -1,1 +1,41 @@
-import type{HomepageModel}from"../domain/homepage-model";export function parseHomepageResponse(v:unknown):HomepageModel{try{const r=rec(v),seo=rec(r.seo),discovery=rec(r.discovery),content=rec(r.content),index=rec(r.indexability);return{seo:{h1:str(seo.h1),subheadline:str(seo.subheadline),intro:str(seo.intro),title:str(seo.title),description:str(seo.meta_description)},routes:arr(discovery.route_map).map(x=>{const q=rec(x);return{id:str(q.route_option_id),from:str(q.from),to:str(q.to),durationMinutes:num(q.duration_minutes),path:str(q.route_path)}}),origins:arr(content.featured_origins).map(x=>{const q=rec(x);return{title:str(q.title),summary:str(q.summary),destinations:num(q.direct_destination_count)}}),sections:arr(content.sections).map(x=>{const q=rec(x);return{type:str(q.section_type),heading:str(q.heading),body:str(q.body)}}),faqs:arr(r.faqs).map(x=>{const q=rec(x);return{question:str(q.question),answer:str(q.answer)}}),indexable:bool(index.is_indexable)}}catch{throw new Error("ERR_HOMEPAGE_CONTRACT")}}function rec(v:unknown):Record<string,unknown>{if(typeof v!=="object"||v===null||Array.isArray(v))throw 0;return v as Record<string,unknown>}function arr(v:unknown):unknown[]{if(!Array.isArray(v))throw 0;return v}function str(v:unknown):string{if(typeof v!=="string"||!v)throw 0;return v}function num(v:unknown):number{if(typeof v!=="number")throw 0;return v}function bool(v:unknown):boolean{if(typeof v!=="boolean")throw 0;return v}
+import type { HomepageModel } from "../domain/homepage-model";
+
+export function parseHomepageStatisticsResponse(value: unknown): HomepageModel {
+  try {
+    const record = readRecord(value);
+    return {
+      cityCount: readCount(record.city_count),
+      airportCount: readCount(record.airport_count),
+      directRouteCount: readCount(record.direct_route_count),
+      dataVersion: readUuid(record.data_version),
+      generatedAt: readTimestamp(record.generated_at),
+    };
+  } catch {
+    throw new Error("ERR_HOMEPAGE_STATISTICS_CONTRACT");
+  }
+}
+
+function readRecord(value: unknown): Record<string, unknown> {
+  if (typeof value !== "object" || value === null || Array.isArray(value)) throw new Error();
+  return value as Record<string, unknown>;
+}
+
+function readCount(value: unknown): number {
+  if (!Number.isSafeInteger(value) || (value as number) < 0) throw new Error();
+  return value as number;
+}
+
+function readUuid(value: unknown): string {
+  if (
+    typeof value !== "string" ||
+    !/^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(value)
+  ) {
+    throw new Error();
+  }
+  return value;
+}
+
+function readTimestamp(value: unknown): string {
+  if (typeof value !== "string" || Number.isNaN(Date.parse(value))) throw new Error();
+  return value;
+}

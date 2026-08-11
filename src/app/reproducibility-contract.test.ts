@@ -36,15 +36,18 @@ describe("local release candidate reproducibility", () => {
     expect(packageJson.scripts.build).toBe("next build --webpack");
   });
 
-  it("keeps backend-dependent pSEO pages dynamic during production builds", () => {
+  it("keeps backend-dependent pSEO pages ISR-cached for 24 hours", () => {
     for (const path of [
-      "src/app/page.tsx",
       "src/app/flights-from/[citySlug]/page.tsx",
       "src/app/flights/[routeSlug]/page.tsx",
       "src/app/airports/[airportSlug]/page.tsx",
     ]) {
-      expect(read(path)).toMatch(/export const dynamic\s*=\s*"force-dynamic"/);
+      expect(read(path)).toMatch(/export const revalidate\s*=\s*86400/);
     }
+  });
+
+  it("loads runtime homepage statistics outside static prerendering", () => {
+    expect(read("src/app/page.tsx")).toMatch(/export const dynamic\s*=\s*["']force-dynamic["']/);
   });
 
   it("uses backend-owned SEO titles without applying the site template twice", () => {
@@ -58,9 +61,8 @@ describe("local release candidate reproducibility", () => {
     }
   });
 
-  it("connects every discovery form to the canonical route-search application", () => {
+  it("keeps route discovery on detail pages and the homepage statistics-only", () => {
     for (const path of [
-      "src/app/page.tsx",
       "src/app/flights-from/[citySlug]/page.tsx",
       "src/app/flights/[routeSlug]/page.tsx",
       "src/app/airports/[airportSlug]/page.tsx",
@@ -68,12 +70,15 @@ describe("local release candidate reproducibility", () => {
       expect(read(path)).toContain("searchRoutes(");
     }
     for (const path of [
-      "src/features/homepage/presentation/homepage-screen.tsx",
       "src/features/city-page/presentation/city-page-screen.tsx",
       "src/features/route-page/presentation/route-page-screen.tsx",
       "src/features/airport-page/presentation/airport-page-screen.tsx",
     ]) {
       expect(read(path)).toContain("<RouteResults");
     }
+    expect(read("src/app/page.tsx")).not.toContain("searchRoutes(");
+    expect(read("src/features/homepage/presentation/homepage-screen.tsx")).not.toContain(
+      "<RouteResults",
+    );
   });
 });

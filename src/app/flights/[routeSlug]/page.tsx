@@ -11,7 +11,7 @@ import {
   type RouteFilterQuery,
 } from "@/features/route-search/domain/route-filter";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 86400; // ISR: re-render at most once every 24 h
 type Props = { params: Promise<{ routeSlug: string }>; searchParams: Promise<RouteFilterQuery> };
 
 async function load(slug: string) {

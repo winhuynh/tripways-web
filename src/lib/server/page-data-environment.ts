@@ -5,6 +5,7 @@ export type PageDataEnvironment = Readonly<{
   supabaseAnonKey: string;
   pageQueryUrl: string;
   routeSearchQueryUrl: string;
+  homepageStatisticsUrl: string;
   dataVersion: string;
   timeoutMs: number;
 }>;
@@ -33,6 +34,9 @@ export function readPageDataEnvironment(): PageDataEnvironment {
     routeSearchQueryUrl:
       process.env.ROUTE_SEARCH_QUERY_EDGE_URL?.trim() ||
       `${supabaseUrl}/functions/v1/route-search-query`,
+    homepageStatisticsUrl:
+      process.env.HOMEPAGE_STATISTICS_EDGE_URL?.trim() ||
+      `${supabaseUrl}/rest/v1/rpc/rpc_get_homepage_statistics`,
     dataVersion,
     timeoutMs,
   };

@@ -29,7 +29,8 @@ export function createEdgeRouteMapRepository(
           input: toCityRouteMapDto(query),
         }),
         next: {
-          revalidate: 3600,
+          // Cache route-map fetch responses for 24 h, aligned with page data TTL.
+          revalidate: 86400,
           tags: [
             `${ROUTE_MAP_READ_CONTRACT}:${query.origin.slug}:get_route_map`,
           ],

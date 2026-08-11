@@ -145,9 +145,9 @@ Airport Page targets one physical airport. City Hub targets all airports serving
 
 Use the shared Tripways navigation. The Airport Page must not introduce airport-only global navigation.
 
-### 5.2 Airport identity hero
+### 5.2 Airport identity and overview
 
-Purpose: confirm that the traveller is viewing the correct airport and expose the two main journeys.
+Purpose: confirm that the traveller is viewing the correct airport and give enough orientation to understand its relationship with Bangkok before asking the reader to choose a journey state.
 
 Content:
 
@@ -158,20 +158,19 @@ Content:
 - Distance and direction from the primary city area when sourced.
 - Terminal count when meaningful.
 - `Last reviewed` date.
-- Primary controls: `Arriving` and `Departing`.
+- A neutral one-paragraph overview covering the airport's role, the area it serves, and the difference from other Bangkok airports when relevant.
 
 The hero must not contain a flight search form, route map, direct-flight table, or large route counts.
 
 Desktop layout:
 
 - Left: identity, H1, introduction, reviewed date.
-- Right: compact orientation facts and the Arriving/Departing selector.
+- Right: compact orientation facts.
 
 Mobile layout:
 
 - One column.
 - IATA and H1 first.
-- Full-width Arriving/Departing controls.
 - Facts shown as a compact two-column grid.
 
 ### 5.3 Sticky section navigation
@@ -179,7 +178,7 @@ Mobile layout:
 Provide anchor navigation after the hero:
 
 ```text
-Overview | Arriving | Transport | Departing | Parking & cars | Terminals | Facilities | Direct flights | FAQs
+Overview | Bangkok connections | Journey guide | Direct flights | Airport essentials | FAQs
 ```
 
 Only show anchors for rendered sections. On mobile, use a horizontally scrollable but keyboard-accessible navigation row with visible focus states.
@@ -199,7 +198,50 @@ Possible facts:
 
 Each answer links to its detailed section. `Best`, `fastest`, or `cheapest` may only be used when Tripways has compared all material options with sufficiently current sources.
 
-### 5.5 Arriving at the airport
+### 5.5 Bangkok and airport connections
+
+Purpose: answer the highest-priority decision after orientation: how to travel between the airport and Bangkok in either direction.
+
+This section appears before the Arriving/Departing tabs. It begins with a two-way direction control:
+
+```text
+Airport → Bangkok | Bangkok → Airport
+```
+
+Both states compare the same maintained transport modes but use direction-specific boarding, drop-off, ticketing, and timing instructions. Changing direction must not merely swap labels.
+
+Begin with a comparison table:
+
+| Option | Typical time | Estimated price | Operating window | Best for | Where to board |
+|---|---:|---:|---|---|---|
+| Rail/metro | Range | Range | Summary | Predictable journey | Direction-specific location |
+| Bus | Range | Range | Summary | Budget | Direction-specific location |
+| Taxi/rideshare | Range | Range | Summary | Groups/luggage | Direction-specific location |
+| Private transfer | Range | Range | By booking | Door-to-door certainty | Meeting or pickup method |
+| Rental car | Variable | Range | Desk summary | Trips beyond Bangkok | Desk/lot summary |
+
+Each option includes duration and price ranges, operating window, booking method, luggage/accessibility notes, source, and last verified date. Prices are estimates, never live quotes. Commercial actions follow the useful comparison and remain visually secondary.
+
+### 5.6 Journey guide tabs
+
+Purpose: separate the two fundamentally different airport journeys without duplicating shared overview and transport content.
+
+Render one prominent, accessible tab set:
+
+```text
+Arriving at [IATA] | Departing from [IATA]
+```
+
+Default to `Arriving` for a neutral base URL. Persist an explicitly selected state with `?journey=arriving` or `?journey=departing`; both states canonicalise to the base airport URL. Each panel has its own heading, summary, step sequence, contextual facts, FAQs, and actions. The inactive panel must not create duplicate screen-reader or indexing content.
+
+Stitch must produce and retain two deliberate page variants using the same shell and identical content above the tabs:
+
+1. Airport Guide — Arriving tab active.
+2. Airport Guide — Departing tab active.
+
+The variants must show the full viewport through the end of the active journey panel. They are review states, not unrelated design alternatives. Remove obsolete or rejected airport-page variants after both states are approved.
+
+#### 5.6.1 Arriving tab
 
 Purpose: explain the journey from aircraft to landside without pretending every passenger follows the same legal process.
 
@@ -228,44 +270,9 @@ Contextual commercial actions:
 
 Commercial content must follow the useful answer and must not interrupt safety or legal guidance.
 
-### 5.6 Airport-to-city transport
+The Arriving panel also contains compact, maintained guidance for SIM/eSIM, cash and ATMs, baggage issues, arrivals meeting points, late-night arrivals, and onward connections. Omit any item without airport-specific value.
 
-Purpose: help the traveller choose the right ground journey after arrival.
-
-Begin with a comparison table:
-
-| Option | Typical time | Estimated price | Operating window | Best for | Pickup point |
-|---|---:|---:|---|---|---|
-| Rail/metro | Range | Range | Summary | Predictable journey | Location summary |
-| Bus | Range | Range | Summary | Budget | Location summary |
-| Taxi/rideshare | Range | Range | Summary | Groups/luggage | Location summary |
-| Private transfer | Range | Range | By booking | Door-to-door certainty | Meeting method |
-| Rental car | Variable | Range | Desk summary | Trips beyond the city | Desk/lot summary |
-
-Each transport option includes:
-
-- type and name;
-- origin and primary destination label;
-- typical duration range;
-- estimated price range and currency;
-- operating-hours summary;
-- pickup location summary;
-- ticket or booking method;
-- luggage and accessibility notes when known;
-- official or approved source;
-- last verified date.
-
-Recommendation summaries may identify:
-
-- best for most travellers;
-- lowest-cost practical option;
-- most predictable journey;
-- best for late-night arrival;
-- best for groups, luggage, children, or reduced mobility.
-
-Hide unsupported recommendations. Prices and durations are estimates, never live quotes.
-
-### 5.7 Departing from the airport
+#### 5.6.2 Departing tab
 
 Purpose: help travellers plan the ground journey and airport process before their flight.
 
@@ -292,9 +299,13 @@ Contextual commercial actions:
 - Reserve parking.
 - Explore lounge access.
 
-### 5.8 Verified direct flights
+The Departing panel may include check-in area orientation, airline desk caveats, baggage wrapping/storage, security and immigration sequence, gate travel time, early-morning departure notes, and lounge access.
 
-Place this supporting utility immediately after the Departing section. This gives verified flights meaningful visibility without allowing flight discovery to dominate the hero, arrival guidance, ground transport, or departure planning.
+Lounge guidance is in scope because it is useful during departure and may support affiliate revenue. It must remain neutral and secondary to process guidance. Show eligibility or access method, terminal/airside location, typical opening window, core facilities, price only when maintained, source, and last verified date. Clearly label affiliate links and never imply Tripways operates, endorses, or guarantees the lounge. Do not build exhaustive directories for shops, restaurants, duty-free, or generic amenities.
+
+### 5.7 Verified direct flights
+
+Place this supporting utility immediately after the Journey Guide tabs. This keeps it high enough to be discoverable in either journey state without allowing flight discovery to dominate overview, Bangkok connections, or practical airport guidance.
 
 Heading:
 
@@ -348,6 +359,12 @@ Data rules:
 - When no confirmed route is available, describe the dataset limitation rather than claiming no flight exists.
 
 The section answers which verified direct services use this physical airport. Broader discovery across every airport serving the city remains owned by City Hub.
+
+### 5.8 Airport essentials
+
+Purpose: group useful but lower-priority airport-specific information after the core journey and verified-flight modules.
+
+Only publish a module when Tripways can add maintained, airport-specific value. This area may contain terminal transfers, accessibility, Wi-Fi, luggage storage, showers, family facilities, medical help, nearby airport hotels, and the task panels below. It must not become a generic directory that competes with the airport operator's website.
 
 ### 5.9 Parking, pickup, drop-off, and car rental
 
@@ -405,7 +422,6 @@ Prioritise practical facilities:
 - Late or early food availability.
 - Family facilities.
 - Accessibility and assistance.
-- Lounges.
 - Airport hotels.
 
 Do not create a complete directory. Hide a facility when location, access conditions, source, or verification status is missing.
@@ -456,7 +472,7 @@ Never render links to unpublished pages.
 
 - Editorial reading column with a wider comparison area for tables.
 - Hero uses a two-column composition.
-- Journey selector remains prominent but does not hide content from the document.
+- Journey tabs remain prominent after Bangkok connections and expose one complete journey panel at a time.
 - Transport comparisons and verified flights may use tables when scannability is better than cards.
 - Contextual affiliate cards stay visually subordinate to the answer.
 

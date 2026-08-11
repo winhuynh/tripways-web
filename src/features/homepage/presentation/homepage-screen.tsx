@@ -1,2 +1,37 @@
-import Link from"next/link";import{AdSlot}from"@/features/advertising";import{RouteResults}from"@/features/route-search/presentation/route-results";import type{RouteSearchModel}from"@/features/route-search/domain/route-search-model";import{formatDuration}from"@/shared/domain/route-values";import{FaqAccordion,PageHero}from"@/shared/ui";import type{HomepageModel}from"../domain/homepage-model";import"./homepage.css";
-export function HomepageScreen({model,discovery,origin}:{model:HomepageModel;discovery:RouteSearchModel;origin:string}){return <main className="pseo-page homepage"><section className="home-hero"><div className="pseo-container"><PageHero title={model.seo.h1} intro={model.seo.intro}/><form action="/" className="home-search"><label><span>Flying from</span><input name="origin" placeholder="City, airport, or country" defaultValue={origin}/></label><button>Show me</button></form></div></section><div className="pseo-container"><section className="pseo-section"><h2>{origin?`Flights from ${origin}`:"Discover direct routes"}</h2><RouteResults model={discovery}/></section><section className="pseo-section"><h2>Popular nonstop routes</h2><p>Explore well-connected city pairs and compare typical flight time.</p><div className="home-routes">{model.routes.slice(0,6).map(r=><Link href={r.path} key={r.id}><div><strong>{r.from}</strong><span>→</span><strong>{r.to}</strong></div><p>{formatDuration(r.durationMinutes)}</p></Link>)}</div></section><AdSlot format="leaderboard" placement="homepage_after_discovery"/><section className="pseo-section"><h2>Find nonstop flights from popular cities</h2><div className="home-origins">{model.origins.map(o=><article key={o.title}><h3>{o.title}</h3><p>{o.summary}</p><strong>{o.destinations} direct destinations</strong></article>)}</div></section>{model.sections.length?<section className="pseo-section home-values">{model.sections.map(s=><article key={s.type}><h3>{s.heading}</h3><p>{s.body}</p></article>)}</section>:null}<FaqAccordion items={model.faqs}/><aside className="home-disclaimer">Before you travel: Airline routes, schedules, and airport services can change. Check the latest details with your airline or departure airport.</aside></div></main>}
+import { PageHero } from "@/shared/ui";
+import type { HomepageModel } from "../domain/homepage-model";
+import "./homepage.css";
+
+export function HomepageScreen({ model }: { model: HomepageModel }) {
+  return (
+    <main className="pseo-page homepage">
+      <section className="home-hero">
+        <div className="pseo-container">
+          <PageHero
+            title="Find direct flights from airports worldwide"
+            intro="Explore Tripways coverage and start with a city or airport guide."
+          />
+        </div>
+      </section>
+      <div className="pseo-container">
+        <section className="pseo-section home-values" aria-label="Tripways coverage">
+          <article>
+            <strong>{model.cityCount}</strong>
+            <span> cities</span>
+          </article>
+          <article>
+            <strong>{model.airportCount}</strong>
+            <span> airports</span>
+          </article>
+          <article>
+            <strong>{model.directRouteCount}</strong>
+            <span> direct routes</span>
+          </article>
+        </section>
+        <aside className="home-disclaimer">
+          Coverage reflects the current published Tripways dataset, not live availability.
+        </aside>
+      </div>
+    </main>
+  );
+}

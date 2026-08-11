@@ -4,11 +4,11 @@ import { describe, expect, it } from "vitest";
 import { SiteFooter, SiteHeader } from ".";
 
 describe("shared site chrome", () => {
-  it("renders a logo-only header linked to the retained site entry", () => {
+  it("renders a logo-only header linked to the homepage", () => {
     const markup = renderToStaticMarkup(<SiteHeader />);
 
     expect(markup).toContain('aria-label="Tripways"');
-    expect(markup).toContain('href="/terms"');
+    expect(markup).toContain('href="/"');
     expect(markup).toContain("TRIPWAYS");
     expect(markup).not.toContain("<nav");
     expect(markup).not.toContain("SIGN IN");

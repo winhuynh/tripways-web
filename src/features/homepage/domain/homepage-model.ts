@@ -1,1 +1,7 @@
-export type HomepageModel=Readonly<{seo:{h1:string;subheadline:string;intro:string;title:string;description:string};routes:Array<{id:string;from:string;to:string;durationMinutes:number;path:string}>;origins:Array<{title:string;summary:string;destinations:number}>;sections:Array<{type:string;heading:string;body:string}>;faqs:Array<{question:string;answer:string}>;indexable:boolean}>;
+export type HomepageModel = Readonly<{
+  cityCount: number;
+  airportCount: number;
+  directRouteCount: number;
+  dataVersion: string;
+  generatedAt: string;
+}>;

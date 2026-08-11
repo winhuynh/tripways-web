@@ -1,4 +1,4 @@
-export type PageType = "homepage" | "city" | "airport" | "route";
+export type PageType = "city" | "airport" | "route";
 
 export type PageQueryRequest = Readonly<{
   action: "get_page";

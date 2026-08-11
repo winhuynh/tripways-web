@@ -1,1 +1,34 @@
-import{describe,expect,it}from"vitest";import{parseHomepageResponse}from"./homepage-response.dto";describe("parseHomepageResponse",()=>{it("parses reviewed homepage content and discovery routes",()=>{const m=parseHomepageResponse({page:{type:"homepage",locale:"en-GB"},seo:{h1:"Where can you fly nonstop?",subheadline:"Explore direct routes",intro:"Choose an origin.",title:"Tripways",meta_description:"Discover routes"},discovery:{featured_origins:[{name:"London",slug:"london",route_option_count:20}],route_map:[{route_option_id:"r1",from:"LHR",to:"SIN",stops:0,duration_minutes:785,connection_airports:[],route_path:"/flights/london-to-singapore",price:{state:"unavailable",reason:"missing"}}]},content:{sections:[{section_type:"discovery_intro",heading:"Find your next destination",body:"Discover routes."}],featured_origins:[{title:"London",summary:"Global hub",direct_destination_count:100}],featured_routes:[]},faqs:[],indexability:{is_indexable:true,noindex_reason:null}});expect(m.seo.h1).toContain("nonstop");expect(m.routes[0]?.to).toBe("SIN");expect(m.origins[0]?.title).toBe("London")})});
+import { describe, expect, it } from "vitest";
+import { parseHomepageStatisticsResponse } from "./homepage-response.dto";
+
+describe("parseHomepageStatisticsResponse", () => {
+  it("parses the bounded backend statistics contract", () => {
+    const model = parseHomepageStatisticsResponse({
+      city_count: 3,
+      airport_count: 4,
+      direct_route_count: 8,
+      data_version: "a5247124-be06-4f38-87e3-b4369d8d8c71",
+      generated_at: "2026-08-11T00:00:00Z",
+    });
+
+    expect(model).toEqual({
+      cityCount: 3,
+      airportCount: 4,
+      directRouteCount: 8,
+      dataVersion: "a5247124-be06-4f38-87e3-b4369d8d8c71",
+      generatedAt: "2026-08-11T00:00:00Z",
+    });
+  });
+
+  it("rejects malformed statistics", () => {
+    expect(() =>
+      parseHomepageStatisticsResponse({
+        city_count: -1,
+        airport_count: 4,
+        direct_route_count: 8,
+        data_version: "version",
+        generated_at: "today",
+      }),
+    ).toThrow("ERR_HOMEPAGE_STATISTICS_CONTRACT");
+  });
+});

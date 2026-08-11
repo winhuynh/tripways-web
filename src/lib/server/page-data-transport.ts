@@ -34,6 +34,16 @@ export async function requestPageData<T>(input: PageDataRequest<T>): Promise<T> 
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), input.timeoutMs);
   try {
+    const cacheOptions = process.env.NODE_ENV === "development"
+      ? { cache: "no-store" as const }
+      : {
+          next: {
+            // Cache fetch responses for 24 h in the Next.js Data Cache.
+            // On-demand revalidation via revalidateTag() can purge earlier if needed.
+            revalidate: 86400,
+            tags: [input.cacheIdentity],
+          },
+        };
     const response = await (input.fetchImpl ?? fetch)(input.url, {
       method: "POST",
       headers: {
@@ -44,10 +54,7 @@ export async function requestPageData<T>(input: PageDataRequest<T>): Promise<T> 
       },
       body: JSON.stringify(input.body),
       signal: controller.signal,
-      next: {
-        revalidate: 3600,
-        tags: [input.cacheIdentity],
-      },
+      ...cacheOptions,
     });
     const payload: unknown = await response.json();
     if (!response.ok) {
