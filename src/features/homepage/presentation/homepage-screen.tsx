@@ -16,16 +16,16 @@ export function HomepageScreen({ model }: { model: HomepageModel }) {
       <div className="pseo-container">
         <section className="pseo-section home-values" aria-label="Tripways coverage">
           <article>
-            <strong>{model.cityCount}</strong>
-            <span> cities</span>
+            <strong>{model.originCityCount}</strong>
+            <span> cities with direct routes</span>
           </article>
           <article>
-            <strong>{model.airportCount}</strong>
-            <span> airports</span>
+            <strong>{model.originAirportCount}</strong>
+            <span> departure airports</span>
           </article>
           <article>
-            <strong>{model.directRouteCount}</strong>
-            <span> direct routes</span>
+            <strong>{model.publishedDirectRouteCount}</strong>
+            <span> published direct route guides</span>
           </article>
         </section>
         <aside className="home-disclaimer">

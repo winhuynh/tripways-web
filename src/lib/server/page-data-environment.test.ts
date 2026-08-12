@@ -31,7 +31,7 @@ describe("readPageDataEnvironment", () => {
       "http://127.0.0.1:55321/functions/v1/route-search-query",
     );
     expect(environment.homepageStatisticsUrl).toBe(
-      "http://127.0.0.1:55321/rest/v1/rpc/rpc_get_homepage_statistics",
+      "http://127.0.0.1:55321/functions/v1/homepage-statistics",
     );
   });
 });

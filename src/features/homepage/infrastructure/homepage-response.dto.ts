@@ -2,13 +2,16 @@ import type { HomepageModel } from "../domain/homepage-model";
 
 export function parseHomepageStatisticsResponse(value: unknown): HomepageModel {
   try {
-    const record = readRecord(value);
+    const envelope = readRecord(value);
+    if (envelope.error !== null) throw new Error();
+    const record = readRecord(envelope.data);
+    const meta = readRecord(envelope.meta);
     return {
-      cityCount: readCount(record.city_count),
-      airportCount: readCount(record.airport_count),
-      directRouteCount: readCount(record.direct_route_count),
-      dataVersion: readUuid(record.data_version),
-      generatedAt: readTimestamp(record.generated_at),
+      originCityCount: readCount(record.origin_city_count),
+      originAirportCount: readCount(record.origin_airport_count),
+      publishedDirectRouteCount: readCount(record.published_direct_route_count),
+      dataVersion: readUuid(meta.data_version),
+      generatedAt: readTimestamp(meta.generated_at),
     };
   } catch {
     throw new Error("ERR_HOMEPAGE_STATISTICS_CONTRACT");

@@ -36,7 +36,7 @@ export function readPageDataEnvironment(): PageDataEnvironment {
       `${supabaseUrl}/functions/v1/route-search-query`,
     homepageStatisticsUrl:
       process.env.HOMEPAGE_STATISTICS_EDGE_URL?.trim() ||
-      `${supabaseUrl}/rest/v1/rpc/rpc_get_homepage_statistics`,
+      `${supabaseUrl}/functions/v1/homepage-statistics`,
     dataVersion,
     timeoutMs,
   };

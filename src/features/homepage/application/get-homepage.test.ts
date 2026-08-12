@@ -16,13 +16,14 @@ describe("getHomepageStatistics", () => {
       new Response(
         JSON.stringify({
           data: {
-            city_count: 3,
-            airport_count: 4,
-            direct_route_count: 8,
+            origin_city_count: 3,
+            origin_airport_count: 4,
+            published_direct_route_count: 8,
+          },
+          meta: {
             data_version: "a5247124-be06-4f38-87e3-b4369d8d8c71",
             generated_at: "2026-08-11T00:00:00Z",
           },
-          meta: {},
           error: null,
         }),
         { status: 200 },
@@ -31,9 +32,9 @@ describe("getHomepageStatistics", () => {
 
     const model = await getHomepageStatistics(fetchImpl);
 
-    expect(model.directRouteCount).toBe(8);
+    expect(model.publishedDirectRouteCount).toBe(8);
     expect(fetchImpl.mock.calls[0]?.[0]).toBe(
-      "http://local/rest/v1/rpc/rpc_get_homepage_statistics",
+      "http://local/functions/v1/homepage-statistics",
     );
     expect(JSON.parse(String(fetchImpl.mock.calls[0]?.[1]?.body))).toEqual({});
   });
