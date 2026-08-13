@@ -6,6 +6,7 @@ export type PageDataEnvironment = Readonly<{
   pageQueryUrl: string;
   routeSearchQueryUrl: string;
   homepageStatisticsUrl: string;
+  affiliateHandoffUrl: string;
   dataVersion: string;
   timeoutMs: number;
 }>;
@@ -37,6 +38,7 @@ export function readPageDataEnvironment(): PageDataEnvironment {
     homepageStatisticsUrl:
       process.env.HOMEPAGE_STATISTICS_EDGE_URL?.trim() ||
       `${supabaseUrl}/functions/v1/homepage-statistics`,
+    affiliateHandoffUrl: process.env.FLIGHT_AFFILIATE_HANDOFF_EDGE_URL?.trim() || `${supabaseUrl}/functions/v1/flight-affiliate-handoff`,
     dataVersion,
     timeoutMs,
   };
