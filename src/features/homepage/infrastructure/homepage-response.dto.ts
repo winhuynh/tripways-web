@@ -10,7 +10,7 @@ export function parseHomepageStatisticsResponse(value: unknown): HomepageModel {
       originCityCount: readCount(record.origin_city_count),
       originAirportCount: readCount(record.origin_airport_count),
       publishedDirectRouteCount: readCount(record.published_direct_route_count),
-      dataVersion: readUuid(meta.data_version),
+      dataVersion: readPublicVersion(meta.data_version),
       generatedAt: readTimestamp(meta.generated_at),
     };
   } catch {
@@ -28,10 +28,10 @@ function readCount(value: unknown): number {
   return value as number;
 }
 
-function readUuid(value: unknown): string {
+function readPublicVersion(value: unknown): string {
   if (
     typeof value !== "string" ||
-    !/^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(value)
+    !/^v_[0-9a-f]{32}$/.test(value)
   ) {
     throw new Error();
   }

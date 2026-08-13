@@ -15,4 +15,4 @@ describe("RoutePageScreen", () => {
   });
 });
 
-describe("observed price CTA",()=>{it("labels cached price and posts through the Tripways handoff route",()=>{const priced={...model,observedPrices:[{id:"00000000-0000-4000-8000-000000000001",amount:392,currencyCode:"USD",departureDate:"2026-09-12",observedAt:"2026-08-12T12:00:00Z",validUntil:"2026-08-19T12:00:00Z",direct:true}]};const html=renderToStaticMarkup(<RoutePageScreen model={priced}/>);expect(html).toContain("Recently observed from");expect(html).toContain("Check latest price");expect(html).toContain("Cached price, not live availability")})});
+describe("observed price CTA",()=>{it("labels cached price and posts through the Tripways handoff route",()=>{const priced={...model,observedPrices:[{reference:"obs_0123456789abcdef0123456789abcdef",amount:392,currencyCode:"USD",departureDate:"2026-09-12",observedAt:"2026-08-12T12:00:00Z",validUntil:"2026-08-19T12:00:00Z",direct:true}]};const html=renderToStaticMarkup(<RoutePageScreen model={priced}/>);expect(html).toContain("Recently observed from");expect(html).toContain("Check latest price");expect(html).toContain("Cached price, not live availability")})});

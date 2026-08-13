@@ -9,7 +9,7 @@ export function ObservedPriceCard({ price }: { price: ObservedPrice }) {
   async function checkPrice() {
     setState("loading");
     try {
-      const response = await fetch("/api/flight-affiliate-handoff", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ observationId: price.id }) });
+      const response = await fetch("/api/flight-affiliate-handoff", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ observationRef: price.reference }) });
       const payload: unknown = await response.json();
       const url = typeof payload === "object" && payload !== null && !Array.isArray(payload) ? (payload as { url?: unknown }).url : null;
       if (!response.ok || typeof url !== "string" || !url.startsWith("https://www.aviasales.com/")) throw new Error("unavailable");

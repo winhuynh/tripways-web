@@ -1,4 +1,4 @@
-export type ObservedPrice = Readonly<{ id: string; amount: number; currencyCode: string; departureDate: string | null; observedAt: string; validUntil: string; direct: boolean | null }>;
+export type ObservedPrice = Readonly<{ reference: string; amount: number; currencyCode: string; departureDate: string | null; observedAt: string; validUntil: string; direct: boolean | null }>;
 export type RoutePageModel = Readonly<{
   route: { origin: { name: string; slug: string }; destination: { name: string; slug: string } };
   seo: { h1: string; subheadline: string; title: string; description: string; intro: string };

@@ -21,7 +21,7 @@ describe("getHomepageStatistics", () => {
             published_direct_route_count: 8,
           },
           meta: {
-            data_version: "a5247124-be06-4f38-87e3-b4369d8d8c71",
+            data_version: "v_0123456789abcdef0123456789abcdef",
             generated_at: "2026-08-11T00:00:00Z",
           },
           error: null,

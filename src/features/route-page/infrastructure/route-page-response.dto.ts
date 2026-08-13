@@ -29,7 +29,7 @@ export function parseRoutePageResponse(value: unknown): RoutePageModel {
   } catch { throw new Error("ERR_ROUTE_PAGE_CONTRACT"); }
 }
 
-function parseObservation(value: unknown): ObservedPrice { const row=record(value); return { id:uuid(row.observation_id), amount:number(row.observed_amount), currencyCode:text(row.currency_code), departureDate:nullableText(row.departure_date), direct:nullableBoolean(row.direct), observedAt:text(row.observed_at), validUntil:text(row.valid_until) }; }
+function parseObservation(value: unknown): ObservedPrice { const row=record(value); return { reference:observationReference(row.observation_ref), amount:number(row.observed_amount), currencyCode:text(row.currency_code), departureDate:nullableText(row.departure_date), direct:nullableBoolean(row.direct), observedAt:text(row.observed_at), validUntil:text(row.valid_until) }; }
 function parseFact(value: unknown){const row=record(value);return{type:text(row.fact_type),title:text(row.title),body:text(row.body),...(typeof row.primary_source_url==="string"?{sourceUrl:row.primary_source_url}:{})};}
 function parseSection(value: unknown){const row=record(value);return{type:text(row.section_type),heading:text(row.heading),body:text(row.body)};}
 function parseFaq(value: unknown){const row=record(value);return{question:text(row.question),answer:text(row.answer)};}
@@ -44,4 +44,4 @@ function number(value:unknown):number{if(typeof value!=="number"||!Number.isFini
 function optionalNumber(value:unknown):number|null{return typeof value==="number"&&Number.isFinite(value)?value:null}
 function nullableNumber(value:unknown):number|null{return value===null||value===undefined?null:number(value)}
 function nullableBoolean(value:unknown):boolean|null{return value===null||value===undefined?null:typeof value==="boolean"?value:(()=>{throw 0})()}
-function uuid(value:unknown):string{const id=text(value);if(!/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(id))throw 0;return id}
+function observationReference(value:unknown):string{const reference=text(value);if(!/^obs_[0-9a-f]{32}$/.test(reference))throw 0;return reference}
