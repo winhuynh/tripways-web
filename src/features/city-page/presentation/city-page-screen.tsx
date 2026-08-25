@@ -18,6 +18,7 @@ import { CityQuickFacts } from "./city-quick-facts";
 import { CityRouteMap } from "./city-route-map";
 import { CityDestinationsTable } from "./city-destinations-table";
 import { CityAirportsComparison } from "./city-airports-comparison";
+import { filterCityDestinations } from "../domain/city-page-filters";
 import "./city-page.css";
 
 export function CityPageScreen({
@@ -96,18 +97,33 @@ export function CityPageScreen({
 
           {/* Right Main Column: Map + Table + Route Results */}
           <div className="city-main-content">
-            <CityRouteMap
-              cityName={model.city.name}
-              destinations={model.destinations}
-            />
+            {(() => {
+              const filteredDestinations = filterCityDestinations(
+                model.destinations,
+                filterValues,
+                model.country.name,
+              );
+              return (
+                <>
+                  <CityRouteMap
+                    cityName={model.city.name}
+                    destinations={filteredDestinations}
+                  />
 
-            <CityDestinationsTable
-              cityName={model.city.name}
-              destinations={model.destinations}
-              totalCount={model.quickFacts.destinations}
-            />
+                  <CityDestinationsTable
+                    cityName={model.city.name}
+                    destinations={filteredDestinations}
+                    totalCount={model.quickFacts.destinations}
+                  />
+                </>
+              );
+            })()}
 
-            <RouteResults model={routes} />
+            <RouteResults
+              model={routes}
+              filterValues={filterValues}
+              clearHref={`/flights-from/${model.city.slug}`}
+            />
           </div>
         </section>
 

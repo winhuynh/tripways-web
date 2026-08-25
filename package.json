@@ -4,7 +4,7 @@
   "private": true,
   "packageManager": "pnpm@11.9.0",
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --webpack",
     "build": "next build --webpack",
     "build:local": "node scripts/build-with-env.mjs .env.local",
     "build:staging": "node scripts/build-with-env.mjs .env.staging",

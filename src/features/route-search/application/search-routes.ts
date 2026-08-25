@@ -3,7 +3,9 @@ import type {
   RouteSearchModel,
   RouteSearchScope,
 } from "../domain/route-search-model";
-import { routeSearchFixture } from "../domain/route-search-model.fixture";
+import {
+  getLocalFilteredRouteSearchFixture,
+} from "../domain/route-search-model.fixture";
 import { parseRouteSearchResponse } from "../infrastructure/route-search-response.dto";
 
 export async function searchRoutes(
@@ -21,7 +23,7 @@ export async function searchRoutes(
       process.env.NODE_ENV === "development" ||
       process.env.APP_ENV === "local"
     ) {
-      return routeSearchFixture;
+      return getLocalFilteredRouteSearchFixture(filters);
     }
     throw error;
   }

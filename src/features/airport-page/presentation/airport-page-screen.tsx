@@ -133,7 +133,12 @@ export function AirportPageScreen({
         airportCode={code}
         heading="Find a verified direct route"
       />
-      <RouteResults model={routes} includePrice={false} />
+      <RouteResults
+        model={routes}
+        includePrice={false}
+        filterValues={filterValues}
+        clearHref={clearHref}
+      />
       <p className="airport-data-note">Route coverage reflects the verified dataset available to Tripways and may not include every recently announced or seasonal service.</p>
       {model.provenance.routeDataRefreshedAt
         ? <FreshnessBadge value={formatDate(model.provenance.routeDataRefreshedAt)} />

@@ -29,7 +29,9 @@ export function CityAirportsComparison({
             <article key={airport.iata} className="city-airport-card">
               <div className="city-airport-card__header">
                 <div>
-                  <h3 className="city-airport-card__title">{airport.name.split(" ")[0]}</h3>
+                  <h3 className="city-airport-card__title">
+                    {airport.name.replace(/\s+(International\s+)?Airport$/i, "")}
+                  </h3>
                   <p className="city-airport-card__role">
                     {airport.iata} · {roleLabel}
                   </p>

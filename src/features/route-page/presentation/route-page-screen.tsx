@@ -108,7 +108,11 @@ export function RoutePageScreen({
               <h2>
                 Flight options from {origin.name} to {destination.name}
               </h2>
-              <RouteResults model={routes} />
+              <RouteResults
+                model={routes}
+                filterValues={filterValues}
+                clearHref={clearHref}
+              />
             </div>
           </section>
         )}

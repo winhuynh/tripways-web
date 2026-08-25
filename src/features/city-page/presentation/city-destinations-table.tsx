@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { getAirlineDisplay, getAirportDisplay } from "@/features/route-search/domain/route-filter-labels";
 import type { CityPageDestination } from "../domain/city-page-model";
 
 function formatDuration(minutes: number): string {
@@ -40,62 +41,66 @@ export function CityDestinationsTable({
             </tr>
           </thead>
           <tbody>
-            {destinations.map((dest) => {
-              const regionText = dest.region ? `${dest.country} / ${dest.region}` : dest.country;
-              const durationText = formatDuration(dest.minDuration);
-              const freqText =
-                typeof dest.frequency === "number" && dest.frequency > 0
-                  ? `${dest.frequency}/week`
-                  : "Varies";
-              const currency = dest.fareCurrency ?? "£";
-              const fareText =
-                typeof dest.fareMin === "number" && typeof dest.fareMax === "number"
-                  ? `${currency}${dest.fareMin} - ${currency}${dest.fareMax}`
-                  : "—";
+            {destinations.length === 0 ? (
+              <tr>
+                <td colSpan={6} style={{ textAlign: "center", padding: "2rem", color: "#64748b" }}>
+                  No nonstop destinations match these filters.
+                </td>
+              </tr>
+            ) : (
+              destinations.map((dest) => {
+                const regionText = dest.region ? `${dest.country} / ${dest.region}` : dest.country;
+                const durationText = formatDuration(dest.minDuration);
+                const freqText =
+                  typeof dest.frequency === "number" && dest.frequency > 0
+                    ? `${dest.frequency}/week`
+                    : "Varies";
+                const currency = dest.fareCurrency ?? "£";
+                const fareText =
+                  typeof dest.fareMin === "number" && typeof dest.fareMax === "number"
+                    ? `${currency}${dest.fareMin} - ${currency}${dest.fareMax}`
+                    : "—";
+                const airportLabels = dest.airports.map((code) => getAirportDisplay(code)).join(", ");
+                const airlineNames = dest.airlines.map(getAirlineDisplay).join(", ");
 
-              return (
-                <tr key={dest.path}>
-                  <td className="city-dest-col">
-                    <Link href={dest.path} className="city-dest-link">
-                      <strong className="city-dest-name">{dest.city}</strong>
-                      <small className="city-dest-airports">
-                        {dest.airports.join(", ")}
-                      </small>
-                    </Link>
-                  </td>
-                  <td className="city-region-col">{regionText}</td>
-                  <td className="city-origin-col">
-                    <div className="city-origin-badges">
-                      {dest.originAirports.map((iata) => (
-                        <span key={iata} className="city-origin-badge">
-                          {iata}
-                        </span>
-                      ))}
-                    </div>
-                  </td>
-                  <td className="city-airlines-col">
-                    <span className="city-airlines-text">{dest.airlines.join(", ")}</span>
-                  </td>
-                  <td className="city-time-col">
-                    <div className="city-time-group">
-                      <span className="city-duration">{durationText}</span>
-                      <small className="city-frequency">{freqText}</small>
-                    </div>
-                  </td>
-                  <td className="city-fare-col">
-                    <span className="city-fare-range">{fareText}</span>
-                  </td>
-                </tr>
-              );
-            })}
+                return (
+                  <tr key={dest.path}>
+                    <td className="city-dest-col">
+                      <Link href={dest.path} className="city-dest-link">
+                        <strong className="city-dest-name">{dest.city}</strong>
+                        <small className="city-dest-airports">
+                          {airportLabels}
+                        </small>
+                      </Link>
+                    </td>
+                    <td className="city-region-col">{regionText}</td>
+                    <td className="city-origin-col">
+                      <div className="city-origin-badges">
+                        {dest.originAirports.map((iata) => (
+                          <span key={iata} className="city-origin-badge" title={getAirportDisplay(iata)}>
+                            {iata}
+                          </span>
+                        ))}
+                      </div>
+                    </td>
+                    <td className="city-airlines-col">
+                      <span className="city-airlines-text">{airlineNames}</span>
+                    </td>
+                    <td className="city-time-col">
+                      <div className="city-time-group">
+                        <span className="city-duration">{durationText}</span>
+                        <small className="city-frequency">{freqText}</small>
+                      </div>
+                    </td>
+                    <td className="city-fare-col">
+                      <span className="city-fare-range">{fareText}</span>
+                    </td>
+                  </tr>
+                );
+              })
+            )}
           </tbody>
         </table>
-      </div>
-
-      <div className="city-table-actions">
-        <button type="button" className="city-show-more-btn">
-          SHOW MORE RESULTS
-        </button>
       </div>
 
       <p className="city-table-disclaimer">

@@ -17,7 +17,11 @@ export async function getCityPage(
   } catch (error) {
     // Strictly isolate preview fixture fallback to local offline dev only.
     // Never fallback in staging or production to prevent serving unverified/stale pSEO content.
-    if (process.env.APP_ENV === "local" && slug === "bangkok") {
+    if (
+      (process.env.NODE_ENV === "development" ||
+        process.env.APP_ENV === "local") &&
+      slug === "bangkok"
+    ) {
       return BANGKOK_CITY_PAGE_FIXTURE;
     }
     throw error;

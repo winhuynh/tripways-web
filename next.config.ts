@@ -45,4 +45,10 @@ const nextConfig: NextConfig = {
 
 export default nextConfig;
 
-initOpenNextCloudflareForDev();
+if (process.env.ENABLE_CLOUDFLARE_DEV === "true") {
+  try {
+    initOpenNextCloudflareForDev();
+  } catch {
+    // Ignore wrangler filesystem permission errors in isolated dev environments
+  }
+}
