@@ -1,7 +1,7 @@
 "use client";
 
-import { useId, useState, type FormEvent } from "react";
-import type { Facet, RouteSearchModel } from "../domain/route-search-model";
+import { useState, type FormEvent } from "react";
+import type { RouteSearchModel } from "../domain/route-search-model";
 import {
   serializeNonEmptyFilterEntries,
   serializeRouteFilterQuery,
@@ -9,14 +9,21 @@ import {
   type RouteFilterValues,
 } from "../domain/route-filter";
 import {
-  formatDurationMinutes,
-  formatTimeBucketLabel,
   getAirlineDisplay,
   getAirportDetailedDisplay,
   getAirportDisplay,
   getCountryDisplay,
   getRegionDisplay,
 } from "../domain/route-filter-labels";
+import {
+  ChoiceChipsRow,
+  DurationSliderRow,
+  FacetChoicesRow,
+  FareInputRow,
+  SearchInputRow,
+  SegmentedTabRow,
+  TimeBucketChipsRow,
+} from "./rows";
 import "./master-route-filter.css";
 
 type Props = Readonly<{
@@ -44,7 +51,9 @@ export function MasterRouteFilter({
 
   function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const query = serializeNonEmptyFilterEntries(new FormData(event.currentTarget).entries());
+    const query = serializeNonEmptyFilterEntries(
+      new FormData(event.currentTarget).entries(),
+    );
     setIsMobileOpen(false);
     window.location.assign(query ? `${clearHref}?${query}` : clearHref);
   }
@@ -60,7 +69,28 @@ export function MasterRouteFilter({
           onClick={() => setIsMobileOpen(true)}
           aria-expanded={isMobileOpen}
         >
-          <span className="master-filter__mobile-icon" aria-hidden="true">⚙️</span>
+          <span className="master-filter__mobile-icon" aria-hidden="true">
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <line x1="4" y1="21" x2="4" y2="14" />
+              <line x1="4" y1="10" x2="4" y2="3" />
+              <line x1="12" y1="21" x2="12" y2="12" />
+              <line x1="12" y1="8" x2="12" y2="3" />
+              <line x1="20" y1="21" x2="20" y2="16" />
+              <line x1="20" y1="12" x2="20" y2="3" />
+              <line x1="1" y1="14" x2="7" y2="14" />
+              <line x1="9" y1="8" x2="15" y2="8" />
+              <line x1="17" y1="16" x2="23" y2="16" />
+            </svg>
+          </span>
           <span>Filters</span>
           {activeCount > 0 ? (
             <span className="master-filter__mobile-badge">{activeCount}</span>
@@ -68,9 +98,16 @@ export function MasterRouteFilter({
         </button>
       </div>
 
-      <aside className={`master-filter ${isMobileOpen ? "master-filter--open" : ""}`}>
+      <aside
+        className={`master-filter ${isMobileOpen ? "master-filter--open" : ""}`}
+      >
         <div className="master-filter__header">
           <h2>{heading}</h2>
+          {activeCount > 0 && (
+            <span className="master-filter__active-pill">
+              {activeCount} active
+            </span>
+          )}
           <button
             type="button"
             className="master-filter__close-btn"
@@ -110,7 +147,7 @@ export function MasterRouteFilter({
             className="master-filter__next"
             href={`${clearHref}?${serializeRouteFilterQuery(values, nextCursor)}`}
           >
-            Next page
+            Next page →
           </a>
         ) : null}
       </aside>
@@ -142,50 +179,53 @@ function FilterField({
   switch (field) {
     case "direction":
       return (
-        <label className="master-filter__field">
-          <span className="master-filter__label-title">Direction</span>
-          <select name="direction" defaultValue={values.direction ?? "from"}>
-            <option value="from">
-              From {airportCode ? getAirportDisplay(airportCode) : "here"}
-            </option>
-            <option value="to">
-              To {airportCode ? getAirportDisplay(airportCode) : "here"}
-            </option>
-          </select>
-        </label>
+        <SegmentedTabRow
+          name="direction"
+          label="Direction"
+          options={[
+            {
+              value: "from",
+              label: `From ${airportCode ? getAirportDisplay(airportCode) : "here"}`,
+            },
+            {
+              value: "to",
+              label: `To ${airportCode ? getAirportDisplay(airportCode) : "here"}`,
+            },
+          ]}
+          defaultValue={values.direction ?? "from"}
+        />
       );
 
     case "counterpart_query":
       return (
-        <label className="master-filter__field">
-          <span className="master-filter__label-title">City or airport</span>
-          <input
-            name="counterpart_query"
-            maxLength={80}
-            defaultValue={values.counterpart_query ?? ""}
-            placeholder="e.g. Singapore, London, Tokyo"
-          />
-        </label>
+        <SearchInputRow
+          name="counterpart_query"
+          label="City or airport"
+          placeholder="e.g. Singapore, London, Tokyo"
+          defaultValue={values.counterpart_query ?? ""}
+          maxLength={80}
+        />
       );
 
     case "departure_airports":
       return (
-        <label className="master-filter__field">
-          <span className="master-filter__label-title">Departure airport</span>
-          <select name="departure_airports" defaultValue={values.departure_airports?.[0] ?? ""}>
-            <option value="">All departure airports</option>
-            {departureAirports.map((code) => (
-              <option key={code} value={code}>
-                {getAirportDetailedDisplay(code)}
-              </option>
-            ))}
-          </select>
-        </label>
+        <SegmentedTabRow
+          name="departure_airports"
+          label="Departure airport"
+          options={[
+            { value: "", label: "All departure airports" },
+            ...departureAirports.map((code) => ({
+              value: code,
+              label: getAirportDetailedDisplay(code),
+            })),
+          ]}
+          defaultValue={values.departure_airports?.[0] ?? ""}
+        />
       );
 
     case "destination_countries":
       return (
-        <FacetChoices
+        <FacetChoicesRow
           legend="Destination country"
           name={field}
           facets={facets.countries}
@@ -196,7 +236,7 @@ function FilterField({
 
     case "counterpart_countries":
       return (
-        <FacetChoices
+        <FacetChoicesRow
           legend="Country"
           name={field}
           facets={facets.countries}
@@ -207,7 +247,7 @@ function FilterField({
 
     case "destination_regions":
       return (
-        <FacetChoices
+        <FacetChoicesRow
           legend="Destination region"
           name={field}
           facets={facets.regions}
@@ -218,7 +258,7 @@ function FilterField({
 
     case "counterpart_regions":
       return (
-        <FacetChoices
+        <FacetChoicesRow
           legend="Region"
           name={field}
           facets={facets.regions}
@@ -229,7 +269,7 @@ function FilterField({
 
     case "airlines":
       return (
-        <FacetChoices
+        <FacetChoicesRow
           legend="Airline"
           name={field}
           facets={facets.airlines}
@@ -240,7 +280,7 @@ function FilterField({
 
     case "connection_airports":
       return (
-        <FacetChoices
+        <FacetChoicesRow
           legend="Connection airport"
           name={field}
           facets={facets.connections}
@@ -251,49 +291,45 @@ function FilterField({
 
     case "departure_time_buckets":
       return (
-        <FacetChoices
-          legend="Departure time"
+        <TimeBucketChipsRow
           name={field}
-          facets={[
-            { value: "early_morning", count: 0 },
-            { value: "morning", count: 0 },
-            { value: "afternoon", count: 0 },
-            { value: "evening", count: 0 },
-          ]}
+          label="Departure time"
           selected={values.departure_time_buckets}
-          formatter={formatTimeBucketLabel}
-          hideZeroCount
         />
       );
 
     case "route_type":
       return (
-        <label className="master-filter__field">
-          <span className="master-filter__label-title">Route type</span>
-          <select name="route_type" defaultValue={values.route_type ?? "all"}>
-            <option value="all">All routes</option>
-            <option value="domestic">Domestic only</option>
-            <option value="international">International only</option>
-          </select>
-        </label>
+        <ChoiceChipsRow
+          name="route_type"
+          label="Route type"
+          options={[
+            { value: "all", label: "All routes" },
+            { value: "domestic", label: "Domestic only" },
+            { value: "international", label: "International only" },
+          ]}
+          defaultValue={values.route_type ?? "all"}
+        />
       );
 
     case "max_stops":
       return (
-        <label className="master-filter__field">
-          <span className="master-filter__label-title">Stops</span>
-          <select name="max_stops" defaultValue={String(values.max_stops ?? 3)}>
-            <option value="3">Any number of stops (up to 3)</option>
-            <option value="0">Nonstop only</option>
-            <option value="1">Up to 1 stop</option>
-            <option value="2">Up to 2 stops</option>
-          </select>
-        </label>
+        <ChoiceChipsRow
+          name="max_stops"
+          label="Stops"
+          options={[
+            { value: "3", label: "Any stops" },
+            { value: "0", label: "Nonstop only" },
+            { value: "1", label: "Up to 1 stop" },
+            { value: "2", label: "Up to 2 stops" },
+          ]}
+          defaultValue={String(values.max_stops ?? 3)}
+        />
       );
 
     case "max_duration_minutes":
       return (
-        <DurationSlider
+        <DurationSliderRow
           name="max_duration_minutes"
           label="Maximum flight duration"
           min={60}
@@ -305,7 +341,7 @@ function FilterField({
 
     case "max_layover_minutes":
       return (
-        <DurationSlider
+        <DurationSliderRow
           name="max_layover_minutes"
           label="Maximum layover time"
           min={30}
@@ -317,133 +353,13 @@ function FilterField({
 
     case "max_one_way_fare":
       return (
-        <label className="master-filter__field">
-          <span className="master-filter__label-title">Maximum one-way fare (USD)</span>
-          <input
-            name="max_one_way_fare"
-            type="number"
-            min={1}
-            max={100000}
-            defaultValue={values.max_one_way_fare}
-            placeholder="e.g. 250"
-          />
-        </label>
+        <FareInputRow
+          name="max_one_way_fare"
+          label="Maximum one-way fare (USD)"
+          defaultValue={values.max_one_way_fare}
+        />
       );
   }
-}
-
-function DurationSlider({
-  name,
-  label,
-  min,
-  max,
-  step,
-  initialValue,
-}: Readonly<{
-  name: string;
-  label: string;
-  min: number;
-  max: number;
-  step: number;
-  initialValue?: number;
-}>) {
-  const [val, setVal] = useState<number | undefined>(initialValue);
-
-  return (
-    <div className="master-filter__slider-field">
-      <div className="master-filter__slider-header">
-        <label htmlFor={name} className="master-filter__label-title">
-          {label}
-        </label>
-        <span className="master-filter__slider-badge">
-          {val ? `≤ ${formatDurationMinutes(val)}` : "Any duration"}
-        </span>
-      </div>
-      <input
-        id={name}
-        name={name}
-        type="range"
-        min={min}
-        max={max}
-        step={step}
-        value={val ?? max}
-        onChange={(e) => setVal(Number(e.target.value))}
-      />
-      <div className="master-filter__slider-ticks">
-        <span>{formatDurationMinutes(min)}</span>
-        <span>{formatDurationMinutes(max)}</span>
-      </div>
-    </div>
-  );
-}
-
-function FacetChoices({
-  legend,
-  name,
-  facets,
-  selected = [],
-  formatter,
-  hideZeroCount = false,
-}: Readonly<{
-  legend: string;
-  name: string;
-  facets: Facet[];
-  selected?: readonly string[];
-  formatter?: (val: string) => string;
-  hideZeroCount?: boolean;
-}>) {
-  const [search, setSearch] = useState("");
-  const searchId = useId();
-
-  const filteredFacets = facets.filter((facet) => {
-    if (!search.trim()) return true;
-    const label = formatter ? formatter(facet.value) : facet.value;
-    return (
-      label.toLowerCase().includes(search.toLowerCase()) ||
-      facet.value.toLowerCase().includes(search.toLowerCase())
-    );
-  });
-
-  return (
-    <fieldset className="master-filter__fieldset">
-      <legend>{legend}</legend>
-      {facets.length > 5 ? (
-        <div className="master-filter__facet-search">
-          <input
-            id={searchId}
-            type="search"
-            placeholder={`Search ${legend.toLowerCase()}...`}
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            aria-label={`Search ${legend}`}
-          />
-        </div>
-      ) : null}
-      <div className="master-filter__choices">
-        {filteredFacets.length === 0 ? (
-          <p className="master-filter__no-facet">No options match &quot;{search}&quot;</p>
-        ) : (
-          filteredFacets.map((facet) => {
-            const labelText = formatter ? formatter(facet.value) : facet.value;
-            return (
-              <label key={facet.value} className="master-filter__choice-label">
-                <input
-                  type="checkbox"
-                  name={name}
-                  value={facet.value}
-                  defaultChecked={selected.includes(facet.value)}
-                />
-                <span>
-                  {labelText}
-                  {hideZeroCount ? "" : ` (${facet.count})`}
-                </span>
-              </label>
-            );
-          })
-        )}
-      </div>
-    </fieldset>
-  );
 }
 
 function countActiveFilters(values: RouteFilterValues): number {

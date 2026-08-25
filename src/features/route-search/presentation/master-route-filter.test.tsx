@@ -21,7 +21,8 @@ describe("MasterRouteFilter", () => {
       />,
     );
     expect(html).toContain('name="departure_airports"');
-    expect(html).toContain('value="BKK" selected=""');
+    expect(html).toContain('value="BKK"');
+    expect(html).toContain('checked=""');
     expect(html).toContain("Suvarnabhumi Airport (BKK)");
     expect(html).toContain("Don Mueang International Airport (DMK)");
     expect(html).toContain('name="destination_countries"');
@@ -45,9 +46,11 @@ describe("MasterRouteFilter", () => {
     );
     expect(html).toContain('name="max_stops"');
     expect(html).toContain('name="connection_airports"');
-    expect(html).toContain("Singapore (SIN) (2)");
+    expect(html).toContain("Singapore (SIN)");
+    expect(html).toContain('class="master-filter__choice-count">2</span>');
     expect(html).toContain('name="departure_time_buckets"');
-    expect(html).toContain("Morning (06:00 – 12:00)");
+    expect(html).toContain("Morning");
+    expect(html).toContain("06:00 – 12:00");
     expect(html).toContain('name="max_layover_minutes"');
     expect(html).toContain("Next page");
     expect(html).not.toContain('name="route_type"');

@@ -4,12 +4,16 @@ import { describe, expect, it } from "vitest";
 import { SiteFooter, SiteHeader } from ".";
 
 describe("shared site chrome", () => {
-  it("renders a logo-only header linked to the homepage", () => {
+  it("renders a compact canonical route switcher beside the home link", () => {
     const markup = renderToStaticMarkup(<SiteHeader />);
 
     expect(markup).toContain('aria-label="Tripways"');
     expect(markup).toContain('href="/"');
     expect(markup).toContain("TRIPWAYS");
+    expect(markup).toContain('aria-label="Explore another flight route"');
+    expect(markup).toContain("FROM");
+    expect(markup).toContain("TO");
+    expect(markup).toContain("EXPLORE");
     expect(markup).not.toContain("<nav");
     expect(markup).not.toContain("SIGN IN");
   });
