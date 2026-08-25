@@ -1,0 +1,43 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "tripways-web",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2026-08-13",
+  "compatibility_flags": ["nodejs_compat"],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+  "observability": {
+    "enabled": true
+  },
+  "vars": {
+    "APP_ENV": "production",
+    "NEXT_PUBLIC_SITE_URL": "https://tripways.app",
+    "PAGE_DATA_VERSION": "production-v1",
+    "PAGE_DATA_TIMEOUT_MS": "5000"
+  },
+  "routes": [
+    {
+      "pattern": "tripways.app",
+      "custom_domain": true
+    }
+  ],
+  "env": {
+    "staging": {
+      "name": "tripways-web-staging",
+      "vars": {
+        "APP_ENV": "staging",
+        "NEXT_PUBLIC_SITE_URL": "https://staging.tripways.app",
+        "PAGE_DATA_VERSION": "staging-v1",
+        "PAGE_DATA_TIMEOUT_MS": "5000"
+      },
+      "routes": [
+        {
+          "pattern": "staging.tripways.app",
+          "custom_domain": true
+        }
+      ]
+    }
+  }
+}

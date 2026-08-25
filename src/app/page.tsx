@@ -1,4 +1,7 @@
+import { headers } from "next/headers";
 import { getHomepageStatistics } from "@/features/homepage/application/get-homepage";
+import { resolveNearestHub } from "@/features/homepage/domain/homepage-geo";
+import { DEFAULT_ORIGIN_HUB } from "@/features/homepage/domain/homepage-routes-data";
 import { HomepageScreen } from "@/features/homepage/presentation/homepage-screen";
 
 export const metadata = {
@@ -9,5 +12,26 @@ export const metadata = {
 export const dynamic = "force-dynamic";
 
 export default async function Page() {
-  return <HomepageScreen model={await getHomepageStatistics()} />;
+  const headerStore = await headers();
+  const city = headerStore.get("cf-ipcity") || headerStore.get("x-vercel-ip-city");
+  const countryCode = headerStore.get("cf-ipcountry");
+  const latitude = headerStore.get("cf-iplatitude");
+  const longitude = headerStore.get("cf-iplongitude");
+
+  const initialHub =
+    resolveNearestHub({
+      city,
+      countryCode,
+      latitude,
+      longitude,
+    }) ?? DEFAULT_ORIGIN_HUB;
+
+  let model;
+  try {
+    model = await getHomepageStatistics();
+  } catch {
+    model = undefined;
+  }
+
+  return <HomepageScreen model={model} initialHub={initialHub} />;
 }

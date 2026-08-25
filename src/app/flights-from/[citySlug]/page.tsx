@@ -12,25 +12,56 @@ import {
 } from "@/features/route-search/domain/route-filter";
 
 export const revalidate = 86400; // ISR: re-render at most once every 24 h
-type Props = { params: Promise<{ citySlug: string }>; searchParams: Promise<RouteFilterQuery> };
+type Props = {
+  params: Promise<{ citySlug: string }>;
+  searchParams: Promise<RouteFilterQuery>;
+};
 
 async function load(slug: string) {
-  try { return await getCityPage(slug); }
-  catch (error) { if (error instanceof Error && error.message === "ERR_PAGE_NOT_FOUND") notFound(); throw error; }
+  try {
+    return await getCityPage(slug);
+  } catch (error) {
+    if (error instanceof Error && error.message === "ERR_PAGE_NOT_FOUND")
+      notFound();
+    throw error;
+  }
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const model = await load((await params).citySlug);
-  return { title: { absolute: model.seo.title }, description: model.seo.description };
+  const isStaging = process.env.APP_ENV === "staging";
+  const shouldIndex = !isStaging && (model.seo.isIndexable ?? true);
+
+  return {
+    title: { absolute: model.seo.title },
+    description: model.seo.description,
+    robots: shouldIndex ? undefined : { index: false, follow: false },
+  };
 }
 
 export default async function Page({ params, searchParams }: Props) {
   const slug = (await params).citySlug;
-  const filterValues = parseRouteFilterQuery(await searchParams, CITY_ROUTE_FILTER_FIELDS);
-  const filters = { ...serializeRouteSearchFilters(filterValues, CITY_ROUTE_FILTER_FIELDS), max_stops: 0 };
+  const filterValues = parseRouteFilterQuery(
+    await searchParams,
+    CITY_ROUTE_FILTER_FIELDS,
+  );
+  const filters = {
+    ...serializeRouteSearchFilters(filterValues, CITY_ROUTE_FILTER_FIELDS),
+    max_stops: 0,
+  };
   const [model, routes] = await Promise.all([
     load(slug),
-    searchRoutes({ type: "origin_city", key: slug }, filters, filterValues.after ?? null),
+    searchRoutes(
+      { type: "origin_city", key: slug },
+      filters,
+      filterValues.after ?? null,
+    ),
   ]);
-  return <CityPageScreen model={model} routes={routes} filterValues={filterValues} />;
+  return (
+    <CityPageScreen
+      model={model}
+      routes={routes}
+      filterValues={filterValues}
+    />
+  );
 }

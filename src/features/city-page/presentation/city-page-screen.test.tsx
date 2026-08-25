@@ -5,14 +5,76 @@ import { routeSearchFixture } from "@/features/route-search/domain/route-search-
 import type { CityPageModel } from "../domain/city-page-model";
 import { CityPageScreen } from "./city-page-screen";
 
-const model: CityPageModel = { city: { name: "Bangkok", slug: "bangkok" }, country: { name: "Thailand", slug: "thailand" }, seo: { h1: "Direct flights from Bangkok", subheadline: "Explore", title: "Bangkok", description: "Routes", intro: "Find routes." }, airports: [{ iata: "BKK", name: "Suvarnabhumi", primary: true, destinations: 128, airlines: 84 }], quickFacts: { airports: 2, destinations: 182, countries: 67, airlines: 48 }, destinations: [{ city: "Singapore", citySlug: "singapore", country: "Singapore", originAirports: ["BKK"], airports: ["SIN"], airlines: ["SQ"], frequency: 84, minDuration: 145, maxDuration: 160, path: "/flights/bangkok-to-singapore" }], faqs: [], links: [], freshnessAt: "2026-08-04", canonicalPath: "/flights-from/bangkok" };
+const model: CityPageModel = {
+  city: { name: "Bangkok", slug: "bangkok" },
+  country: { name: "Thailand", slug: "thailand" },
+  seo: {
+    h1: "Direct flights from Bangkok",
+    subheadline: "Explore",
+    title: "Bangkok",
+    description: "Routes",
+    intro: "Find routes.",
+  },
+  airports: [
+    {
+      iata: "BKK",
+      name: "Suvarnabhumi Airport",
+      primary: true,
+      destinations: 128,
+      airlines: 84,
+    },
+    {
+      iata: "DMK",
+      name: "Don Mueang Airport",
+      primary: false,
+      destinations: 64,
+      airlines: 12,
+    },
+  ],
+  quickFacts: { airports: 2, destinations: 182, countries: 67, airlines: 48 },
+  destinations: [
+    {
+      city: "Singapore",
+      citySlug: "singapore",
+      country: "Singapore",
+      region: "SE Asia",
+      originAirports: ["BKK"],
+      airports: ["SIN"],
+      airlines: ["SQ", "TG"],
+      frequency: 84,
+      minDuration: 145,
+      maxDuration: 160,
+      path: "/flights/bangkok-to-singapore",
+      fareMin: 45,
+      fareMax: 85,
+    },
+  ],
+  faqs: [
+    {
+      question: "Which airports serve Bangkok?",
+      answer: "Suvarnabhumi (BKK) and Don Mueang (DMK).",
+    },
+  ],
+  links: [],
+  freshnessAt: "2026-08-04",
+  canonicalPath: "/flights-from/bangkok",
+};
 
 describe("CityPageScreen", () => {
-  it("renders filters, top route, table and airports", () => {
-    const html = renderToStaticMarkup(<CityPageScreen model={model} routes={routeSearchFixture} filterValues={{}} />);
+  it("renders hero, quick facts, sidebar filter, destination table, and airport comparison", () => {
+    const html = renderToStaticMarkup(
+      <CityPageScreen model={model} routes={routeSearchFixture} filterValues={{}} />,
+    );
+    expect(html).toContain("ASIA");
+    expect(html).toContain("Direct flights from Bangkok");
+    expect(html).toContain("182");
+    expect(html).toContain("DESTINATIONS");
     expect(html).toContain("Find the nonstop flight that fits");
-    expect(html).toContain("Top route");
     expect(html).toContain("Nonstop destinations from Bangkok");
+    expect(html).toContain("Singapore");
     expect(html).toContain("Choose the Bangkok airport");
+    expect(html).toContain("Suvarnabhumi");
+    expect(html).toContain("Don Mueang");
+    expect(html).toContain("Which airports serve Bangkok?");
   });
 });

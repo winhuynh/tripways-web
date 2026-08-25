@@ -11,3 +11,6 @@ export { StatGrid } from "./stat-grid";
 export { FreshnessBadge } from "./freshness-badge";
 export { FaqAccordion } from "./faq-accordion";
 export { InternalLinkGroups } from "./internal-link-groups";
+export { InteractiveRouteMap } from "./interactive-route-map";
+export { buildInteractiveRouteMapPopupHtml } from "./interactive-route-map-popup";
+export { MasterRouteFilter } from "@/features/route-search/presentation/master-route-filter";

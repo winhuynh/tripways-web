@@ -1,9 +1,14 @@
 node_modules/
 .next/
+.open-next/
+.wrangler/
 out/
 coverage/
 .env*
-!.env.example
+!.env.local.example
+!.env.staging.example
+!.env.production.example
+.dev.vars
 *.log
 *.tsbuildinfo
 .DS_Store

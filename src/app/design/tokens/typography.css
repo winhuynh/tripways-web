@@ -1,29 +1,44 @@
 /**
- * Typography primitives
- * ---------------------
- * Editorial font families and a restrained responsive type scale.
+ * Tripways Typography Tokens
+ * --------------------------
+ * Clean modern sans-serif type system for high readability across web & mobile.
  */
 
 :root {
-  --font-headline: "Times New Roman", Times, serif;
-  --font-body: Georgia, "Times New Roman", serif;
-  --font-label: Arial, Helvetica, sans-serif;
+  --font-headline: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-body: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-label: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 
-  --font-size-xs: 0.75rem;
-  --font-size-sm: 0.875rem;
-  --font-size-md: 1rem;
-  --font-size-lg: 1.125rem;
-  --font-size-xl: 1.5rem;
-  --font-size-2xl: 2rem;
-  --font-size-display: clamp(2.5rem, 5vw, 4.5rem);
+  /* Font sizes */
+  --font-size-2xs: 0.6875rem; /* 11px */
+  --font-size-xs: 0.75rem;    /* 12px */
+  --font-size-sm: 0.875rem;   /* 14px */
+  --font-size-md: 1rem;       /* 16px */
+  --font-size-lg: 1.125rem;   /* 18px */
+  --font-size-xl: 1.25rem;    /* 20px */
+  --font-size-2xl: 1.5rem;    /* 24px */
+  --font-size-3xl: 1.875rem;  /* 30px */
+  --font-size-4xl: 2.25rem;   /* 36px */
+  --font-size-display: clamp(2rem, 4.5vw, 3.5rem);
 
-  --line-height-tight: 1;
-  --line-height-heading: 1.12;
-  --line-height-body: 1.6;
-  --line-height-label: 1.35;
+  /* Line heights */
+  --line-height-none: 1;
+  --line-height-tight: 1.2;
+  --line-height-snug: 1.35;
+  --line-height-body: 1.55;
+  --line-height-relaxed: 1.7;
 
+  /* Font weights */
   --font-weight-regular: 400;
   --font-weight-medium: 500;
   --font-weight-semibold: 600;
   --font-weight-bold: 700;
+  --font-weight-extrabold: 800;
+
+  /* Letter spacing */
+  --letter-spacing-tight: -0.025em;
+  --letter-spacing-normal: 0em;
+  --letter-spacing-wide: 0.05em;
+  --letter-spacing-wider: 0.1em;
 }

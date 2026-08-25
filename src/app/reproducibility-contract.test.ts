@@ -11,20 +11,33 @@ describe("local release candidate reproducibility", () => {
     expect(layout).not.toContain("fonts.googleapis.com");
   });
 
-  it("documents every server-side page transport variable without secrets", () => {
-    const example = read(".env.example");
-    for (const name of [
+  it("documents a complete and secret-safe env file for every environment", () => {
+    const expectedVariables = [
+      "APP_ENV",
+      "NEXT_PUBLIC_SITE_URL",
       "SUPABASE_URL",
       "SUPABASE_ANON_KEY",
       "PAGE_DATA_VERSION",
       "PAGE_DATA_TIMEOUT_MS",
       "PAGE_QUERY_EDGE_URL",
       "ROUTE_SEARCH_QUERY_EDGE_URL",
-      "NEXT_PUBLIC_SITE_URL",
+      "HOMEPAGE_STATISTICS_EDGE_URL",
+      "FLIGHT_AFFILIATE_HANDOFF_EDGE_URL",
+      "CITY_PAGE_EDGE_URL",
+      "REVALIDATE_SECRET",
+    ];
+
+    for (const file of [
+      ".env.local.example",
+      ".env.staging.example",
+      ".env.production.example",
     ]) {
-      expect(example).toContain(`${name}=`);
+      const example = read(file);
+      for (const name of expectedVariables) {
+        expect(example).toContain(`${name}=`);
+      }
+      expect(example).not.toContain("SUPABASE_SERVICE_ROLE_KEY");
     }
-    expect(example).not.toContain("SUPABASE_SERVICE_ROLE_KEY");
   });
 
   it("provides one deterministic local verification command", () => {
@@ -34,6 +47,49 @@ describe("local release candidate reproducibility", () => {
     expect(packageJson.scripts["verify:p0a"]).toContain("npm run build");
     expect(packageJson.scripts["verify:p0a"]).toContain("npm run test");
     expect(packageJson.scripts.build).toBe("next build --webpack");
+  });
+
+  it("loads an explicit env file for each environment build", () => {
+    const packageJson = JSON.parse(read("package.json")) as {
+      scripts: Record<string, string>;
+    };
+
+    expect(packageJson.scripts["build:local"]).toContain(
+      "scripts/build-with-env.mjs .env.local",
+    );
+    expect(packageJson.scripts["build:staging"]).toContain(
+      "scripts/build-with-env.mjs .env.staging",
+    );
+    expect(packageJson.scripts["build:production"]).toContain(
+      "scripts/build-with-env.mjs .env.production",
+    );
+  });
+
+  it("targets Cloudflare Workers through OpenNext, not Vercel or static Pages", () => {
+    const packageJson = JSON.parse(read("package.json")) as {
+      dependencies: Record<string, string>;
+      devDependencies: Record<string, string>;
+      scripts: Record<string, string>;
+    };
+    const wranglerConfig = read("wrangler.jsonc");
+
+    expect(packageJson.dependencies["@opennextjs/cloudflare"]).toBeTruthy();
+    expect(packageJson.devDependencies.wrangler).toBeTruthy();
+    expect(packageJson.scripts["cloudflare:build:staging"]).toContain(
+      "opennextjs-cloudflare build --env staging",
+    );
+    expect(packageJson.scripts["cloudflare:deploy:production"]).toContain(
+      'opennextjs-cloudflare deploy --env ""',
+    );
+    expect(read("open-next.config.ts")).toContain("defineCloudflareConfig");
+    expect(wranglerConfig).toContain(".open-next/worker.js");
+    expect(wranglerConfig).toContain('"nodejs_compat"');
+    expect(wranglerConfig).toContain("staging.tripways.app");
+    expect(wranglerConfig).toContain("tripways.app");
+    expect(wranglerConfig).toContain('"APP_ENV": "staging"');
+    expect(wranglerConfig).toContain('"APP_ENV": "production"');
+    expect(read(".gitignore")).toContain(".open-next/");
+    expect(read("public/_headers")).toContain("/_next/static/*");
   });
 
   it("keeps backend-dependent pSEO pages ISR-cached for 24 hours", () => {

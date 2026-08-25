@@ -6,12 +6,22 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build --webpack",
+    "build:local": "node scripts/build-with-env.mjs .env.local",
+    "build:staging": "node scripts/build-with-env.mjs .env.staging",
+    "build:production": "node scripts/build-with-env.mjs .env.production",
+    "cloudflare:build:staging": "node scripts/run-with-env.mjs .env.staging opennextjs-cloudflare build --env staging",
+    "cloudflare:build:production": "node scripts/run-with-env.mjs .env.production opennextjs-cloudflare build --env \"\"",
+    "cloudflare:preview:staging": "node scripts/run-with-env.mjs .env.staging opennextjs-cloudflare preview --env staging",
+    "cloudflare:preview:production": "node scripts/run-with-env.mjs .env.production opennextjs-cloudflare preview --env \"\"",
+    "cloudflare:deploy:staging": "node scripts/run-with-env.mjs .env.staging opennextjs-cloudflare deploy --env staging",
+    "cloudflare:deploy:production": "node scripts/run-with-env.mjs .env.production opennextjs-cloudflare deploy --env \"\"",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "verify:p0a": "npm run lint && npm run typecheck && npm run test && npm run build"
   },
   "dependencies": {
+    "@opennextjs/cloudflare": "^1.20.2",
     "maplibre-gl": "^5.24.0",
     "next": "^16.2.10",
     "react": "^19.2.7",
@@ -28,6 +38,7 @@
     "postcss": "^8.5.19",
     "tailwindcss": "^4.3.2",
     "typescript": "^6.0.3",
-    "vitest": "^4.1.10"
+    "vitest": "^4.1.10",
+    "wrangler": "^4.122.0"
   }
 }

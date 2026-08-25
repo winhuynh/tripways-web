@@ -10,22 +10,21 @@ function readDesignFile(relativePath: string): string {
   return readFileSync(fileUrl, "utf8");
 }
 
-describe("editorial design theme", () => {
+describe("modern travel design theme", () => {
   it("preserves the approved primitive color foundations", () => {
     const colors = readDesignFile("tokens/colors.css");
 
-    expect(colors).toContain("--palette-primary-500: #137fec;");
-    expect(colors).toContain("--palette-secondary-500: #5f5e5e;");
-    expect(colors).toContain("--palette-tertiary-500: #ce6000;");
-    expect(colors).toContain("--palette-neutral-50: #fdf9f2;");
+    expect(colors).toContain("--palette-primary-500: #0066ff;");
+    expect(colors).toContain("--palette-neutral-50: #f8fafc;");
+    expect(colors).toContain("--palette-accent-500: #f97316;");
   });
 
   it("defines the approved headline, body, and label typography roles", () => {
     const typography = readDesignFile("tokens/typography.css");
 
-    expect(typography).toContain('--font-headline: "Times New Roman"');
-    expect(typography).toContain("--font-body: Georgia");
-    expect(typography).toContain("--font-label: Arial");
+    expect(typography).toContain("--font-headline: system-ui");
+    expect(typography).toContain("--font-body: system-ui");
+    expect(typography).toContain("--font-label: system-ui");
   });
 
   it("maps primitives to semantic roles and keeps narrow legacy aliases", () => {
@@ -33,7 +32,7 @@ describe("editorial design theme", () => {
 
     expect(theme).toContain("--color-primary: var(--palette-primary-500);");
     expect(theme).toContain("--color-background: var(--palette-neutral-50);");
-    expect(theme).toContain("--color-accent: var(--palette-tertiary-500);");
+    expect(theme).toContain("--color-accent: var(--palette-accent-500);");
     expect(theme).toContain("--blue: var(--color-primary);");
     expect(theme).toContain("--navy: var(--color-on-background);");
   });

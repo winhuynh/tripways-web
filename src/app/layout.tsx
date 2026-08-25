@@ -1,11 +1,14 @@
 import type { Metadata } from "next";
 
+import { readApplicationEnvironment } from "@/lib/server/application-environment";
 import { SiteFooter, SiteHeader } from "@/shared/ui";
 
 import "./globals.css";
 
+const { siteUrl } = readApplicationEnvironment();
+
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
+  metadataBase: new URL(siteUrl),
   title: {
     default: "Tripways",
     template: "%s | Tripways",

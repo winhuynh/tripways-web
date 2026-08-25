@@ -30,8 +30,10 @@
 }
 
 .editorial-brand img {
-  width: 21px;
-  height: 18px;
+  width: auto;
+  height: 30px;
+  max-height: 36px;
+  object-fit: contain;
 }
 
 

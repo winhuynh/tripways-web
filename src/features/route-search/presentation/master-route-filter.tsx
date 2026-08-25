@@ -90,6 +90,8 @@ function FilterField({ field, values, facets, departureAirports, airportCode }: 
       return <label>Maximum duration (minutes)<input name="max_duration_minutes" type="number" min={1} max={10080} defaultValue={values.max_duration_minutes} /></label>;
     case "max_layover_minutes":
       return <label>Maximum layover (minutes)<input name="max_layover_minutes" type="number" min={1} max={1440} defaultValue={values.max_layover_minutes} /></label>;
+    case "max_one_way_fare":
+      return <label>Max one-way fare<input name="max_one_way_fare" type="number" min={1} max={100000} defaultValue={values.max_one_way_fare} placeholder="Max price" /></label>;
   }
 }
 

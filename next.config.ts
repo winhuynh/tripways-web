@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import { initOpenNextCloudflareForDev } from "@opennextjs/cloudflare";
 
 // ─── Cloudflare caching strategy ─────────────────────────────────────────────
 //
@@ -35,7 +36,6 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
   async headers() {
     return [
-      { source: "/",                    headers: PSEO_HEADERS },
       { source: "/flights-from/:slug*", headers: PSEO_HEADERS },
       { source: "/flights/:slug*",      headers: PSEO_HEADERS },
       { source: "/airports/:slug*",     headers: PSEO_HEADERS },
@@ -44,3 +44,5 @@ const nextConfig: NextConfig = {
 };
 
 export default nextConfig;
+
+initOpenNextCloudflareForDev();

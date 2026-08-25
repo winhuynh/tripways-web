@@ -1,67 +1,68 @@
 /**
- * Color primitives
- * ----------------
- * Raw editorial palettes from the approved Tripways style board.
- *
- * Use semantic color roles from theme/theme.css in application components.
+ * Tripways Color Tokens
+ * ---------------------
+ * Modern, high-clarity travel interface palette derived from Figma designs.
  */
 
 :root {
-  /* Primary / blue */
-  --palette-primary-50: #edf6fe;
-  --palette-primary-100: #d7ebfc;
-  --palette-primary-200: #afd7fa;
-  --palette-primary-300: #7bbcf6;
-  --palette-primary-400: #439df1;
-  --palette-primary-500: #137fec;
-  --palette-primary-600: #0b66c4;
+  /* Primary / Travel Blue */
+  --palette-primary-50: #eff6ff;
+  --palette-primary-100: #dbeafe;
+  --palette-primary-200: #bfdbfe;
+  --palette-primary-300: #93c5fd;
+  --palette-primary-400: #60a5fa;
+  --palette-primary-500: #0066ff;
+  --palette-primary-600: #0256d4;
   --palette-primary-700: #09519d;
   --palette-primary-800: #093f78;
-  --palette-primary-900: #082e57;
-  --palette-primary-950: #031a33;
+  --palette-primary-900: #0b2b4f;
+  --palette-primary-950: #061930;
 
-  /* Secondary / graphite */
-  --palette-secondary-50: #f6f6f6;
-  --palette-secondary-100: #e7e7e7;
-  --palette-secondary-200: #d1d0d0;
-  --palette-secondary-300: #b0afaf;
-  --palette-secondary-400: #898888;
-  --palette-secondary-500: #5f5e5e;
-  --palette-secondary-600: #504f4f;
-  --palette-secondary-700: #424141;
-  --palette-secondary-800: #353434;
-  --palette-secondary-900: #292828;
-  --palette-secondary-950: #171616;
-
-  /* Tertiary / burnt orange */
-  --palette-tertiary-50: #fff4eb;
-  --palette-tertiary-100: #ffe6d1;
-  --palette-tertiary-200: #ffc9a3;
-  --palette-tertiary-300: #ffa36a;
-  --palette-tertiary-400: #f77a2f;
-  --palette-tertiary-500: #ce6000;
-  --palette-tertiary-600: #ad4d00;
-  --palette-tertiary-700: #8a3c00;
-  --palette-tertiary-800: #6d3004;
-  --palette-tertiary-900: #572806;
-  --palette-tertiary-950: #311300;
-
-  /* Neutral / warm editorial */
+  /* Neutral / Crisp Slate */
   --palette-neutral-0: #ffffff;
-  --palette-neutral-50: #fdf9f2;
-  --palette-neutral-100: #f6f1e9;
-  --palette-neutral-200: #e9e3da;
-  --palette-neutral-300: #d5cec4;
-  --palette-neutral-400: #b7afa5;
-  --palette-neutral-500: #958d84;
-  --palette-neutral-600: #756e67;
-  --palette-neutral-700: #59534d;
-  --palette-neutral-800: #3d3935;
-  --palette-neutral-900: #272421;
-  --palette-neutral-950: #171513;
+  --palette-neutral-50: #f8fafc;
+  --palette-neutral-100: #f1f5f9;
+  --palette-neutral-200: #e2e8f0;
+  --palette-neutral-300: #cbd5e1;
+  --palette-neutral-400: #94a3b8;
+  --palette-neutral-500: #64748b;
+  --palette-neutral-600: #475569;
+  --palette-neutral-700: #334155;
+  --palette-neutral-800: #1e293b;
+  --palette-neutral-900: #0f172a;
+  --palette-neutral-950: #020617;
 
-  /* Status primitives */
-  --palette-success-500: #2f7d4e;
-  --palette-warning-500: #ce6000;
-  --palette-error-500: #c81e1e;
+  /* Accent / Coral & Orange (Prices & Badges) */
+  --palette-accent-50: #fff7ed;
+  --palette-accent-100: #ffedd5;
+  --palette-accent-200: #fed7aa;
+  --palette-accent-300: #fdba74;
+  --palette-accent-400: #fb923c;
+  --palette-accent-500: #f97316;
+  --palette-accent-600: #ea580c;
+  --palette-accent-700: #c2410c;
+  --palette-accent-800: #9a3412;
+  --palette-accent-900: #7c2d12;
+
+  /* Status Colors */
+  --palette-success-50: #ecfdf5;
+  --palette-success-100: #d1fae5;
+  --palette-success-500: #10b981;
+  --palette-success-600: #059669;
+  --palette-success-700: #047857;
+
+  --palette-warning-50: #fffbeb;
+  --palette-warning-100: #fef3c7;
+  --palette-warning-500: #f59e0b;
+  --palette-warning-600: #d97706;
+
+  --palette-error-50: #fef2f2;
+  --palette-error-100: #fee2e2;
+  --palette-error-500: #ef4444;
+  --palette-error-600: #dc2626;
+
+  /* Compatibility tokens */
+  --palette-secondary-500: #64748b;
+  --palette-secondary-300: #cbd5e1;
+  --palette-tertiary-500: #f97316;
 }

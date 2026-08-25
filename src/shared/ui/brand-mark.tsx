@@ -16,13 +16,13 @@ export function BrandMark({ className }: BrandMarkProps) {
       href="/"
     >
       <Image
-        alt=""
-        aria-hidden="true"
-        height={18}
-        src="/figma/shared/brand-mark.svg"
-        width={21}
+        alt="Tripways"
+        height={32}
+        src="/assets/tripways-logo.png"
+        width={149}
+        priority
       />
-      <span>TRIPWAYS</span>
+      <span className="sr-only">TRIPWAYS</span>
     </Link>
   );
 }

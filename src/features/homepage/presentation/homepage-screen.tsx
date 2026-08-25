@@ -1,37 +1,65 @@
-import { PageHero } from "@/shared/ui";
+"use client";
+
 import type { HomepageModel } from "../domain/homepage-model";
+import {
+  DEFAULT_ORIGIN_HUB,
+  type HubAirport,
+} from "../domain/homepage-routes-data";
+import { useClientIpLocation } from "./use-client-ip-location";
+import { HomepageHero } from "./homepage-hero";
+import { HomepageMap } from "./homepage-map";
+import { PopularRoutesSection } from "./popular-routes-section";
+import { PopularCitiesSection } from "./popular-cities-section";
+import { ValuePillarsSection } from "./value-pillars-section";
+import { TravelAdvisoryNotice } from "./travel-advisory-notice";
 import "./homepage.css";
 
-export function HomepageScreen({ model }: { model: HomepageModel }) {
+type HomepageScreenProps = {
+  model?: HomepageModel;
+  initialHub?: HubAirport;
+};
+
+/**
+ * Homepage screen orchestrating presentation sections and active origin hub state.
+ */
+export function HomepageScreen({
+  model,
+  initialHub = DEFAULT_ORIGIN_HUB,
+}: HomepageScreenProps) {
+  const { currentHub, setCurrentHub } = useClientIpLocation(initialHub);
+
   return (
-    <main className="pseo-page homepage">
-      <section className="home-hero">
+    <main className="homepage-main">
+      {/* 1. Hero & Search Section */}
+      <HomepageHero
+        currentHub={currentHub}
+        onSelectHub={setCurrentHub}
+        model={model}
+      />
+
+      {/* 2. Interactive Map Section (Focus on user IP / selected location) */}
+      <HomepageMap currentHub={currentHub} />
+
+      {/* 3. Advertisement Placeholder */}
+      <aside className="home-ad-section" aria-label="Advertisement">
         <div className="pseo-container">
-          <PageHero
-            title="Find direct flights from airports worldwide"
-            intro="Explore Tripways coverage and start with a city or airport guide."
-          />
+          <div className="home-ad-frame">
+            <p className="home-ad-label">ADVERTISEMENT</p>
+          </div>
         </div>
-      </section>
-      <div className="pseo-container">
-        <section className="pseo-section home-values" aria-label="Tripways coverage">
-          <article>
-            <strong>{model.originCityCount}</strong>
-            <span> cities with direct routes</span>
-          </article>
-          <article>
-            <strong>{model.originAirportCount}</strong>
-            <span> departure airports</span>
-          </article>
-          <article>
-            <strong>{model.publishedDirectRouteCount}</strong>
-            <span> published direct route guides</span>
-          </article>
-        </section>
-        <aside className="home-disclaimer">
-          Coverage reflects the current published Tripways dataset, not live availability.
-        </aside>
-      </div>
+      </aside>
+
+      {/* 4. Popular Nonstop Routes Section */}
+      <PopularRoutesSection />
+
+      {/* 5. Popular Cities Section */}
+      <PopularCitiesSection onSelectCity={setCurrentHub} />
+
+      {/* 6. Value Pillars Section */}
+      <ValuePillarsSection />
+
+      {/* 7. Travel Advisory Notice Banner */}
+      <TravelAdvisoryNotice />
     </main>
   );
 }
