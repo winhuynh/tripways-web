@@ -26,6 +26,7 @@ export type InteractiveRouteMapProps = Readonly<{
   height?: string;
   className?: string;
   ariaLabel?: string;
+  bottomOverlay?: React.ReactNode;
 }>;
 
 export function InteractiveRouteMap({
@@ -36,6 +37,7 @@ export function InteractiveRouteMap({
   height,
   className = "",
   ariaLabel,
+  bottomOverlay,
 }: InteractiveRouteMapProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<MapLibreMap | null>(null);
@@ -227,6 +229,10 @@ export function InteractiveRouteMap({
           <span>Loading interactive routes...</span>
         </div>
       )}
+
+      {bottomOverlay ? (
+        <div className="shared-map-bottom-overlay">{bottomOverlay}</div>
+      ) : null}
 
       <div className="shared-map-canvas" ref={containerRef} />
     </div>

@@ -1,7 +1,653 @@
-.route-workspace{display:grid;grid-template-columns:300px 1fr;gap:2rem}.route-workspace aside{border:1px solid #cbc7bf;background:#fff;padding:1.5rem}.route-workspace form,.route-workspace label{display:grid;gap:.5rem}.route-workspace form{gap:1rem}.route-workspace input,.route-workspace select{min-height:44px;padding:.6rem}.route-workspace button{min-height:44px;background:#005cb9;color:#fff;border:0}.route-tabs{display:flex;gap:.75rem;border-bottom:1px solid #cbc7bf}.route-tabs a{padding:.8rem}.route-facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1rem}.route-facts article{border-top:3px solid #005cb9;padding:1rem 0}@media(max-width:760px){.route-workspace{grid-template-columns:1fr}}
-.observed-prices > div { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; }
-.observed-price-card { border: 1px solid var(--color-border, #d9e1eb); border-radius: 1rem; background: #fff; padding: 1.25rem; }
-.observed-price-card strong { display: block; color: #0b2d4f; font-size: clamp(1.75rem, 4vw, 2.5rem); }
-.observed-price-card__note { color: #526273; font-size: .875rem; }
-.observed-price-card button { border: 0; border-radius: .75rem; background: #1261a0; color: #fff; cursor: pointer; font: inherit; font-weight: 700; padding: .75rem 1rem; }
-.observed-price-card button:disabled { cursor: wait; opacity: .65; }
+/* ==========================================================================
+   Tripways Route Page Styles (pSEO City-Pair & Airport-Pair)
+   ========================================================================== */
+
+.route-page-main {
+  width: 100%;
+  background: var(--color-background, #fcfbf9);
+  color: var(--color-on-background, #0f172a);
+  padding-bottom: 4rem;
+}
+
+/* --------------------------------------------------------------------------
+   1. Fact Badges Bar (Hero Meta Slot)
+   -------------------------------------------------------------------------- */
+
+.fact-badges-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid #e2e8f0;
+}
+
+.fact-badges-bar__list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.fact-badge-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 9999px;
+  padding: 0.4rem 0.85rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #334155;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+}
+
+.fact-badge-pill__icon {
+  display: inline-flex;
+  align-items: center;
+  color: #005cb9;
+}
+
+.fact-badge-pill--highlight {
+  background: #eff6ff;
+  border-color: #bfdbfe;
+  color: #005cb9;
+}
+
+.fact-badge-pill--highlight .fact-badge-pill__icon {
+  color: #005cb9;
+}
+
+.fact-badges-bar__verified {
+  font-size: 0.75rem;
+  color: #94a3b8;
+  font-weight: 500;
+}
+
+/* --------------------------------------------------------------------------
+   2. Main Discovery Workspace: 2-Column Layout (Sidebar + Map & Cards)
+   -------------------------------------------------------------------------- */
+
+.route-discovery-layout {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 2.5rem;
+  align-items: start;
+  margin-bottom: 3.5rem;
+}
+
+.route-sidebar-wrap {
+  position: sticky;
+  top: 80px;
+}
+
+.route-main-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2.25rem;
+  min-width: 0;
+}
+
+/* --------------------------------------------------------------------------
+   3. Interactive Flight Map
+   -------------------------------------------------------------------------- */
+
+.route-flight-map-frame {
+  position: relative;
+  border-radius: 14px;
+  overflow: hidden;
+  background: #e6ebef;
+  border: 1px solid #d8e2ea;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+}
+
+.route-map-overlay-pill__info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+/* --------------------------------------------------------------------------
+   4. Flight Options List & FlightOptionCard
+   -------------------------------------------------------------------------- */
+
+.route-options-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.route-options-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.route-options-title {
+  font-family: Georgia, "Playfair Display", "Times New Roman", serif;
+  font-size: 1.55rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+}
+
+.route-cards-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.flight-option-card {
+  display: grid;
+  grid-template-columns: 130px 1fr 130px minmax(220px, 260px);
+  align-items: center;
+  gap: 1.25rem;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 1.25rem 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+  transition: all 160ms ease;
+}
+
+.flight-option-card:hover {
+  border-color: #cbd5e1;
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
+  transform: translateY(-1px);
+}
+
+.flight-option-card__origin,
+.flight-option-card__destination {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.flight-option-card__iata {
+  font-family: Georgia, "Playfair Display", serif;
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #0f172a;
+  line-height: 1;
+}
+
+.flight-option-card__city {
+  font-size: 0.78rem;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.flight-option-card__path {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 0 0.5rem;
+}
+
+.flight-option-card__path-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.flight-option-card__stop-badge {
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: #f1f5f9;
+  color: #475569;
+}
+
+.flight-option-card__stop-badge--nonstop {
+  background: #e0f2fe;
+  color: #0284c7;
+}
+
+.flight-option-card__duration {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #64748b;
+}
+
+.flight-option-card__line-graphic {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 14px;
+}
+
+.flight-option-card__line-track {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #cbd5e1;
+}
+
+.flight-option-card__line-dot {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #005cb9;
+  z-index: 1;
+}
+
+.flight-option-card__line-dot--start {
+  left: 0;
+}
+
+.flight-option-card__line-dot--end {
+  right: 0;
+}
+
+.flight-option-card__plane-icon {
+  position: relative;
+  z-index: 2;
+  color: #005cb9;
+  background: #ffffff;
+  padding: 0 2px;
+}
+
+.flight-option-card__meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  text-align: right;
+  gap: 6px;
+  border-left: 1px solid #f1f5f9;
+  padding-left: 1.25rem;
+}
+
+.flight-option-card__operating {
+  display: flex;
+  flex-direction: column;
+}
+
+.flight-option-card__freq {
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  color: #64748b;
+  text-transform: uppercase;
+}
+
+.flight-option-card__airlines {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #334155;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 200px;
+}
+
+.flight-option-card__price-box {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.15;
+}
+
+.flight-option-card__amount {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #005cb9;
+}
+
+.flight-option-card__price-label {
+  font-size: 0.6rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  color: #64748b;
+  text-transform: uppercase;
+}
+
+.flight-option-card__price-sub {
+  font-size: 0.65rem;
+  color: #94a3b8;
+}
+
+.flight-option-card__cta {
+  display: inline-block;
+  background: #005cb9;
+  color: #ffffff;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 8px 14px;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: background 150ms ease;
+  margin-top: 4px;
+}
+
+.flight-option-card__cta:hover {
+  background: #004b99;
+}
+
+.flight-option-card__cta--disabled {
+  background: #e2e8f0;
+  color: #94a3b8;
+  cursor: not-allowed;
+}
+
+.route-cards-empty {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 2.5rem 1.5rem;
+  text-align: center;
+  color: #64748b;
+}
+
+.route-cards-empty__reset {
+  display: inline-block;
+  margin-top: 0.75rem;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #005cb9;
+  text-decoration: underline;
+}
+
+/* --------------------------------------------------------------------------
+   5. Recommendation Highlights Callouts
+   -------------------------------------------------------------------------- */
+
+.recommendation-highlights {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.recommendation-highlights__heading {
+  font-family: Georgia, serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+}
+
+.recommendation-highlights__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.25rem;
+}
+
+.recommendation-card {
+  border-radius: 10px;
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+}
+
+.recommendation-card--fastest {
+  background: #f0f9ff;
+  border-color: #bae6fd;
+}
+
+.recommendation-card--fastest .recommendation-card__badge {
+  color: #0284c7;
+}
+
+.recommendation-card--lowest {
+  background: #fffbeb;
+  border-color: #fde68a;
+}
+
+.recommendation-card--lowest .recommendation-card__badge {
+  color: #d97706;
+}
+
+.recommendation-card__badge {
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.recommendation-card__title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #0f172a;
+  line-height: 1.3;
+}
+
+.recommendation-card__desc {
+  font-size: 0.84rem;
+  color: #475569;
+  margin: 0;
+}
+
+/* --------------------------------------------------------------------------
+   6. Practical Route Planning Grid
+   -------------------------------------------------------------------------- */
+
+.practical-planning {
+  border-top: 1px solid #e2e8f0;
+  padding: 3rem 0;
+}
+
+.practical-planning__title {
+  font-family: Georgia, "Playfair Display", serif;
+  font-size: 1.85rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 1.75rem;
+}
+
+.practical-planning__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.75rem;
+}
+
+.practical-planning-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 1.5rem 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+}
+
+.practical-planning-card__heading {
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #005cb9;
+  margin: 0;
+}
+
+.practical-planning-card__body {
+  font-size: 0.92rem;
+  color: #334155;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.practical-planning-card__link {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #005cb9;
+  text-decoration: none;
+  margin-top: 0.25rem;
+}
+
+.practical-planning-card__link:hover {
+  text-decoration: underline;
+}
+
+/* --------------------------------------------------------------------------
+   7. Sponsored Travel Services Grid
+   -------------------------------------------------------------------------- */
+
+.sponsored-services {
+  border-top: 1px solid #e2e8f0;
+  padding: 3rem 0;
+}
+
+.sponsored-services__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.sponsored-services__title {
+  font-family: Georgia, "Playfair Display", serif;
+  font-size: 1.65rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+}
+
+.sponsored-services__disclosure {
+  font-size: 0.75rem;
+  color: #94a3b8;
+  font-weight: 500;
+}
+
+.sponsored-services__grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1rem;
+}
+
+.sponsored-service-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 0.65rem;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 1.5rem 1rem;
+  text-decoration: none;
+  color: #0f172a;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+  transition: all 160ms ease;
+}
+
+.sponsored-service-card:hover {
+  border-color: #005cb9;
+  box-shadow: 0 6px 18px rgba(0, 92, 185, 0.08);
+  transform: translateY(-2px);
+}
+
+.sponsored-service-card__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #f0f7ff;
+  color: #005cb9;
+}
+
+.sponsored-service-card__title {
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.sponsored-service-card__desc {
+  font-size: 0.72rem;
+  color: #64748b;
+}
+
+.sponsored-services__note {
+  font-size: 0.75rem;
+  color: #94a3b8;
+  margin-top: 1rem;
+  text-align: center;
+}
+
+/* --------------------------------------------------------------------------
+   8. Responsive Layout Breakpoints
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 1024px) {
+  .flight-option-card {
+    grid-template-columns: 100px 1fr 100px minmax(180px, 220px);
+    gap: 1rem;
+    padding: 1rem;
+  }
+
+  .sponsored-services__grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 900px) {
+  .route-discovery-layout {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .route-sidebar-wrap {
+    position: static;
+  }
+
+  .practical-planning__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .sponsored-services__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .flight-option-card {
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .flight-option-card__path {
+    grid-column: 1 / -1;
+    order: 3;
+    padding: 0.5rem 0;
+  }
+
+  .flight-option-card__meta {
+    grid-column: 1 / -1;
+    order: 4;
+    border-left: none;
+    border-top: 1px solid #f1f5f9;
+    padding-left: 0;
+    padding-top: 0.75rem;
+    align-items: stretch;
+    text-align: left;
+  }
+
+  .flight-option-card__cta {
+    text-align: center;
+  }
+
+  .sponsored-services__grid {
+    grid-template-columns: 1fr;
+  }
+}

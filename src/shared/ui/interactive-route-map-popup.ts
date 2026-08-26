@@ -10,7 +10,7 @@ export type SharedMapDestination = Readonly<{
   minDuration?: number;
   typicalDuration?: string;
   durationRange?: string;
-  airlines: readonly string[];
+  airlines?: readonly string[];
   frequency?: number | null;
   fareMin?: number;
   fareMax?: number;
@@ -85,7 +85,7 @@ export function buildInteractiveRouteMapPopupHtml(
     typeof dest.frequency === "number" && dest.frequency > 0
       ? escapeHtml(`${dest.frequency} / week`)
       : "Varies";
-  const airlinesText = escapeHtml(dest.airlines.join(", "));
+  const airlinesText = escapeHtml((dest.airlines ?? []).join(", "));
   const durationRange = escapeHtml(
     dest.durationRange || formatMinutes(dest.minDuration) || durationText,
   );

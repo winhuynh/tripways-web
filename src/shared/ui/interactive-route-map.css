@@ -58,6 +58,35 @@
   box-shadow: 0 0 0 4px rgba(249, 115, 22, 0.35);
 }
 
+.shared-map-bottom-overlay {
+  position: absolute;
+  bottom: 18px;
+  left: 18px;
+  right: 18px;
+  z-index: 10;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(10px);
+  border-radius: 10px;
+  padding: 10px 16px;
+  box-shadow: 0 4px 20px rgba(15, 23, 42, 0.12);
+  border: 1px solid rgba(226, 232, 240, 0.85);
+  font-size: 0.82rem;
+  color: #334155;
+}
+
+@media (max-width: 640px) {
+  .shared-map-bottom-overlay {
+    left: 12px;
+    right: 12px;
+    bottom: 12px;
+    padding: 8px 12px;
+    font-size: 0.75rem;
+  }
+}
+
 .shared-map-loading-overlay {
   position: absolute;
   inset: 0;
