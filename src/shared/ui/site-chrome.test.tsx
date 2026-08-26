@@ -1,10 +1,19 @@
 import { renderToStaticMarkup } from "react-dom/server";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
+import { existsSync } from "node:fs";
+import { join } from "node:path";
 
 import { SiteFooter, SiteHeader } from ".";
 
+// Default mock for usePathname
+const mockUsePathname = vi.fn(() => "/flights/london-to-singapore");
+vi.mock("next/navigation", () => ({
+  usePathname: () => mockUsePathname(),
+}));
+
 describe("shared site chrome", () => {
-  it("renders a compact canonical route switcher beside the home link", () => {
+  it("renders a compact canonical route switcher beside the home link on subpages", () => {
+    mockUsePathname.mockReturnValue("/flights/london-to-singapore");
     const markup = renderToStaticMarkup(<SiteHeader />);
 
     expect(markup).toContain('aria-label="Tripways"');
@@ -16,6 +25,17 @@ describe("shared site chrome", () => {
     expect(markup).toContain("EXPLORE");
     expect(markup).not.toContain("<nav");
     expect(markup).not.toContain("SIGN IN");
+  });
+
+  it("omits the compact route switcher on homepage to prevent duplication with hero search", () => {
+    mockUsePathname.mockReturnValue("/");
+    const markup = renderToStaticMarkup(<SiteHeader />);
+
+    expect(markup).toContain('aria-label="Tripways"');
+    expect(markup).toContain('href="/"');
+    expect(markup).toContain("TRIPWAYS");
+    expect(markup).not.toContain('aria-label="Explore another flight route"');
+    expect(markup).not.toContain("EXPLORE");
   });
 
   it("renders the approved two-row footer with six essential links", () => {
@@ -39,5 +59,3 @@ describe("shared site chrome", () => {
     }
   });
 });
-import { existsSync } from "node:fs";
-import { join } from "node:path";

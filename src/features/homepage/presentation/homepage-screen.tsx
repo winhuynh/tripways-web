@@ -1,6 +1,5 @@
 "use client";
 
-import type { HomepageModel } from "../domain/homepage-model";
 import {
   DEFAULT_ORIGIN_HUB,
   type HubAirport,
@@ -15,7 +14,6 @@ import { TravelAdvisoryNotice } from "./travel-advisory-notice";
 import "./homepage.css";
 
 type HomepageScreenProps = {
-  model?: HomepageModel;
   initialHub?: HubAirport;
 };
 
@@ -23,7 +21,6 @@ type HomepageScreenProps = {
  * Homepage screen orchestrating presentation sections and active origin hub state.
  */
 export function HomepageScreen({
-  model,
   initialHub = DEFAULT_ORIGIN_HUB,
 }: HomepageScreenProps) {
   const { currentHub, setCurrentHub } = useClientIpLocation(initialHub);
@@ -34,7 +31,6 @@ export function HomepageScreen({
       <HomepageHero
         currentHub={currentHub}
         onSelectHub={setCurrentHub}
-        model={model}
       />
 
       {/* 2. Interactive Map Section (Focus on user IP / selected location) */}
