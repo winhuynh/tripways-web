@@ -16,6 +16,8 @@ export type CityPageDestination = Readonly<{
   latitude?: number;
   longitude?: number;
   isTopRoute?: boolean;
+  stops?: number;
+  layoverAirports?: string[];
 }>;
 
 export type CityPageAirport = Readonly<{

@@ -46,24 +46,71 @@ export function parseRoutePageResponse(
 
     const summary = optionalRecord(root.summary);
     const routeOptions = optionalArray(root.route_options);
+
+    const directRoutes = routeOptions.filter(
+      (opt) =>
+        typeof opt === "object" &&
+        opt !== null &&
+        optionalNumber((opt as Record<string, unknown>).stops) === 0,
+    );
+    const indirectRoutes = routeOptions.filter(
+      (opt) =>
+        typeof opt === "object" &&
+        opt !== null &&
+        optionalNumber((opt as Record<string, unknown>).stops) === 1,
+    );
+
     const directOptions =
       optionalNumber(summary?.direct_options) ??
       optionalNumber(summary?.directOptions) ??
-      routeOptions.length;
+      directRoutes.length;
     const indirectOptions =
       optionalNumber(summary?.indirect_options) ??
       optionalNumber(summary?.indirectOptions) ??
-      0;
+      indirectRoutes.length;
+
     const fastestDirectMinutes =
       nullableNumber(summary?.fastest_direct_minutes) ??
-      nullableNumber(summary?.fastestDirectMinutes);
+      nullableNumber(summary?.fastestDirectMinutes) ??
+      (directRoutes.length > 0
+        ? Math.min(
+            ...directRoutes.map(
+              (r) =>
+                optionalNumber(
+                  (r as Record<string, unknown>).total_duration_minutes,
+                ) ?? 9999,
+            ),
+          )
+        : null);
+
     const fastestIndirectMinutes =
       nullableNumber(summary?.fastest_indirect_minutes) ??
-      nullableNumber(summary?.fastestIndirectMinutes);
+      nullableNumber(summary?.fastestIndirectMinutes) ??
+      (indirectRoutes.length > 0
+        ? Math.min(
+            ...indirectRoutes.map(
+              (r) =>
+                optionalNumber(
+                  (r as Record<string, unknown>).total_duration_minutes,
+                ) ?? 9999,
+            ),
+          )
+        : null);
+
     const weeklyDirectFlights =
       optionalNumber(summary?.weekly_direct_flights) ??
       optionalNumber(summary?.weekly_flights) ??
-      optionalNumber(summary?.weeklyDirectFlights);
+      optionalNumber(summary?.weeklyDirectFlights) ??
+      (directRoutes.length > 0
+        ? directRoutes.reduce(
+            (sum, r) =>
+              sum +
+              (optionalArray((r as Record<string, unknown>).days_of_week)
+                .length || 7),
+            0,
+          )
+        : null);
+
 
     const observedPrices = optionalArray(root.observations).map(parseObservation);
 

@@ -65,6 +65,14 @@ export function parseCityPageResponse(
         optstr(co.region) ??
         optstr(co.sub_region);
 
+      const duration = optnum(x.duration_minutes) ?? optnum(x.total_duration_minutes) ?? 120;
+      const minDuration = optnum(x.shortest_duration_minutes) ?? duration;
+      const maxDuration = optnum(x.longest_duration_minutes) ?? duration;
+      const frequency = nulnum(
+        x.frequency_per_week ??
+          (Array.isArray(x.days_of_week) ? x.days_of_week.length : null),
+      );
+
       return {
         city: str(c.name),
         citySlug: str(c.slug),
@@ -72,9 +80,9 @@ export function parseCityPageResponse(
         originAirports: strs(x.origin_airports),
         airports: strs(x.destination_airports),
         airlines: strs(x.airlines),
-        frequency: nulnum(x.frequency_per_week),
-        minDuration: num(x.shortest_duration_minutes),
-        maxDuration: num(x.longest_duration_minutes),
+        frequency,
+        minDuration,
+        maxDuration,
         path: str(x.route_path),
         region: destRegion,
         fareMin,
@@ -83,8 +91,11 @@ export function parseCityPageResponse(
         latitude: optnum(x.latitude) ?? optnum(c.latitude),
         longitude: optnum(x.longitude) ?? optnum(c.longitude),
         isTopRoute: optbool(x.is_top_route),
+        stops: optnum(x.stops),
+        layoverAirports: Array.isArray(x.layover_airports) ? strs(x.layover_airports) : undefined,
       };
     });
+
 
     return {
       city: {
