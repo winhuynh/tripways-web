@@ -5,6 +5,7 @@
 @import "../shared/ui/informational-page.css";
 @import "../shared/ui/site-footer.css";
 @import "../shared/ui/pseo-elements.css";
+@import "../features/homepage/presentation/flight-search-bar.css";
 
 * {
   box-sizing: border-box;

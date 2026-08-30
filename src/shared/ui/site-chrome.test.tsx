@@ -5,10 +5,13 @@ import { join } from "node:path";
 
 import { SiteFooter, SiteHeader } from ".";
 
-// Default mock for usePathname
+// Default mock for next/navigation
 const mockUsePathname = vi.fn(() => "/flights/london-to-singapore");
 vi.mock("next/navigation", () => ({
   usePathname: () => mockUsePathname(),
+  useRouter: () => ({
+    push: vi.fn(),
+  }),
 }));
 
 describe("shared site chrome", () => {
@@ -19,10 +22,10 @@ describe("shared site chrome", () => {
     expect(markup).toContain('aria-label="Tripways"');
     expect(markup).toContain('href="/"');
     expect(markup).toContain("TRIPWAYS");
-    expect(markup).toContain('aria-label="Explore another flight route"');
-    expect(markup).toContain("FROM");
-    expect(markup).toContain("TO");
-    expect(markup).toContain("EXPLORE");
+    expect(markup).toContain("flight-search-bar--compact");
+    expect(markup).toContain("From");
+    expect(markup).toContain("To");
+    expect(markup).toContain("Search");
     expect(markup).not.toContain("<nav");
     expect(markup).not.toContain("SIGN IN");
   });
@@ -34,8 +37,8 @@ describe("shared site chrome", () => {
     expect(markup).toContain('aria-label="Tripways"');
     expect(markup).toContain('href="/"');
     expect(markup).toContain("TRIPWAYS");
-    expect(markup).not.toContain('aria-label="Explore another flight route"');
-    expect(markup).not.toContain("EXPLORE");
+    expect(markup).not.toContain("flight-search-bar--compact");
+    expect(markup).not.toContain("Search");
   });
 
   it("renders the approved two-row footer with six essential links", () => {

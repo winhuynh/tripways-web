@@ -64,6 +64,11 @@ export function LocationSuggestDropdown({
             className={`suggest-item ${isAction ? "suggest-item--action" : ""} ${
               isSelected ? "suggest-item--active" : ""
             }`}
+            onMouseDown={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              onSelect(item);
+            }}
             onClick={(e) => {
               e.preventDefault();
               e.stopPropagation();

@@ -12,7 +12,7 @@ vi.mock("next/navigation", () => ({
 }));
 
 describe("FlightSearchBar", () => {
-  it("renders with clean From and To inputs, Direct only, and Multi-city options", () => {
+  it("renders with clean From and To inputs, Direct only, and Multi-city options in default hero mode", () => {
     const html = renderToStaticMarkup(<FlightSearchBar />);
     expect(html).toContain("From");
     expect(html).toContain("To");
@@ -28,6 +28,20 @@ describe("FlightSearchBar", () => {
     expect(html).not.toContain("Travelers and cabin class");
     expect(html).not.toContain("Cabin bag & checked bag");
     expect(html).not.toContain("Add accommodation");
+  });
+
+  it("renders in compact mode without pill controls or checkboxes", () => {
+    const html = renderToStaticMarkup(<FlightSearchBar variant="compact" />);
+    expect(html).toContain("skyscanner-search-container--compact");
+    expect(html).toContain("flight-search-bar--compact");
+    expect(html).toContain("From");
+    expect(html).toContain("To");
+    expect(html).toContain("Search");
+
+    // Pill controls and checkboxes omitted in compact mode
+    expect(html).not.toContain("Flight search");
+    expect(html).not.toContain("Multi-city search");
+    expect(html).not.toContain("Direct flights only");
   });
 });
 

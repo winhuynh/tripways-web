@@ -1,5 +1,7 @@
 import "server-only";
 
+import { serverLogger } from "./logger";
+
 type CacheIdentityInput = {
   locale: string;
   entityIdentity: string;
@@ -33,6 +35,9 @@ export function buildPageDataCacheIdentity(input: CacheIdentityInput): string {
 export async function requestPageData<T>(input: PageDataRequest<T>): Promise<T> {
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), input.timeoutMs);
+  const requestId = crypto.randomUUID();
+  const startTime = performance.now();
+
   try {
     const cacheOptions = process.env.NODE_ENV === "development"
       ? { cache: "no-store" as const }
@@ -51,25 +56,54 @@ export async function requestPageData<T>(input: PageDataRequest<T>): Promise<T> 
         authorization: `Bearer ${input.anonKey}`,
         "content-type": "application/json",
         "x-tripways-read-contract": "page-data-v1",
+        "x-request-id": requestId,
       },
       body: JSON.stringify(input.body),
       signal: controller.signal,
       ...cacheOptions,
     });
+
     const payload: unknown = await response.json();
+    const durationMs = Math.round(performance.now() - startTime);
+
     if (!response.ok) {
       const code = readErrorCode(payload);
+      serverLogger.warn("PAGE_DATA_FETCH_UNSUCCESSFUL", payload, {
+        url: input.url,
+        status: String(response.status),
+        durationMs,
+        cacheIdentity: input.cacheIdentity,
+        requestId,
+        errorCode: code ?? input.unavailableCode,
+      });
+
       if (code && input.notFoundCodes.includes(code)) {
         throw input.createError(code);
       }
       throw input.createError(input.unavailableCode);
     }
+
     try {
-      return input.parse(payload);
-    } catch {
+      const parsed = input.parse(payload);
+      serverLogger.info("PAGE_DATA_FETCH_SUCCESS", {
+        url: input.url,
+        durationMs,
+        cacheIdentity: input.cacheIdentity,
+        requestId,
+      });
+      return parsed;
+    } catch (parseError) {
+      serverLogger.error("PAGE_DATA_PARSE_ERROR", parseError, {
+        url: input.url,
+        durationMs,
+        cacheIdentity: input.cacheIdentity,
+        requestId,
+        errorCode: input.unavailableCode,
+      });
       throw input.createError(input.unavailableCode);
     }
   } catch (error) {
+    const durationMs = Math.round(performance.now() - startTime);
     if (
       error instanceof Error &&
       (error.message === input.unavailableCode ||
@@ -77,6 +111,13 @@ export async function requestPageData<T>(input: PageDataRequest<T>): Promise<T> 
     ) {
       throw error;
     }
+    serverLogger.error("PAGE_DATA_NETWORK_ERROR", error, {
+      url: input.url,
+      durationMs,
+      cacheIdentity: input.cacheIdentity,
+      requestId,
+      errorCode: input.unavailableCode,
+    });
     throw input.createError(input.unavailableCode);
   } finally {
     clearTimeout(timeout);

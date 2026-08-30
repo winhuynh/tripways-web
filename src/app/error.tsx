@@ -1,6 +1,22 @@
 "use client";
 
-export default function ErrorPage({ reset }: { error: Error & { digest?: string }; reset: () => void }) {
+import { useEffect } from "react";
+import { clientLogger } from "@/lib/client/client-logger";
+
+export default function ErrorPage({
+  error,
+  reset,
+}: {
+  error: Error & { digest?: string };
+  reset: () => void;
+}) {
+  useEffect(() => {
+    clientLogger.error("PAGE_ERROR_BOUNDARY_TRIGGERED", error, {
+      component: "ErrorPage",
+      digest: error?.digest,
+    });
+  }, [error]);
+
   return (
     <main className="pseo-page">
       <section className="pseo-container pseo-section" aria-labelledby="page-error-heading">

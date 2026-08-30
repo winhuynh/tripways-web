@@ -1,12 +1,12 @@
 "use client";
 
 import { usePathname } from "next/navigation";
+import { FlightSearchBar } from "@/features/homepage/presentation/flight-search-bar";
 import { BrandMark } from "./brand-mark";
-import { RouteSwitcher } from "./route-switcher";
 
 /**
- * Renders the shared site header and canonical route navigation control.
- * On homepage ("/"), the compact route switcher is omitted to avoid duplicate search inputs.
+ * Renders the shared site header and canonical route search control.
+ * On homepage ("/"), the compact search bar is omitted to avoid duplicate search inputs.
  */
 export function SiteHeader() {
   const pathname = usePathname();
@@ -16,7 +16,7 @@ export function SiteHeader() {
     <header className="editorial-site-header">
       <div className="editorial-site-header__inner">
         <BrandMark />
-        {!isHomepage && <RouteSwitcher />}
+        {!isHomepage && <FlightSearchBar variant="compact" />}
       </div>
     </header>
   );

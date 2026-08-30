@@ -14,9 +14,14 @@ import { LocationSuggestDropdown } from "./location-suggest-dropdown";
 type FlightSearchBarProps = {
   currentHub?: HubAirport;
   onSelectHub?: (hub: HubAirport) => void;
+  variant?: "hero" | "compact";
 };
 
-export function FlightSearchBar({ currentHub, onSelectHub }: FlightSearchBarProps) {
+export function FlightSearchBar({
+  currentHub,
+  onSelectHub,
+  variant = "hero",
+}: FlightSearchBarProps) {
   const router = useRouter();
 
   // Inputs
@@ -82,8 +87,8 @@ export function FlightSearchBar({ currentHub, onSelectHub }: FlightSearchBarProp
     }
 
     if (activeField === "to") {
-      if (!toQuery.trim()) {
-        // Show quick action items when empty
+      if (!toQuery.trim() || toQuery === "Explore everywhere") {
+        // Show quick action items when empty or Explore everywhere is active
         return searchLocationSuggestions("", {
           includeQuickActions: true,
         });
@@ -187,7 +192,7 @@ export function FlightSearchBar({ currentHub, onSelectHub }: FlightSearchBarProp
     const fromAirport = findAirportByIata(fromIata);
     const toAirport = findAirportByIata(toIata);
 
-    if (toIata === "EVERYWHERE" || !toQuery) {
+    if (toIata === "EVERYWHERE" || toQuery === "Explore everywhere" || !toQuery) {
       if (fromAirport?.citySlug) {
         router.push(`/flights-from/${fromAirport.citySlug}`);
       }
@@ -201,29 +206,40 @@ export function FlightSearchBar({ currentHub, onSelectHub }: FlightSearchBarProp
     }
   };
 
+  const isCompact = variant === "compact";
+
   return (
-    <div className="skyscanner-search-container" ref={containerRef}>
-      {/* Top Options: Direct flights / Multi-city toggle */}
-      <div className="search-top-controls">
-        <button
-          type="button"
-          className={`search-pill-btn ${!isMultiCity ? "active" : ""}`}
-          onClick={() => setIsMultiCity(false)}
-        >
-          Flight search
-        </button>
-        <button
-          type="button"
-          className={`search-pill-btn ${isMultiCity ? "active" : ""}`}
-          onClick={() => setIsMultiCity(true)}
-        >
-          Multi-city search
-        </button>
-      </div>
+    <div
+      className={`skyscanner-search-container ${
+        isCompact ? "skyscanner-search-container--compact" : ""
+      }`}
+      ref={containerRef}
+    >
+      {/* Top Options: Direct flights / Multi-city toggle (Hero only) */}
+      {!isCompact && (
+        <div className="search-top-controls">
+          <button
+            type="button"
+            className={`search-pill-btn ${!isMultiCity ? "active" : ""}`}
+            onClick={() => setIsMultiCity(false)}
+          >
+            Flight search
+          </button>
+          <button
+            type="button"
+            className={`search-pill-btn ${isMultiCity ? "active" : ""}`}
+            onClick={() => setIsMultiCity(true)}
+          >
+            Multi-city search
+          </button>
+        </div>
+      )}
 
       {/* Main Clean Search Bar (From, Swap, To, Search) */}
       <form
-        className="flight-search-bar flight-search-bar--clean"
+        className={`flight-search-bar flight-search-bar--clean ${
+          isCompact ? "flight-search-bar--compact" : ""
+        }`}
         onSubmit={handleSearchSubmit}
         onKeyDown={handleKeyDown}
         role="search"
@@ -248,7 +264,7 @@ export function FlightSearchBar({ currentHub, onSelectHub }: FlightSearchBarProp
               type="text"
               className="search-cell__input"
               value={fromQuery}
-              placeholder="Country, city or airport..."
+              placeholder={isCompact ? "City or airport" : "Country, city or airport..."}
               onChange={(e) => {
                 setFromQuery(e.target.value);
                 setActiveField("from");
@@ -333,7 +349,7 @@ export function FlightSearchBar({ currentHub, onSelectHub }: FlightSearchBarProp
               type="text"
               className="search-cell__input"
               value={toQuery}
-              placeholder="Country, city or airport..."
+              placeholder={isCompact ? "Where to?" : "Country, city or airport..."}
               onChange={(e) => {
                 setToQuery(e.target.value);
                 setActiveField("to");
@@ -377,22 +393,24 @@ export function FlightSearchBar({ currentHub, onSelectHub }: FlightSearchBarProp
 
         {/* Search CTA Button */}
         <button type="submit" className="search-submit-btn">
-          Search flights
+          {isCompact ? "Search" : "Search flights"}
         </button>
       </form>
 
-      {/* Bottom Options: Direct flights only */}
-      <div className="search-bottom-options">
-        <label className="search-checkbox-label">
-          <input
-            type="checkbox"
-            className="search-checkbox"
-            checked={directOnly}
-            onChange={(e) => setDirectOnly(e.target.checked)}
-          />
-          <span>Direct flights only</span>
-        </label>
-      </div>
+      {/* Bottom Options: Direct flights only (Hero only) */}
+      {!isCompact && (
+        <div className="search-bottom-options">
+          <label className="search-checkbox-label">
+            <input
+              type="checkbox"
+              className="search-checkbox"
+              checked={directOnly}
+              onChange={(e) => setDirectOnly(e.target.checked)}
+            />
+            <span>Direct flights only</span>
+          </label>
+        </div>
+      )}
     </div>
   );
 }

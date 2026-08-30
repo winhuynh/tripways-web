@@ -1,5 +1,7 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 
+vi.mock("server-only", () => ({}));
+
 const { revalidateTag } = vi.hoisted(() => ({ revalidateTag: vi.fn() }));
 
 vi.mock("next/cache", () => ({ revalidateTag }));
