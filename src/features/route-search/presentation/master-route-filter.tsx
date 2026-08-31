@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useRouter } from "next/navigation";
+import { useState, useTransition, type FormEvent } from "react";
 import type { RouteSearchModel } from "../domain/route-search-model";
 import {
   serializeNonEmptyFilterEntries,
@@ -39,6 +40,14 @@ type Props = Readonly<{
   heading?: string;
 }>;
 
+function useSafeRouter() {
+  try {
+    return useRouter();
+  } catch {
+    return null;
+  }
+}
+
 export function MasterRouteFilter({
   fields,
   values,
@@ -49,6 +58,8 @@ export function MasterRouteFilter({
   airportCode,
   heading = "Filter routes",
 }: Props) {
+  const router = useSafeRouter();
+  const [isPending, startTransition] = useTransition();
   const [isMobileOpen, setIsMobileOpen] = useState(false);
 
   function submit(event: FormEvent<HTMLFormElement>) {
@@ -57,7 +68,14 @@ export function MasterRouteFilter({
       new FormData(event.currentTarget).entries(),
     );
     setIsMobileOpen(false);
-    window.location.assign(query ? `${clearHref}?${query}` : clearHref);
+    const targetUrl = query ? `${clearHref}?${query}` : clearHref;
+    if (router) {
+      startTransition(() => {
+        router.push(targetUrl, { scroll: false });
+      });
+    } else {
+      window.location.assign(targetUrl);
+    }
   }
 
   const activeCount = countActiveFilters(values);
@@ -377,6 +395,7 @@ function countActiveFilters(values: RouteFilterValues): number {
   let count = 0;
   for (const [key, value] of Object.entries(values)) {
     if (key === "after") continue;
+    if (key === "max_stops" && (value === 3 || value === "3")) continue;
     if (Array.isArray(value)) {
       count += value.length;
     } else if (value !== undefined && value !== "" && value !== "all") {

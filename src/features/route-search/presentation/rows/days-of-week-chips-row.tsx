@@ -3,13 +3,13 @@
 import { useState } from "react";
 
 const DAYS_OF_WEEK = [
-  { value: "1", label: "T2", title: "Thứ Hai" },
-  { value: "2", label: "T3", title: "Thứ Ba" },
-  { value: "3", label: "T4", title: "Thứ Tư" },
-  { value: "4", label: "T5", title: "Thứ Năm" },
-  { value: "5", label: "T6", title: "Thứ Sáu" },
-  { value: "6", label: "T7", title: "Thứ Bảy" },
-  { value: "7", label: "CN", title: "Chủ Nhật" },
+  { value: "1", label: "Mon", title: "Monday" },
+  { value: "2", label: "Tue", title: "Tuesday" },
+  { value: "3", label: "Wed", title: "Wednesday" },
+  { value: "4", label: "Thu", title: "Thursday" },
+  { value: "5", label: "Fri", title: "Friday" },
+  { value: "6", label: "Sat", title: "Saturday" },
+  { value: "7", label: "Sun", title: "Sunday" },
 ] as const;
 
 type DaysOfWeekChipsRowProps = Readonly<{

@@ -16,13 +16,19 @@ export async function getCityPage(
     });
   } catch (error) {
     // Strictly isolate preview fixture fallback to local offline dev only.
-    // Never fallback in staging or production to prevent serving unverified/stale pSEO content.
     if (
-      (process.env.NODE_ENV === "development" ||
-        process.env.APP_ENV === "local") &&
-      slug === "bangkok"
+      process.env.NODE_ENV === "development" ||
+      process.env.APP_ENV === "local"
     ) {
-      return BANGKOK_CITY_PAGE_FIXTURE;
+      const cityName = slug
+        .split("-")
+        .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+        .join(" ");
+      return {
+        ...BANGKOK_CITY_PAGE_FIXTURE,
+        city: { ...BANGKOK_CITY_PAGE_FIXTURE.city, slug, name: cityName },
+        canonicalPath: `/flights-from/${slug}`,
+      };
     }
     throw error;
   }
