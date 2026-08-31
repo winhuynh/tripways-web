@@ -17,6 +17,7 @@ import {
 } from "../domain/route-filter-labels";
 import {
   ChoiceChipsRow,
+  DaysOfWeekChipsRow,
   DurationSliderRow,
   FacetChoicesRow,
   FareInputRow,
@@ -24,6 +25,7 @@ import {
   SegmentedTabRow,
   TimeBucketChipsRow,
 } from "./rows";
+
 import "./master-route-filter.css";
 
 type Props = Readonly<{
@@ -298,6 +300,15 @@ function FilterField({
         />
       );
 
+    case "days_of_week":
+      return (
+        <DaysOfWeekChipsRow
+          name="days_of_week"
+          label="Operating days"
+          selected={values.days_of_week}
+        />
+      );
+
     case "route_type":
       return (
         <ChoiceChipsRow
@@ -318,14 +329,14 @@ function FilterField({
           name="max_stops"
           label="Stops"
           options={[
-            { value: "3", label: "Any stops" },
-            { value: "0", label: "Nonstop only" },
-            { value: "1", label: "Up to 1 stop" },
-            { value: "2", label: "Up to 2 stops" },
+            { value: "3", label: "All (0 & 1 stop)" },
+            { value: "0", label: "✈️ Nonstop only" },
+            { value: "1", label: "🔄 1-stop via Hub" },
           ]}
           defaultValue={String(values.max_stops ?? 3)}
         />
       );
+
 
     case "max_duration_minutes":
       return (

@@ -616,8 +616,83 @@
 }
 
 /* ---------------------------------------------------------------------------
+ * DAYS OF WEEK OPERATING SCHEDULE CHIPS
+ * --------------------------------------------------------------------------- */
+.master-filter__days-grid {
+  display: flex;
+  gap: 0.35rem;
+  justify-content: space-between;
+}
+
+.master-filter__day-chip {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 38px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 0.84rem;
+  font-weight: 650;
+  color: #475569;
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.15s ease;
+}
+
+.master-filter__day-chip:hover {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+  color: #0f172a;
+}
+
+.master-filter__day-chip--selected {
+  background: #005cb9 !important;
+  border-color: #005cb9 !important;
+  color: #ffffff !important;
+  box-shadow: 0 2px 6px rgba(0, 92, 185, 0.25);
+}
+
+.master-filter__days-presets {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.master-filter__preset-btn {
+  flex: 1;
+  padding: 0.35rem 0.6rem;
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: #334155;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  text-align: center;
+}
+
+.master-filter__preset-btn:hover {
+  background: #e2e8f0;
+  color: #0f172a;
+}
+
+.master-filter__preset-btn--clear {
+  color: #dc2626;
+  background: #fef2f2;
+  border-color: #fecaca;
+}
+
+.master-filter__preset-btn--clear:hover {
+  background: #fee2e2;
+}
+
+/* ---------------------------------------------------------------------------
  * MOBILE TRIGGER BAR & DRAWER
  * --------------------------------------------------------------------------- */
+
 .master-filter__mobile-bar {
   display: none;
 }
@@ -708,3 +783,155 @@
     z-index: 999;
   }
 }
+
+/* --------------------------------------------------------------------------
+ * ROUTE RESULTS LISTING & DUAL-CTA STYLES
+ * -------------------------------------------------------------------------- */
+.route-results {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.route-results__summary {
+  font-size: 0.85rem;
+  color: #64748b;
+  margin: 0;
+}
+
+.route-results__empty {
+  padding: 2.5rem 1.5rem;
+  text-align: center;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  color: #64748b;
+}
+
+.route-results__clear-link {
+  color: #005cb9;
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+.route-results__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.route-results__item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 1rem 1.25rem;
+  transition: all 150ms ease;
+}
+
+.route-results__item:hover {
+  border-color: #cbd5e1;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04);
+}
+
+.route-results__route {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.route-results__route strong {
+  font-size: 0.95rem;
+  color: #0f172a;
+}
+
+.route-results__stops {
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: #eff6ff;
+  color: #005cb9;
+}
+
+.route-results__details {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  font-size: 0.84rem;
+  color: #475569;
+}
+
+.route-results__airlines {
+  font-weight: 500;
+}
+
+.route-results__duration {
+  color: #64748b;
+}
+
+.route-results__price {
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.route-results__actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.route-results__cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  padding: 6px 12px;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: all 150ms ease;
+  white-space: nowrap;
+}
+
+.route-results__cta--primary {
+  background: #005cb9;
+  color: #ffffff;
+  border: 1px solid #005cb9;
+}
+
+.route-results__cta--primary:hover {
+  background: #004b99;
+  border-color: #004b99;
+  color: #ffffff;
+}
+
+.route-results__cta--secondary {
+  background: #f8fafc;
+  color: #334155;
+  border: 1px solid #cbd5e1;
+}
+
+.route-results__cta--secondary:hover {
+  background: #f1f5f9;
+  border-color: #94a3b8;
+  color: #0f172a;
+}
+
+.route-results__unavailable {
+  font-size: 0.75rem;
+  color: #94a3b8;
+  font-style: italic;
+}
+

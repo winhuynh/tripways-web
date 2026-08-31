@@ -17,14 +17,15 @@ type CityDestinationsTableProps = {
 export function CityDestinationsTable({
   cityName,
   destinations,
-  totalCount = 182,
+  totalCount,
 }: CityDestinationsTableProps) {
+  const displayTotal = totalCount ?? destinations.length;
   return (
     <div className="city-destinations-section">
       <div className="city-table-header">
         <h2 className="city-table-title">Nonstop destinations from {cityName}</h2>
         <span className="city-table-count">
-          Showing {destinations.length} of {totalCount} nonstop destinations
+          Showing {destinations.length} of {displayTotal} nonstop destinations
         </span>
       </div>
 
@@ -37,13 +38,14 @@ export function CityDestinationsTable({
               <th>ORIGIN</th>
               <th>AIRLINES</th>
               <th>TIME &amp; FREQ</th>
-              <th>FARE</th>
+              <th>ESTIMATED FARE</th>
+              <th>ACTION</th>
             </tr>
           </thead>
           <tbody>
             {destinations.length === 0 ? (
               <tr>
-                <td colSpan={6} style={{ textAlign: "center", padding: "2rem", color: "#64748b" }}>
+                <td colSpan={7} style={{ textAlign: "center", padding: "2rem", color: "#64748b" }}>
                   No nonstop destinations match these filters.
                 </td>
               </tr>
@@ -56,10 +58,10 @@ export function CityDestinationsTable({
                     ? `${dest.frequency}/week`
                     : "Varies";
                 const currency = dest.fareCurrency ?? "£";
-                const fareText =
-                  typeof dest.fareMin === "number" && typeof dest.fareMax === "number"
-                    ? `${currency}${dest.fareMin} - ${currency}${dest.fareMax}`
-                    : "—";
+                const hasFare = typeof dest.fareMin === "number" && typeof dest.fareMax === "number";
+                const fareText = hasFare
+                  ? `${currency}${dest.fareMin} - ${currency}${dest.fareMax}`
+                  : "—";
                 const airportLabels = dest.airports.map((code) => getAirportDisplay(code)).join(", ");
                 const airlineNames = dest.airlines.map(getAirlineDisplay).join(", ");
 
@@ -94,6 +96,27 @@ export function CityDestinationsTable({
                     </td>
                     <td className="city-fare-col">
                       <span className="city-fare-range">{fareText}</span>
+                      <small className="city-fare-sub">
+                        {hasFare ? "Economy one-way" : "Check live fares"}
+                      </small>
+                    </td>
+                    <td className="city-action-col">
+                      <div className="city-dest-actions">
+                        <Link
+                          href={dest.path}
+                          className="city-dest-cta city-dest-cta--primary"
+                          aria-label={`Check fares from ${cityName} to ${dest.city}`}
+                        >
+                          Check fares ↗
+                        </Link>
+                        <Link
+                          href={dest.path}
+                          className="city-dest-cta city-dest-cta--secondary"
+                          aria-label={`View route guide for ${cityName} to ${dest.city}`}
+                        >
+                          Route guide →
+                        </Link>
+                      </div>
                     </td>
                   </tr>
                 );

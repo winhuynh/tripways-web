@@ -103,13 +103,14 @@ export function parseRoutePageResponse(
       optionalNumber(summary?.weeklyDirectFlights) ??
       (directRoutes.length > 0
         ? directRoutes.reduce(
-            (sum, r) =>
+            (sum: number, r: unknown) =>
               sum +
               (optionalArray((r as Record<string, unknown>).days_of_week)
                 .length || 7),
             0,
           )
         : null);
+
 
 
     const observedPrices = optionalArray(root.observations).map(parseObservation);

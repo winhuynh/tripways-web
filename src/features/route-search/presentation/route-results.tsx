@@ -59,15 +59,28 @@ export function RouteResults({
                   </span>
                 </div>
                 <div className="route-results__details">
-                  <span>{airlineNames}</span>
-                  <span>{formatDuration(option.durationMinutes)}</span>
+                  <span className="route-results__airlines">{airlineNames}</span>
+                  <span className="route-results__duration">{formatDuration(option.durationMinutes)}</span>
                   {includePrice ? (
-                    <span>{formatPriceEstimate(option.price)}</span>
+                    <span className="route-results__price">{formatPriceEstimate(option.price)}</span>
                   ) : null}
                   {option.routePath ? (
-                    <Link href={option.routePath} className="route-results__cta">
-                      View route
-                    </Link>
+                    <div className="route-results__actions">
+                      <Link
+                        href={option.routePath}
+                        className="route-results__cta route-results__cta--primary"
+                        aria-label={`Check fares for ${fromDisplay} to ${toDisplay}`}
+                      >
+                        Check fares ↗
+                      </Link>
+                      <Link
+                        href={option.routePath}
+                        className="route-results__cta route-results__cta--secondary"
+                        aria-label={`View route guide for ${fromDisplay} to ${toDisplay}`}
+                      >
+                        View route →
+                      </Link>
+                    </div>
                   ) : (
                     <span className="route-results__unavailable">
                       Route guide unavailable

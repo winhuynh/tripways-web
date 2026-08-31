@@ -107,6 +107,7 @@ describe("shared pSEO elements", () => {
     expect(markup).toContain("12h 45m");
     expect(markup).toContain("14 WEEKLY FLIGHTS");
     expect(markup).toContain("Thai Airways");
+    expect(markup).toContain("Check live fares ↗");
     expect(markup).toContain("View BKK → LHR");
   });
 

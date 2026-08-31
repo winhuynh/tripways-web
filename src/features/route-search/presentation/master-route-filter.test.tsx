@@ -45,6 +45,8 @@ describe("MasterRouteFilter", () => {
       />,
     );
     expect(html).toContain('name="max_stops"');
+    expect(html).toContain('name="days_of_week"');
+    expect(html).toContain("Operating days");
     expect(html).toContain('name="connection_airports"');
     expect(html).toContain("Singapore (SIN)");
     expect(html).toContain('class="master-filter__choice-count">2</span>');
@@ -55,6 +57,7 @@ describe("MasterRouteFilter", () => {
     expect(html).toContain("Next page");
     expect(html).not.toContain('name="route_type"');
   });
+
 
   it("keeps Airport controls direct-only with humanized airport direction", () => {
     const html = renderToStaticMarkup(

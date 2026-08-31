@@ -9,58 +9,6 @@
   padding-bottom: 4rem;
 }
 
-/* --------------------------------------------------------------------------
-   1. Hero & Breadcrumb
-   -------------------------------------------------------------------------- */
-
-.city-hero-section {
-  padding: 2.5rem 0 1.5rem;
-}
-
-.city-hero-section .pseo-breadcrumbs {
-  margin-bottom: 1.25rem;
-}
-
-.city-hero-section .pseo-breadcrumbs ol {
-  display: flex;
-  gap: 0.5rem;
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  font-size: 0.72rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  color: #64748b;
-}
-
-.city-hero-section .pseo-breadcrumbs li::after {
-  content: "/";
-  margin-left: 0.5rem;
-  color: #cbd5e1;
-}
-
-.city-hero-section .pseo-breadcrumbs li:last-child::after {
-  content: "";
-}
-
-.city-hero__title {
-  font-family: Georgia, "Playfair Display", "Times New Roman", serif;
-  font-size: clamp(2.2rem, 4.5vw, 3.25rem);
-  font-weight: 700;
-  color: #0f172a;
-  line-height: 1.15;
-  margin-bottom: 0.85rem;
-  letter-spacing: -0.015em;
-}
-
-.city-hero__intro {
-  max-width: 780px;
-  color: #475569;
-  font-size: 1.05rem;
-  line-height: 1.6;
-  margin-bottom: 0.75rem;
-}
-
 .city-hero__verified {
   font-size: 0.75rem;
   color: #94a3b8;
@@ -363,39 +311,68 @@
   color: #0f172a;
 }
 
-.city-frequency {
-  color: #64748b;
-  font-size: 0.75rem;
+.city-fare-col {
+  display: flex;
+  flex-direction: column;
 }
 
 .city-fare-range {
-  font-weight: 600;
+  font-weight: 700;
   color: #0f172a;
 }
 
-.city-table-actions {
+.city-fare-sub {
+  font-size: 0.72rem;
+  color: #64748b;
+  margin-top: 2px;
+}
+
+.city-action-col {
+  white-space: nowrap;
+}
+
+.city-dest-actions {
   display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.city-dest-cta {
+  display: inline-flex;
+  align-items: center;
   justify-content: center;
-  margin-top: 1.25rem;
-}
-
-.city-show-more-btn {
-  background: #ffffff;
-  border: 1px solid #cbd5e1;
-  border-radius: 8px;
-  color: #334155;
-  font-size: 0.75rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  padding: 10px 24px;
-  cursor: pointer;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  padding: 6px 12px;
+  border-radius: 6px;
+  text-decoration: none;
   transition: all 150ms ease;
+  white-space: nowrap;
 }
 
-.city-show-more-btn:hover {
+.city-dest-cta--primary {
+  background: #005cb9;
+  color: #ffffff;
+  border: 1px solid #005cb9;
+}
+
+.city-dest-cta--primary:hover {
+  background: #004b99;
+  border-color: #004b99;
+  color: #ffffff;
+}
+
+.city-dest-cta--secondary {
   background: #f8fafc;
+  color: #334155;
+  border: 1px solid #cbd5e1;
+}
+
+.city-dest-cta--secondary:hover {
+  background: #f1f5f9;
   border-color: #94a3b8;
+  color: #0f172a;
 }
 
 .city-table-disclaimer {

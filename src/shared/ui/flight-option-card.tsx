@@ -98,15 +98,21 @@ export function FlightOptionCard({
         <div className="flight-option-card__line-graphic" aria-hidden="true">
           <span className="flight-option-card__line-dot flight-option-card__line-dot--start" />
           <span className="flight-option-card__line-track" />
-          <svg
-            className="flight-option-card__plane-icon"
-            width="14"
-            height="14"
-            viewBox="0 0 24 24"
-            fill="currentColor"
-          >
-            <path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z" />
-          </svg>
+          {option.stops > 0 && option.connectionAirport ? (
+            <span className="flight-option-card__transit-pill" title={`Layover at ${option.connectionAirport.toUpperCase()}`}>
+              {option.connectionAirport.toUpperCase()}
+            </span>
+          ) : (
+            <svg
+              className="flight-option-card__plane-icon"
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+            >
+              <path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z" />
+            </svg>
+          )}
           <span className="flight-option-card__line-dot flight-option-card__line-dot--end" />
         </div>
       </div>
@@ -146,19 +152,30 @@ export function FlightOptionCard({
           </div>
         ) : null}
 
-        {option.routePath ? (
-          <Link
-            href={option.routePath}
-            className="flight-option-card__cta"
-            aria-label={`View flights from ${fromIata} to ${toIata}`}
-          >
-            {ctaText}
-          </Link>
-        ) : (
-          <span className="flight-option-card__cta flight-option-card__cta--disabled">
-            {ctaText}
-          </span>
-        )}
+        <div className="flight-option-card__actions">
+          {option.routePath ? (
+            <>
+              <Link
+                href={option.routePath}
+                className="flight-option-card__cta flight-option-card__cta--primary"
+                aria-label={`Check live fares for ${fromIata} to ${toIata}`}
+              >
+                Check live fares ↗
+              </Link>
+              <Link
+                href={option.routePath}
+                className="flight-option-card__cta flight-option-card__cta--secondary"
+                aria-label={`View flights from ${fromIata} to ${toIata}`}
+              >
+                {ctaText}
+              </Link>
+            </>
+          ) : (
+            <span className="flight-option-card__cta flight-option-card__cta--disabled">
+              {ctaText}
+            </span>
+          )}
+        </div>
       </div>
     </article>
   );

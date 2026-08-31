@@ -261,6 +261,19 @@
   padding: 0 2px;
 }
 
+.flight-option-card__transit-pill {
+  position: relative;
+  z-index: 2;
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  color: #0f172a;
+}
+
 .flight-option-card__meta {
   display: flex;
   flex-direction: column;
@@ -319,29 +332,57 @@
   color: #94a3b8;
 }
 
-.flight-option-card__cta {
-  display: inline-block;
-  background: #005cb9;
-  color: #ffffff;
-  font-size: 0.72rem;
-  font-weight: 800;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  padding: 8px 14px;
-  border-radius: 6px;
-  text-decoration: none;
-  transition: background 150ms ease;
+.flight-option-card__actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
   margin-top: 4px;
 }
 
-.flight-option-card__cta:hover {
+.flight-option-card__cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 7px 12px;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: all 150ms ease;
+  white-space: nowrap;
+}
+
+.flight-option-card__cta--primary {
+  background: #005cb9;
+  color: #ffffff;
+  border: 1px solid #005cb9;
+}
+
+.flight-option-card__cta--primary:hover {
   background: #004b99;
+  border-color: #004b99;
+  color: #ffffff;
+}
+
+.flight-option-card__cta--secondary {
+  background: #f8fafc;
+  color: #334155;
+  border: 1px solid #cbd5e1;
+}
+
+.flight-option-card__cta--secondary:hover {
+  background: #f1f5f9;
+  border-color: #94a3b8;
+  color: #0f172a;
 }
 
 .flight-option-card__cta--disabled {
   background: #e2e8f0;
   color: #94a3b8;
   cursor: not-allowed;
+  border: 1px solid #e2e8f0;
 }
 
 .route-cards-empty {

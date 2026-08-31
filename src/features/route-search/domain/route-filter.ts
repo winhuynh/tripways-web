@@ -8,6 +8,7 @@ export type RouteFilterField =
   | "counterpart_regions"
   | "airlines"
   | "route_type"
+  | "days_of_week"
   | "max_stops"
   | "connection_airports"
   | "departure_time_buckets"
@@ -21,6 +22,7 @@ export const CITY_ROUTE_FILTER_FIELDS = [
   "destination_regions",
   "airlines",
   "route_type",
+  "days_of_week",
   "max_duration_minutes",
   "max_one_way_fare",
 ] as const satisfies readonly RouteFilterField[];
@@ -28,6 +30,7 @@ export const CITY_ROUTE_FILTER_FIELDS = [
 export const ROUTE_PAGE_FILTER_FIELDS = [
   "max_stops",
   "airlines",
+  "days_of_week",
   "connection_airports",
   "departure_time_buckets",
   "max_duration_minutes",
@@ -54,6 +57,7 @@ export type RouteFilterValues = Partial<
     counterpart_regions: string[];
     airlines: string[];
     route_type: "all" | "domestic" | "international";
+    days_of_week: string[];
     max_stops: number;
     connection_airports: string[];
     departure_time_buckets: Array<
@@ -75,9 +79,11 @@ const arrayFields = new Set<RouteFilterField>([
   "counterpart_countries",
   "counterpart_regions",
   "airlines",
+  "days_of_week",
   "connection_airports",
   "departure_time_buckets",
 ]);
+
 
 export function parseRouteFilterQuery(
   query: RouteFilterQuery,
@@ -188,6 +194,7 @@ function normalizeList(
         field === "counterpart_countries"
       )
         return /^[A-Za-z]{2}$/.test(value);
+      if (field === "days_of_week") return /^[1-7]$/.test(value);
       if (field === "departure_time_buckets")
         return [
           "early_morning",
@@ -200,10 +207,12 @@ function normalizeList(
     .map((value) =>
       field === "destination_regions" ||
       field === "counterpart_regions" ||
-      field === "departure_time_buckets"
+      field === "departure_time_buckets" ||
+      field === "days_of_week"
         ? value
         : value.toUpperCase(),
     );
+
   return [...new Set(valid)];
 }
 

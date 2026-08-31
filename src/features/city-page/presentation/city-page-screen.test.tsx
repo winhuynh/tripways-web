@@ -72,9 +72,24 @@ describe("CityPageScreen", () => {
     expect(html).toContain("Find the nonstop flight that fits");
     expect(html).toContain("Nonstop destinations from Bangkok");
     expect(html).toContain("Singapore");
+    expect(html).toContain("Check fares ↗");
+    expect(html).toContain("Route guide →");
     expect(html).toContain("Choose the Bangkok airport");
     expect(html).toContain("Suvarnabhumi");
     expect(html).toContain("Don Mueang");
     expect(html).toContain("Which airports serve Bangkok?");
+  });
+
+  it("renders RouteResults fallback when filtered destinations are empty", () => {
+    const emptyModel = { ...model, destinations: [] };
+    const html = renderToStaticMarkup(
+      <CityPageScreen
+        model={emptyModel}
+        routes={{ ...routeSearchFixture, options: [] }}
+        filterValues={{}}
+      />,
+    );
+    expect(html).toContain("No verified routes match these filters.");
+    expect(html).not.toContain("Nonstop destinations from Bangkok");
   });
 });

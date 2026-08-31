@@ -37,6 +37,7 @@ describe("master route filter contract", () => {
     const values = parseRouteFilterQuery({
       max_stops: "2",
       connection_airports: ["sin", "DOHA"],
+      days_of_week: ["1", "5", "6", "7", "invalid", "9"],
       departure_time_buckets: ["morning", "invalid"],
       max_layover_minutes: "180",
       after: "1:900:0.8:00000000-0000-0000-0000-000000000001",
@@ -44,10 +45,12 @@ describe("master route filter contract", () => {
 
     expect(values.max_stops).toBe(2);
     expect(values.connection_airports).toEqual(["SIN"]);
+    expect(values.days_of_week).toEqual(["1", "5", "6", "7"]);
     expect(values.departure_time_buckets).toEqual(["morning"]);
     expect(values.max_layover_minutes).toBe(180);
     expect(values.after).toContain("00000000-0000-0000-0000-000000000001");
   });
+
 
   it("keeps Airport scope direct-only by ignoring forbidden filters", () => {
     const values = parseRouteFilterQuery({

@@ -95,7 +95,7 @@ export function CityPageScreen({
             />
           </div>
 
-          {/* Right Main Column: Map + Table + Route Results */}
+          {/* Right Main Column: Map + Table */}
           <div className="city-main-content">
             {(() => {
               const filteredDestinations = filterCityDestinations(
@@ -110,20 +110,22 @@ export function CityPageScreen({
                     destinations={filteredDestinations}
                   />
 
-                  <CityDestinationsTable
-                    cityName={model.city.name}
-                    destinations={filteredDestinations}
-                    totalCount={model.quickFacts.destinations}
-                  />
+                  {filteredDestinations.length > 0 ? (
+                    <CityDestinationsTable
+                      cityName={model.city.name}
+                      destinations={filteredDestinations}
+                      totalCount={model.quickFacts.destinations}
+                    />
+                  ) : (
+                    <RouteResults
+                      model={routes}
+                      filterValues={filterValues}
+                      clearHref={`/flights-from/${model.city.slug}`}
+                    />
+                  )}
                 </>
               );
             })()}
-
-            <RouteResults
-              model={routes}
-              filterValues={filterValues}
-              clearHref={`/flights-from/${model.city.slug}`}
-            />
           </div>
         </section>
 
