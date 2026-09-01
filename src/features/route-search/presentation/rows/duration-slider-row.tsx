@@ -35,6 +35,7 @@ export function DurationSliderRow({
       <input
         id={name}
         name={name}
+        data-filter-active={val !== undefined ? "true" : "false"}
         type="range"
         min={min}
         max={max}

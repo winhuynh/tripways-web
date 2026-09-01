@@ -99,12 +99,41 @@ export function RoutePageScreen({
     });
   }
 
-  // Map overlay summary
-  const totalOptions = routes?.total ?? model.summary.directOptions + model.summary.indirectOptions;
-  const minFareDisplay = model.summary.minFare
-    ? ` from ${model.summary.minFare.currency === "GBP" ? "£" : model.summary.minFare.currency}${model.summary.minFare.amount}`
+  const visibleOptions = routes?.options;
+  const directOptions = visibleOptions
+    ? visibleOptions.filter((option) => option.stops === 0).length
+    : model.summary.directOptions;
+  const indirectOptions = visibleOptions
+    ? visibleOptions.filter((option) => option.stops > 0).length
+    : model.summary.indirectOptions;
+  const availableOptions = visibleOptions?.filter(
+    (option) => option.price.state === "available",
+  );
+  const lowestVisibleOption = availableOptions?.reduce(
+    (lowest, option) =>
+      lowest === undefined ||
+      (option.price.state === "available" &&
+        lowest.price.state === "available" &&
+        option.price.priceMin < lowest.price.priceMin)
+        ? option
+        : lowest,
+    undefined as RouteSearchModel["options"][number] | undefined,
+  );
+  const visibleMinFare =
+    lowestVisibleOption?.price.state === "available"
+      ? {
+          amount: lowestVisibleOption.price.priceMin,
+          currency: lowestVisibleOption.price.currencyCode,
+        }
+      : model.summary.minFare;
+  const totalOptions = visibleOptions?.length ?? directOptions + indirectOptions;
+  const minFareDisplay = visibleMinFare
+    ? ` from ${visibleMinFare.currency === "GBP" ? "£" : visibleMinFare.currency}${visibleMinFare.amount}`
     : "";
-  const mapOverlayText = `Showing ${totalOptions} flight options: ${model.summary.directOptions} nonstop, ${model.summary.indirectOptions} connecting${minFareDisplay}`;
+  const mapOverlayText = `Showing ${totalOptions} flight ${totalOptions === 1 ? "option" : "options"}: ${directOptions} nonstop, ${indirectOptions} connecting${minFareDisplay}`;
+  const recommendations: RoutePageModel["recommendations"] = visibleOptions
+    ? buildFilteredRecommendations(visibleOptions)
+    : model.recommendations;
 
   return (
     <main className="pseo-page route-page-main">
@@ -213,8 +242,8 @@ export function RoutePageScreen({
             </div>
 
             {/* Recommendations (Shared RecommendationHighlights) */}
-            {model.recommendations && model.recommendations.length > 0 && (
-              <RecommendationHighlights items={model.recommendations} />
+            {recommendations && recommendations.length > 0 && (
+              <RecommendationHighlights items={recommendations} />
             )}
 
             {/* Advertisement Slot A (Shared AdSlot) */}
@@ -252,4 +281,43 @@ export function RoutePageScreen({
       </div>
     </main>
   );
+}
+
+function buildFilteredRecommendations(
+  options: RouteSearchModel["options"],
+): NonNullable<RoutePageModel["recommendations"]> {
+  if (options.length === 0) return [];
+
+  const fastest = options.reduce((current, option) =>
+    option.durationMinutes < current.durationMinutes ? option : current,
+  );
+  const recommendations: NonNullable<RoutePageModel["recommendations"]> = [
+    {
+      badge: "FASTEST OPTION",
+      variant: "fastest",
+      title: `${formatDuration(fastest.durationMinutes)} ${fastest.stops === 0 ? "direct" : `${fastest.stops}-stop`} (${fastest.from} to ${fastest.to})`,
+    },
+  ];
+
+  let lowest: RouteSearchModel["options"][number] | undefined;
+  for (const option of options) {
+    if (option.price.state !== "available") continue;
+    if (
+      lowest === undefined ||
+      lowest.price.state !== "available" ||
+      option.price.priceMin < lowest.price.priceMin
+    ) {
+      lowest = option;
+    }
+  }
+
+  if (lowest?.price.state === "available") {
+    recommendations.push({
+      badge: "LOWEST FARE",
+      variant: "lowest",
+      title: `${lowest.price.currencyCode} ${lowest.price.priceMin.toLocaleString("en-GB")} (${lowest.stops === 0 ? "nonstop" : "connecting"})`,
+    });
+  }
+
+  return recommendations;
 }

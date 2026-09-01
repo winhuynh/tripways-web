@@ -25,6 +25,15 @@ describe("RouteResults", () => {
     expect(markup).toContain("Nonstop");
   });
 
+  it("uses singular flight option copy for one result", () => {
+    const markup = renderToStaticMarkup(
+      <RouteResults
+        model={{ ...routeSearchFixture, options: [routeSearchFixture.options[0]], total: 1 }}
+      />,
+    );
+    expect(markup).toContain("Showing 1 of 1 flight option");
+  });
+
   it("renders active filter chips when filterValues and clearHref are provided", () => {
     const markup = renderToStaticMarkup(
       <RouteResults

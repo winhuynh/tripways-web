@@ -29,7 +29,10 @@ export function parseRouteSearchResponse(value: unknown): RouteSearchModel {
           typeof row.layover_minutes === "number" ? row.layover_minutes : 0;
 
         return {
-          id: optionalText(row.id) ?? `${from}-${to}-${stops}`,
+          id:
+            optionalText(row.route_ref) ??
+            optionalText(row.id) ??
+            `${from}-${to}-${stops}`,
           from,
           to,
           originCountry: optionalText(row.origin_country) ?? "",

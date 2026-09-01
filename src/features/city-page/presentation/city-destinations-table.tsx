@@ -25,7 +25,8 @@ export function CityDestinationsTable({
       <div className="city-table-header">
         <h2 className="city-table-title">Nonstop destinations from {cityName}</h2>
         <span className="city-table-count">
-          Showing {destinations.length} of {displayTotal} nonstop destinations
+          Showing {destinations.length} nonstop route {destinations.length === 1 ? "option" : "options"}
+          {" · "}{displayTotal} {displayTotal === 1 ? "destination" : "destinations"} in total
         </span>
       </div>
 
@@ -66,7 +67,9 @@ export function CityDestinationsTable({
                 const airlineNames = dest.airlines.map(getAirlineDisplay).join(", ");
 
                 return (
-                  <tr key={dest.path}>
+                  <tr
+                    key={`${dest.path}:${dest.originAirports.join(",")}:${dest.airports.join(",")}`}
+                  >
                     <td className="city-dest-col">
                       <Link href={dest.path} className="city-dest-link">
                         <strong className="city-dest-name">{dest.city}</strong>

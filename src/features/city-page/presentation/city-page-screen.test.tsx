@@ -71,6 +71,7 @@ describe("CityPageScreen", () => {
     expect(html).toContain("DESTINATIONS");
     expect(html).toContain("Find the nonstop flight that fits");
     expect(html).toContain("Nonstop destinations from Bangkok");
+    expect(html).toContain("Showing 1 nonstop route option · 182 destinations in total");
     expect(html).toContain("Singapore");
     expect(html).toContain("Check fares ↗");
     expect(html).toContain("Route guide →");
@@ -87,6 +88,29 @@ describe("CityPageScreen", () => {
         model={emptyModel}
         routes={{ ...routeSearchFixture, options: [] }}
         filterValues={{}}
+      />,
+    );
+    expect(html).toContain("No verified routes match these filters.");
+    expect(html).not.toContain("Nonstop destinations from Bangkok");
+  });
+
+  it("uses singular destination copy for a one-destination city page", () => {
+    const html = renderToStaticMarkup(
+      <CityPageScreen
+        model={{ ...model, quickFacts: { ...model.quickFacts, destinations: 1 } }}
+        routes={routeSearchFixture}
+        filterValues={{}}
+      />,
+    );
+    expect(html).toContain("Showing 1 nonstop route option · 1 destination in total");
+  });
+
+  it("uses the server-filtered route set for filters not present in the page payload", () => {
+    const html = renderToStaticMarkup(
+      <CityPageScreen
+        model={model}
+        routes={{ ...routeSearchFixture, options: [], total: 0 }}
+        filterValues={{ days_of_week: ["2"] }}
       />,
     );
     expect(html).toContain("No verified routes match these filters.");

@@ -3,9 +3,6 @@ import type {
   RouteSearchModel,
   RouteSearchScope,
 } from "../domain/route-search-model";
-import {
-  getLocalFilteredRouteSearchFixture,
-} from "../domain/route-search-model.fixture";
 import { parseRouteSearchResponse } from "../infrastructure/route-search-response.dto";
 
 export async function searchRoutes(
@@ -13,18 +10,8 @@ export async function searchRoutes(
   filters: Record<string, unknown> = {},
   after: string | null = null,
 ): Promise<RouteSearchModel> {
-  try {
-    return await searchRouteData({
-      request: { scope, filters, page_size: 20, after },
-      parse: parseRouteSearchResponse,
-    });
-  } catch (error) {
-    if (
-      process.env.NODE_ENV === "development" ||
-      process.env.APP_ENV === "local"
-    ) {
-      return getLocalFilteredRouteSearchFixture(filters);
-    }
-    throw error;
-  }
+  return searchRouteData({
+    request: { scope, filters, page_size: 20, after },
+    parse: parseRouteSearchResponse,
+  });
 }

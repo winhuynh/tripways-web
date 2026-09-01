@@ -142,5 +142,11 @@ describe("RoutePageScreen", () => {
     expect(html).toContain("NONSTOP");
     expect(html).toContain("12h 45m");
     expect(html).toContain("View BKK → LHR");
+    expect(html).toContain(
+      "Showing 1 flight option: 1 nonstop, 0 connecting from £850",
+    );
+    expect(html).not.toContain("3 nonstop, 9 connecting");
+    expect(html).toContain("GBP 850 (nonstop)");
+    expect(html).not.toContain("£380 one-stop");
   });
 });

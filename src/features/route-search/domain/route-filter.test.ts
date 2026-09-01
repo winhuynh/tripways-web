@@ -86,6 +86,23 @@ describe("master route filter contract", () => {
     );
   });
 
+  it("maps UI-only fare and all-stops values to the canonical API contract", () => {
+    const values = parseRouteFilterQuery({
+      max_stops: "3",
+      max_one_way_fare: "450",
+      days_of_week: ["1", "5"],
+    }, ROUTE_PAGE_FILTER_FIELDS);
+
+    expect(serializeRouteSearchFilters(values, ROUTE_PAGE_FILTER_FIELDS)).toEqual({
+      days_of_week: [1, 5],
+    });
+
+    expect(serializeRouteSearchFilters(
+      { max_one_way_fare: 450 },
+      CITY_ROUTE_FILTER_FIELDS,
+    )).toEqual({ price_max: 450, currency: "USD" });
+  });
+
   it("hides backend cursors when the current result set cannot have another page", () => {
     expect(getUsableNextCursor({ total: 6, pageSize: 20, optionCount: 6, nextCursor: "cursor" })).toBeNull();
     expect(getUsableNextCursor({ total: 21, pageSize: 20, optionCount: 20, nextCursor: "cursor" })).toBe("cursor");
@@ -95,6 +112,8 @@ describe("master route filter contract", () => {
     expect(serializeNonEmptyFilterEntries([
       ["departure_airports", "BKK"],
       ["max_duration_minutes", ""],
+      ["max_stops", "3"],
+      ["route_type", "all"],
       ["airlines", "TG"],
       ["airlines", "SQ"],
     ])).toBe("departure_airports=BKK&airlines=TG&airlines=SQ");

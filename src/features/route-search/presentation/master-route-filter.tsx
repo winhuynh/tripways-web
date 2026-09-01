@@ -64,8 +64,14 @@ export function MasterRouteFilter({
 
   function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    for (const input of event.currentTarget.querySelectorAll<HTMLInputElement>(
+      'input[type="range"][data-filter-active="false"]',
+    )) {
+      if (input.name) formData.delete(input.name);
+    }
     const query = serializeNonEmptyFilterEntries(
-      new FormData(event.currentTarget).entries(),
+      formData.entries(),
     );
     setIsMobileOpen(false);
     const targetUrl = query ? `${clearHref}?${query}` : clearHref;
@@ -153,8 +159,13 @@ export function MasterRouteFilter({
           </div>
 
           <div className="master-filter__actions">
-            <button type="submit" className="master-filter__apply-btn">
-              Apply filters
+            <button
+              type="submit"
+              className="master-filter__apply-btn"
+              disabled={isPending}
+              aria-busy={isPending}
+            >
+              {isPending ? "Applying..." : "Apply filters"}
             </button>
             <a href={clearHref} className="master-filter__clear-link">
               Clear filters

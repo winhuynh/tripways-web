@@ -16,4 +16,20 @@ describe("parseRouteSearchResponse", () => {
 
     expect(result.options[0]?.routePath).toBeNull();
   });
+
+  it("keeps distinct backend IDs and authoritative result metadata", () => {
+    const result = parseRouteSearchResponse({
+      data: [
+        { route_ref: "vn-sgn-sin", from: "SGN", to: "SIN", stops: 0, operating_airlines: ["VN"], total_duration_minutes: 125, route_path: "/flights/ho-chi-minh-city-to-singapore", price: { state: "available", price_min: 90, price_max: 90, currency_code: "USD" } },
+        { route_ref: "sq-sgn-sin", from: "SGN", to: "SIN", stops: 0, operating_airlines: ["SQ"], total_duration_minutes: 125, route_path: "/flights/ho-chi-minh-city-to-singapore", price: { state: "available", price_min: 120, price_max: 120, currency_code: "USD" } },
+      ],
+      meta: { total: 7, page_size: 2, next_cursor: "offset:2", facets: { stops: [{ value: "0", count: 7 }], airlines: [], connections: [], countries: [], regions: [] } },
+      error: null,
+    });
+
+    expect(result.options.map((option) => option.id)).toEqual(["vn-sgn-sin", "sq-sgn-sin"]);
+    expect(result.total).toBe(7);
+    expect(result.pageSize).toBe(2);
+    expect(result.nextCursor).toBe("offset:2");
+  });
 });

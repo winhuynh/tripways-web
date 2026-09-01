@@ -25,7 +25,7 @@ export function RouteResults({
       ) : null}
 
       <p className="route-results__summary">
-        Showing {model.options.length} of {model.total} flight options
+        Showing {model.options.length} of {model.total} flight {model.total === 1 ? "option" : "options"}
       </p>
 
       {model.options.length === 0 ? (

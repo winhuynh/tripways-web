@@ -118,6 +118,16 @@ export function serializeRouteSearchFilters(
   for (const field of enabledFields) {
     if (field === "direction") continue;
     const value = values[field];
+    if (field === "max_stops" && value === 3) continue;
+    if (field === "max_one_way_fare" && typeof value === "number") {
+      filters.price_max = value;
+      filters.currency = "USD";
+      continue;
+    }
+    if (field === "days_of_week" && Array.isArray(value)) {
+      filters.days_of_week = value.map(Number);
+      continue;
+    }
     if (
       value !== undefined &&
       value !== "" &&
@@ -168,6 +178,9 @@ export function serializeNonEmptyFilterEntries(
   for (const [key, rawValue] of entries) {
     if (typeof rawValue !== "string") continue;
     const value = rawValue.trim();
+    if ((key === "max_stops" && value === "3") || (key === "route_type" && value === "all")) {
+      continue;
+    }
     if (value !== "") params.append(key, value);
   }
   return params.toString();

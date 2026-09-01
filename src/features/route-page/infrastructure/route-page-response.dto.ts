@@ -261,7 +261,7 @@ function parseObservation(value: unknown): ObservedPrice {
 function parseFact(value: unknown) {
   const row = record(value);
   return {
-    type: text(row.fact_type),
+    type: text(row.fact_type ?? row.type),
     title: text(row.title),
     body: text(row.body),
     ...(typeof row.primary_source_url === "string"
@@ -273,7 +273,7 @@ function parseFact(value: unknown) {
 function parseSection(value: unknown) {
   const row = record(value);
   return {
-    type: text(row.section_type),
+    type: text(row.section_type ?? row.type),
     heading: text(row.heading),
     body: text(row.body),
   };

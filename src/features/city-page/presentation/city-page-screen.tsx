@@ -18,7 +18,6 @@ import { CityQuickFacts } from "./city-quick-facts";
 import { CityRouteMap } from "./city-route-map";
 import { CityDestinationsTable } from "./city-destinations-table";
 import { CityAirportsComparison } from "./city-airports-comparison";
-import { filterCityDestinations } from "../domain/city-page-filters";
 import "./city-page.css";
 
 export function CityPageScreen({
@@ -98,11 +97,16 @@ export function CityPageScreen({
           {/* Right Main Column: Map + Table */}
           <div className="city-main-content">
             {(() => {
-              const filteredDestinations = filterCityDestinations(
-                model.destinations,
-                filterValues,
-                model.country.name,
-              );
+              const hasActiveFilters = Object.keys(filterValues).some((key) => key !== "after");
+              const filteredDestinations = hasActiveFilters
+                ? model.destinations.filter((destination) =>
+                    routes.options.some(
+                      (route) =>
+                        destination.originAirports.includes(route.from) &&
+                        destination.airports.includes(route.to),
+                    ),
+                  )
+                : model.destinations;
               return (
                 <>
                   <CityRouteMap
