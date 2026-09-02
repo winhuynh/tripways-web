@@ -22,6 +22,7 @@ import {
   SponsoredTravelServices,
 } from "@/shared/ui";
 import type { RoutePageModel } from "../domain/route-page-model";
+import { ObservedPriceCard, RouteAffiliateFallbackBanner } from "./observed-price-card";
 import { RouteFlightMap } from "./route-flight-map";
 import "./route-page.css";
 
@@ -240,6 +241,27 @@ export function RoutePageScreen({
                 </div>
               )}
             </div>
+
+            {/* Price Observations or Live Fallback Banner */}
+            {model.observedPrices && model.observedPrices.length > 0 ? (
+              <div className="route-observed-prices-section" style={{ margin: "1.5rem 0" }}>
+                <h3 style={{ fontSize: "1.125rem", fontWeight: 600, marginBottom: "0.75rem" }}>
+                  Recent Fare Observations
+                </h3>
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: "1rem" }}>
+                  {model.observedPrices.map((price) => (
+                    <ObservedPriceCard key={price.reference} price={price} />
+                  ))}
+                </div>
+              </div>
+            ) : (
+              <RouteAffiliateFallbackBanner
+                originIata={origin.iataCode ?? origin.slug.slice(0, 3)}
+                destIata={destination.iataCode ?? destination.slug.slice(0, 3)}
+                originName={origin.name}
+                destName={destination.name}
+              />
+            )}
 
             {/* Recommendations (Shared RecommendationHighlights) */}
             {recommendations && recommendations.length > 0 && (

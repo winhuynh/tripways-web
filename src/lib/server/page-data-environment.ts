@@ -7,9 +7,10 @@ export type PageDataEnvironment = Readonly<{
   routeSearchQueryUrl: string;
   homepageStatisticsUrl: string;
   affiliateHandoffUrl: string;
+  routeCacheUrl: string;
   dataVersion: string;
   timeoutMs: number;
-}>;
+};
 
 export function readPageDataEnvironment(): PageDataEnvironment {
   const supabaseUrl = process.env.SUPABASE_URL?.trim().replace(/\/$/, "");
@@ -39,6 +40,7 @@ export function readPageDataEnvironment(): PageDataEnvironment {
       process.env.HOMEPAGE_STATISTICS_EDGE_URL?.trim() ||
       `${supabaseUrl}/functions/v1/homepage-statistics`,
     affiliateHandoffUrl: process.env.FLIGHT_AFFILIATE_HANDOFF_EDGE_URL?.trim() || `${supabaseUrl}/functions/v1/flight-affiliate-handoff`,
+    routeCacheUrl: process.env.FLIGHT_ROUTE_CACHE_EDGE_URL?.trim() || `${supabaseUrl}/functions/v1/flight/route-cache`,
     dataVersion,
     timeoutMs,
   };
