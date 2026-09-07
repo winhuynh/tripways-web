@@ -1,6 +1,6 @@
 import "server-only";
 
-export type PageDataEnvironment = Readonly<{
+type PageDataEnvironment = Readonly<{
   supabaseUrl: string;
   supabaseAnonKey: string;
   pageQueryUrl: string;
@@ -10,7 +10,9 @@ export type PageDataEnvironment = Readonly<{
   routeCacheUrl: string;
   dataVersion: string;
   timeoutMs: number;
-};
+}>;
+
+export type { PageDataEnvironment };
 
 export function readPageDataEnvironment(): PageDataEnvironment {
   const supabaseUrl = process.env.SUPABASE_URL?.trim().replace(/\/$/, "");

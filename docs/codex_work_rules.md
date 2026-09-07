@@ -35,3 +35,8 @@ Read this file before changing code. Use the approved design and implementation 
 - Observe a relevant test failure before adding its implementation.
 - Before completion, run tests, lint, typecheck, production build, and responsive browser checks.
 - Report completion as `implemented: X; skipped: Y; add when: Z`, including verification evidence.
+- **STRICT QA & SCREENSHOT INTEGRITY RULE:**
+  - **QA is QA:** QA must be 100% grounded in real runtime evidence (automated test runs, live dev server responses, real DOM state). Never fabricate verification results.
+  - **Screenshots are Screenshots:** A screenshot must ONLY be captured from a real, running browser or genuine OS screen capture.
+  - **ABSOLUTE PROHIBITION:** NEVER use AI image generators (`generate_image`) to produce fake screenshots or simulated QA evidence. If automated browser capture cannot run in the environment, state this limitation directly and provide local URLs for manual verification. AI-generated images are strictly prohibited during QA.
+

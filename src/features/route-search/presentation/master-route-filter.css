@@ -515,7 +515,7 @@
 }
 
 /* ---------------------------------------------------------------------------
- * DURATION & LAYOVER SLIDERS
+ * DURATION & LAYOVER SLIDERS WITH HISTOGRAM
  * --------------------------------------------------------------------------- */
 .master-filter__slider-field {
   display: grid;
@@ -528,6 +528,12 @@
   align-items: center;
 }
 
+.master-filter__slider-badge-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
 .master-filter__slider-badge {
   font-size: 0.78rem;
   font-weight: 650;
@@ -536,6 +542,59 @@
   border: 1px solid #bfdbfe;
   padding: 0.15rem 0.55rem;
   border-radius: 999px;
+  transition: all 0.15s ease;
+}
+
+.master-filter__slider-reset-btn {
+  background: #e2e8f0;
+  border: 0;
+  border-radius: 999px;
+  width: 16px;
+  height: 16px;
+  font-size: 0.6rem;
+  line-height: 16px;
+  text-align: center;
+  color: #475569;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.12s ease;
+}
+
+.master-filter__slider-reset-btn:hover {
+  background: #fecaca;
+  color: #dc2626;
+}
+
+.master-filter__histogram {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 32px;
+  padding: 0 4px;
+  margin-bottom: -4px;
+}
+
+.master-filter__histogram-bar {
+  flex: 1;
+  border-radius: 2px 2px 0 0;
+  background: #e2e8f0;
+  min-height: 3px;
+  cursor: pointer;
+  transition: background-color 0.15s ease, opacity 0.15s ease, transform 0.12s ease;
+}
+
+.master-filter__histogram-bar--active {
+  background: #005cb9;
+  opacity: 0.85;
+}
+
+.master-filter__histogram-bar:hover {
+  opacity: 1;
+  transform: scaleY(1.1);
+  transform-origin: bottom;
 }
 
 .master-filter__range-slider {
