@@ -43,7 +43,7 @@ export function parseCityPageResponse(
       };
     });
 
-    const destinations: CityPageDestination[] = arr(
+    const rawDestinations: CityPageDestination[] = arr(
       r.featured_destinations,
     ).map((v) => {
       const x = rec(v);
@@ -95,6 +95,50 @@ export function parseCityPageResponse(
         layoverAirports: Array.isArray(x.layover_airports) ? strs(x.layover_airports) : undefined,
       };
     });
+
+    // Consolidate destinations by path/citySlug to prevent duplicate keys and duplicate table rows
+    const destMap = new Map<string, CityPageDestination>();
+    for (const d of rawDestinations) {
+      const existing = destMap.get(d.path);
+      if (!existing) {
+        destMap.set(d.path, d);
+      } else {
+        const mergedOriginAirports = Array.from(
+          new Set([...existing.originAirports, ...d.originAirports]),
+        );
+        const mergedAirports = Array.from(
+          new Set([...existing.airports, ...d.airports]),
+        );
+        const mergedAirlines = Array.from(
+          new Set([...existing.airlines, ...d.airlines]),
+        );
+        const fareMin =
+          existing.fareMin !== undefined && d.fareMin !== undefined
+            ? Math.min(existing.fareMin, d.fareMin)
+            : (existing.fareMin ?? d.fareMin);
+        const fareMax =
+          existing.fareMax !== undefined && d.fareMax !== undefined
+            ? Math.max(existing.fareMax, d.fareMax)
+            : (existing.fareMax ?? d.fareMax);
+
+        destMap.set(d.path, {
+          ...existing,
+          originAirports: mergedOriginAirports,
+          airports: mergedAirports,
+          airlines: mergedAirlines,
+          minDuration: Math.min(existing.minDuration, d.minDuration),
+          maxDuration: Math.max(existing.maxDuration, d.maxDuration),
+          fareMin,
+          fareMax,
+          frequency:
+            existing.frequency !== null && d.frequency !== null
+              ? Math.max(existing.frequency, d.frequency)
+              : (existing.frequency ?? d.frequency),
+          isTopRoute: existing.isTopRoute || d.isTopRoute,
+        });
+      }
+    }
+    const destinations = Array.from(destMap.values());
 
 
     return {

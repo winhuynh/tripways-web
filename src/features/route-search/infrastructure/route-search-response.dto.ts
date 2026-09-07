@@ -32,7 +32,7 @@ export function parseRouteSearchResponse(value: unknown): RouteSearchModel {
           id:
             optionalText(row.route_ref) ??
             optionalText(row.id) ??
-            `${from}-${to}-${stops}`,
+            `${from}-${to}-${stops}-${stringList(row.operating_airlines).join("-")}`,
           from,
           to,
           originCountry: optionalText(row.origin_country) ?? "",

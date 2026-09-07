@@ -63,8 +63,12 @@ export function CityDestinationsTable({
                 const fareText = hasFare
                   ? `${currency}${dest.fareMin} - ${currency}${dest.fareMax}`
                   : "—";
-                const airportLabels = dest.airports.map((code) => getAirportDisplay(code)).join(", ");
-                const airlineNames = dest.airlines.map(getAirlineDisplay).join(", ");
+                const airportLabels = Array.from(new Set(dest.airports))
+                  .map((code) => getAirportDisplay(code))
+                  .join(", ");
+                const airlineNames = Array.from(new Set(dest.airlines))
+                  .map(getAirlineDisplay)
+                  .join(", ");
 
                 return (
                   <tr
@@ -81,7 +85,7 @@ export function CityDestinationsTable({
                     <td className="city-region-col">{regionText}</td>
                     <td className="city-origin-col">
                       <div className="city-origin-badges">
-                        {dest.originAirports.map((iata) => (
+                        {Array.from(new Set(dest.originAirports)).map((iata) => (
                           <span key={iata} className="city-origin-badge" title={getAirportDisplay(iata)}>
                             {iata}
                           </span>

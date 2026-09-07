@@ -27,7 +27,7 @@ export type AirportTransportOption = Readonly<{
   luggageSummary: string | null;
   accessibilitySummary: string | null;
   bookingUrl: string | null;
-  sourceUrl: string;
+  sourceUrl: string | null;
   lastVerifiedAt: string;
 }>;
 
@@ -40,7 +40,7 @@ export type AirportLounge = Readonly<{
   amenities: string[];
   estimatedPrice: EstimatedPrice | null;
   affiliateUrl: string | null;
-  sourceUrl: string;
+  sourceUrl: string | null;
   lastVerifiedAt: string;
 }>;
 

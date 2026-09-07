@@ -40,12 +40,15 @@ export function parseAirportPageResponse(value: unknown): AirportPageModel {
       },
       quickAnswers: {
         defaultTransport: defaultTransport ? text(defaultTransport.name) : null,
-        transportMinutes: defaultTransport
-          ? {
-              min: numberValue(record(defaultTransport.typical_minutes).min),
-              max: numberValue(record(defaultTransport.typical_minutes).max),
-            }
-          : null,
+        transportMinutes:
+          defaultTransport &&
+          typeof defaultTransport.typical_minutes === "object" &&
+          defaultTransport.typical_minutes !== null
+            ? {
+                min: numberValue(record(defaultTransport.typical_minutes).min),
+                max: numberValue(record(defaultTransport.typical_minutes).max),
+              }
+            : null,
         cityDistanceKm: nullableNumber(quick.city_distance_km),
         terminalCount: numberValue(quick.terminal_count),
       },
@@ -138,7 +141,7 @@ function parseTransport(value: unknown): AirportTransportOption {
     luggageSummary: nullableText(entry.luggage_summary),
     accessibilitySummary: nullableText(entry.accessibility_summary),
     bookingUrl: nullableText(entry.booking_url),
-    sourceUrl: text(entry.source_url),
+    sourceUrl: nullableText(entry.source_url),
     lastVerifiedAt: text(entry.last_verified_at),
   };
 }
@@ -154,7 +157,7 @@ function parseLounge(value: unknown): AirportLounge {
     amenities: stringArray(entry.amenities),
     estimatedPrice: parseEstimatedPrice(entry.estimated_price),
     affiliateUrl: nullableText(entry.affiliate_url),
-    sourceUrl: text(entry.source_url),
+    sourceUrl: nullableText(entry.source_url),
     lastVerifiedAt: text(entry.last_verified_at),
   };
 }

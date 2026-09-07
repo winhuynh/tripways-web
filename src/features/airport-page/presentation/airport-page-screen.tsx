@@ -79,7 +79,7 @@ export function AirportPageScreen({
 
     <nav className="airport-anchor-nav" aria-label="Airport guide sections">
       <a href="#overview">Overview</a>
-      <a href="#connections">Bangkok connections</a>
+      <a href="#connections">{model.airport.city.name} connections</a>
       <a href="#journey-guide">Journey guide</a>
       <a href="#direct-flights">Verified flights</a>
       <a href="#airport-essentials">Airport essentials</a>
@@ -194,8 +194,14 @@ function LoungeUtility({ lounges }: { lounges: AirportLounge[] }) {
       <p>{lounge.access}</p>
       {lounge.operatingHours ? <p><strong>Opening window:</strong> {lounge.operatingHours}</p> : null}
       {lounge.estimatedPrice ? <p><strong>Estimated entry:</strong> {formatPrice(lounge.estimatedPrice)}</p> : null}
-      <p><strong>Facilities:</strong> {lounge.amenities.join(", ")}</p>
-      <p><a href={lounge.sourceUrl}>Source and access conditions</a> · Verified {formatDate(lounge.lastVerifiedAt)}</p>
+      <p>
+        {lounge.sourceUrl ? (
+          <>
+            <a href={lounge.sourceUrl}>Source and access conditions</a> ·{" "}
+          </>
+        ) : null}
+        Verified {formatDate(lounge.lastVerifiedAt)}
+      </p>
       {lounge.affiliateUrl ? <a className="airport-lounge__cta" href={lounge.affiliateUrl} rel="sponsored nofollow">Check lounge access</a> : null}
     </article>)}</div>
     <small><strong>Affiliate disclosure:</strong> Tripways may earn a commission if you book through a marked link.</small>
