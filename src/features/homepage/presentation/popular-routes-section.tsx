@@ -73,6 +73,10 @@ export function PopularRoutesSection({
                   <span className="home-route-detail-label">Duration</span>
                   <span className="home-route-detail-value">{route.duration}</span>
                 </div>
+                <div className="home-route-detail-row home-route-detail-row--price">
+                  <span className="home-route-detail-label">Observed fare</span>
+                  <span className="home-route-detail-price">from $65</span>
+                </div>
               </div>
             </Link>
           ))}

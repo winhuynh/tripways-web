@@ -40,19 +40,39 @@ export function HomepageMap({ currentHub }: HomepageMapProps) {
       aria-label="Interactive flight route map"
     >
       <div className="pseo-container">
-        <InteractiveRouteMap
-          origin={{
-            name: currentHub.cityName,
-            iata: currentHub.iata,
-            latitude: currentHub.latitude,
-            longitude: currentHub.longitude,
-            citySlug: currentHub.citySlug,
-          }}
-          destinations={destinations}
-          showOriginBadge={true}
-          autoOpenFirstPopup={true}
-          height="520px"
-        />
+        <div className="home-map-header">
+          <div>
+            <h2 className="home-map-title">
+              Explore destinations from {currentHub.cityName}
+            </h2>
+            <p className="home-map-subtitle">
+              Compare flight times and direct airline networks across regions on the interactive map.
+            </p>
+          </div>
+          <div className="home-map-filter-chips" aria-label="Flight duration filters">
+            <span className="home-map-chip home-map-chip--active">
+              All direct ({destinations.length})
+            </span>
+            <span className="home-map-chip">&lt; 3 hours</span>
+            <span className="home-map-chip">&lt; 6 hours</span>
+          </div>
+        </div>
+
+        <div className="home-map-frame-wrap">
+          <InteractiveRouteMap
+            origin={{
+              name: currentHub.cityName,
+              iata: currentHub.iata,
+              latitude: currentHub.latitude,
+              longitude: currentHub.longitude,
+              citySlug: currentHub.citySlug,
+            }}
+            destinations={destinations}
+            showOriginBadge={true}
+            autoOpenFirstPopup={true}
+            height="500px"
+          />
+        </div>
       </div>
     </section>
   );
