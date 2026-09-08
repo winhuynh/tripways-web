@@ -1,18 +1,21 @@
 /* ==========================================================================
-   Tripways City Hub Page Styles
+   Tripways City Hub Page Styles (Modern Aero System)
    ========================================================================== */
 
 .city-page-main {
   width: 100%;
-  background: var(--color-background);
-  color: var(--color-on-background);
-  padding-bottom: 4rem;
+  background: var(--color-background, #f8fafc);
+  color: var(--color-on-background, #0f172a);
+  padding-bottom: 5rem;
 }
 
 .city-hero__verified {
   font-size: 0.75rem;
-  color: #94a3b8;
-  font-weight: 500;
+  color: #64748b;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
 }
 
 /* --------------------------------------------------------------------------
@@ -22,28 +25,39 @@
 .city-quick-facts {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 2rem;
-  padding: 2rem 0;
-  margin: 1.5rem 0 2rem;
-  border-top: 1px solid #e2e8f0;
-  border-bottom: 1px solid #e2e8f0;
+  gap: 1.25rem;
+  padding: 0;
+  margin: 1.5rem 0 2.5rem;
 }
 
 .city-fact-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 1.25rem 1.5rem;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
   display: flex;
   flex-direction: column;
+  transition: transform 150ms ease, box-shadow 150ms ease;
+}
+
+.city-fact-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
 }
 
 .city-fact-value {
-  font-size: 2.2rem;
+  font-family: var(--font-headline, system-ui, -apple-system, sans-serif);
+  font-size: 2.25rem;
   font-weight: 800;
-  color: #005cb9;
+  color: #0066ff;
   line-height: 1;
-  margin-bottom: 0.35rem;
+  margin-bottom: 0.4rem;
+  letter-spacing: -0.02em;
 }
 
 .city-fact-label {
-  font-size: 0.68rem;
+  font-size: 0.6875rem;
   font-weight: 800;
   letter-spacing: 0.08em;
   color: #64748b;
@@ -56,15 +70,15 @@
 
 .city-discovery-layout {
   display: grid;
-  grid-template-columns: 300px 1fr;
+  grid-template-columns: 320px 1fr;
   gap: 2.5rem;
   align-items: start;
-  margin-bottom: 3.5rem;
+  margin-bottom: 4rem;
 }
 
 .city-sidebar-wrap {
   position: sticky;
-  top: 80px;
+  top: 84px;
 }
 
 .city-main-content {
@@ -80,12 +94,12 @@
 
 .city-map-frame {
   position: relative;
-  border-radius: 14px;
+  border-radius: 16px;
   overflow: hidden;
   background: #e6ebef;
   border: 1px solid #d8e2ea;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
-  height: 480px;
+  box-shadow: 0 6px 24px rgba(15, 23, 42, 0.06);
+  height: 500px;
 }
 
 .city-map-canvas {
@@ -121,12 +135,12 @@
 }
 
 .city-map-popup-title {
-  font-family: Georgia, serif;
+  font-family: var(--font-headline, system-ui, -apple-system, sans-serif);
   font-size: 1.25rem;
-  font-weight: 700;
+  font-weight: 800;
   color: #0f172a;
   margin: 0;
-  line-height: 1.15;
+  line-height: 1.2;
 }
 
 .city-map-popup-subtitle {
@@ -175,20 +189,20 @@
 .city-map-popup-cta {
   display: block;
   text-align: center;
-  background: #005cb9;
+  background: #0066ff;
   color: #ffffff;
-  font-size: 0.7rem;
+  font-size: 0.72rem;
   font-weight: 800;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  padding: 8px 12px;
-  border-radius: 6px;
+  padding: 10px 14px;
+  border-radius: 8px;
   text-decoration: none;
   transition: background 150ms ease;
 }
 
 .city-map-popup-cta:hover {
-  background: #004b99;
+  background: #0052cc;
 }
 
 /* --------------------------------------------------------------------------
@@ -198,7 +212,7 @@
 .city-destinations-section {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 1.25rem;
 }
 
 .city-table-header {
@@ -210,24 +224,27 @@
 }
 
 .city-table-title {
-  font-family: Georgia, "Playfair Display", serif;
-  font-size: 1.55rem;
-  font-weight: 700;
+  font-family: var(--font-headline, system-ui, -apple-system, sans-serif);
+  font-size: 1.65rem;
+  font-weight: 800;
+  letter-spacing: -0.025em;
   color: #0f172a;
   margin: 0;
 }
 
 .city-table-count {
-  font-size: 0.82rem;
+  font-size: 0.85rem;
   color: #64748b;
+  font-weight: 500;
 }
 
 .city-table-wrap {
   width: 100%;
   overflow-x: auto;
-  border-radius: 8px;
+  border-radius: 12px;
   border: 1px solid #e2e8f0;
   background: #ffffff;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
 }
 
 .city-destinations-table {
@@ -240,16 +257,16 @@
 .city-destinations-table th {
   background: #f8fafc;
   color: #64748b;
-  font-size: 0.65rem;
+  font-size: 0.6875rem;
   font-weight: 800;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  padding: 12px 14px;
+  padding: 14px 16px;
   border-bottom: 1px solid #e2e8f0;
 }
 
 .city-destinations-table td {
-  padding: 14px;
+  padding: 16px;
   border-bottom: 1px solid #f1f5f9;
   vertical-align: middle;
 }
@@ -344,22 +361,22 @@
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.04em;
-  padding: 6px 12px;
-  border-radius: 6px;
+  padding: 8px 14px;
+  border-radius: 8px;
   text-decoration: none;
   transition: all 150ms ease;
   white-space: nowrap;
 }
 
 .city-dest-cta--primary {
-  background: #005cb9;
+  background: #0066ff;
   color: #ffffff;
-  border: 1px solid #005cb9;
+  border: 1px solid #0066ff;
 }
 
 .city-dest-cta--primary:hover {
-  background: #004b99;
-  border-color: #004b99;
+  background: #0052cc;
+  border-color: #0052cc;
   color: #ffffff;
 }
 
@@ -377,9 +394,9 @@
 
 .city-table-disclaimer {
   font-size: 0.75rem;
-  color: #94a3b8;
+  color: #64748b;
   line-height: 1.5;
-  margin: 0.5rem 0 0;
+  margin: 0.75rem 0 0;
 }
 
 /* --------------------------------------------------------------------------
@@ -387,14 +404,15 @@
    -------------------------------------------------------------------------- */
 
 .city-airports-section {
-  padding: 2.5rem 0 3.5rem;
+  padding: 3rem 0 4rem;
   border-top: 1px solid #e2e8f0;
 }
 
 .city-airports-heading {
-  font-family: Georgia, serif;
+  font-family: var(--font-headline, system-ui, -apple-system, sans-serif);
   font-size: 1.65rem;
-  font-weight: 700;
+  font-weight: 800;
+  letter-spacing: -0.025em;
   color: #0f172a;
   margin-bottom: 2rem;
 }
@@ -408,12 +426,18 @@
 .city-airport-card {
   background: #ffffff;
   border: 1px solid #e2e8f0;
-  border-radius: 12px;
+  border-radius: 14px;
   padding: 1.75rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 1.25rem;
+  transition: transform 150ms ease, box-shadow 150ms ease;
+}
+
+.city-airport-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
 }
 
 .city-airport-card__header {
@@ -424,7 +448,8 @@
 
 .city-airport-card__title {
   font-size: 1.3rem;
-  font-weight: 700;
+  font-weight: 800;
+  letter-spacing: -0.02em;
   color: #0f172a;
   margin: 0;
 }
@@ -443,7 +468,7 @@
 .city-airport-stats {
   display: flex;
   gap: 2.5rem;
-  padding: 0.75rem 0;
+  padding: 0.85rem 0;
   border-top: 1px solid #f1f5f9;
   border-bottom: 1px solid #f1f5f9;
 }
@@ -454,43 +479,48 @@
 }
 
 .city-airport-stat__val {
-  font-size: 1.5rem;
+  font-size: 1.6rem;
   font-weight: 800;
-  color: #005cb9;
+  color: #0066ff;
   line-height: 1;
 }
 
 .city-airport-stat__label {
-  font-size: 0.6rem;
+  font-size: 0.625rem;
   font-weight: 800;
   letter-spacing: 0.08em;
   color: #64748b;
   text-transform: uppercase;
-  margin-top: 3px;
+  margin-top: 4px;
 }
 
 .city-airport-description {
   font-size: 0.9rem;
   color: #475569;
-  line-height: 1.5;
+  line-height: 1.55;
   margin: 0;
   flex-grow: 1;
 }
 
 .city-airport-link {
-  font-size: 0.82rem;
+  font-size: 0.85rem;
   font-weight: 800;
-  color: #005cb9;
+  color: #0066ff;
   text-decoration: none;
   margin-top: 0.5rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: color 150ms ease;
 }
 
 .city-airport-link:hover {
+  color: #0052cc;
   text-decoration: underline;
 }
 
 /* --------------------------------------------------------------------------
-   Responsive Layout
+   Responsive Layout & Table Cards on Mobile
    -------------------------------------------------------------------------- */
 
 @media (max-width: 900px) {
@@ -505,10 +535,59 @@
 
   .city-quick-facts {
     grid-template-columns: repeat(2, 1fr);
-    gap: 1.5rem;
+    gap: 1rem;
   }
 
   .city-map-frame {
-    height: 380px;
+    height: 400px;
+  }
+}
+
+@media (max-width: 860px) {
+  .city-table-wrap {
+    border: none;
+    background: transparent;
+    box-shadow: none;
+    overflow: visible;
+  }
+
+  .city-destinations-table,
+  .city-destinations-table thead,
+  .city-destinations-table tbody,
+  .city-destinations-table tr,
+  .city-destinations-table td {
+    display: block;
+    width: 100%;
+  }
+
+  .city-destinations-table thead {
+    display: none;
+  }
+
+  .city-destinations-table tr {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 12px;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+  }
+
+  .city-destinations-table td {
+    padding: 6px 0;
+    border-bottom: none;
+  }
+
+  .city-dest-actions {
+    margin-top: 10px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .city-dest-cta {
+    width: 100%;
+    text-align: center;
+    padding: 8px 12px;
   }
 }

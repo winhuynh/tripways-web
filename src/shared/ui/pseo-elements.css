@@ -1,1 +1,252 @@
-.pseo-page{background:var(--color-surface,#f9f7f2);color:var(--color-ink,#121212)}.pseo-container{width:min(1180px,calc(100% - 40px));margin-inline:auto}.pseo-breadcrumbs ol{display:flex;gap:.6rem;list-style:none;padding:2rem 0 1rem;margin:0;text-transform:uppercase;font-size:.75rem;letter-spacing:.08em}.pseo-breadcrumbs li+li:before{content:"/";margin-right:.6rem;color:#777}.pseo-hero{padding:2rem 0 3rem;max-width:850px}.pseo-hero h1{font-family:var(--font-headline,Georgia,serif);font-size:clamp(2.5rem,6vw,5.5rem);line-height:.98;margin:.35rem 0 1.25rem;font-weight:400}.pseo-hero__intro{font-size:1.1rem;line-height:1.7;max-width:750px}.pseo-eyebrow,.pseo-freshness{text-transform:uppercase;letter-spacing:.1em;font-size:.72rem;font-weight:650}.pseo-stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));border-block:1px solid #cbc7bf;margin:0 0 3rem}.pseo-stat-grid div{padding:1.5rem 1rem;border-right:1px solid #cbc7bf}.pseo-stat-grid div:last-child{border-right:0}.pseo-stat-grid dd{font-family:var(--font-headline,Georgia,serif);font-size:2.2rem;margin:0}.pseo-stat-grid dt{text-transform:uppercase;font-size:.72rem;letter-spacing:.08em;margin-top:.4rem}.pseo-section{padding:3.5rem 0;border-top:1px solid #d9d5cd}.pseo-section h2{font-family:var(--font-headline,Georgia,serif);font-size:clamp(1.8rem,4vw,3rem);font-weight:400}.pseo-faqs details{border-top:1px solid #c8c3bb;padding:1.2rem 0}.pseo-faqs summary{cursor:pointer;font-weight:650}.pseo-link-groups{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:2rem}.pseo-link-groups ul{padding:0;list-style:none}.pseo-link-groups li{display:flex;flex-direction:column;margin:.7rem 0}@media(max-width:640px){.pseo-container{width:min(100% - 24px,1180px)}.pseo-stat-grid div{border-right:0;border-bottom:1px solid #cbc7bf}.pseo-hero{padding-top:1rem}}
+/* ==========================================================================
+   Tripways pSEO Base Elements Stylesheet (Modern Aero System)
+   ========================================================================== */
+
+.pseo-page {
+  background: var(--color-background, #f8fafc);
+  color: var(--color-on-background, #0f172a);
+  min-height: 100vh;
+  font-family: var(--font-body, system-ui, -apple-system, sans-serif);
+}
+
+.pseo-container {
+  width: min(1240px, calc(100% - 48px));
+  margin-inline: auto;
+}
+
+/* Breadcrumbs */
+.pseo-breadcrumbs ol {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  list-style: none;
+  padding: 1.5rem 0 0.75rem;
+  margin: 0;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-on-surface-muted, #64748b);
+}
+
+.pseo-breadcrumbs li + li:before {
+  content: "/";
+  margin-right: 0.5rem;
+  color: var(--color-border-strong, #cbd5e1);
+  font-weight: 400;
+}
+
+.pseo-breadcrumbs a {
+  color: var(--color-on-surface-muted, #64748b);
+  transition: color 150ms ease;
+}
+
+.pseo-breadcrumbs a:hover {
+  color: var(--color-primary, #0066ff);
+}
+
+/* Hero */
+.pseo-hero {
+  padding: 1.5rem 0 2.5rem;
+  max-width: 920px;
+}
+
+.pseo-hero h1 {
+  font-family: var(--font-headline, system-ui, -apple-system, sans-serif);
+  font-size: clamp(2.25rem, 4.5vw, 3.75rem);
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  color: var(--color-on-background, #0f172a);
+  margin: 0.4rem 0 1rem;
+  font-weight: 800;
+}
+
+.pseo-hero__intro {
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: var(--color-on-surface-muted, #475569);
+  max-width: 780px;
+  margin: 0;
+}
+
+.pseo-eyebrow,
+.pseo-freshness {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.7rem;
+  font-weight: 800;
+  color: var(--color-primary, #0066ff);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Stat Grid */
+.pseo-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1rem;
+  margin: 1.5rem 0 2.5rem;
+  padding: 0;
+}
+
+.pseo-stat-grid div {
+  background: var(--color-surface, #ffffff);
+  border: 1px solid var(--color-border, #e2e8f0);
+  border-radius: 12px;
+  padding: 1.25rem 1.5rem;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+  display: flex;
+  flex-direction: column;
+  transition: transform 150ms ease, box-shadow 150ms ease;
+}
+
+.pseo-stat-grid div:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(15, 23, 42, 0.06);
+}
+
+.pseo-stat-grid dd {
+  font-family: var(--font-headline, system-ui, -apple-system, sans-serif);
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--color-primary, #0066ff);
+  margin: 0;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.pseo-stat-grid dt {
+  text-transform: uppercase;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--color-on-surface-muted, #64748b);
+  margin-top: 0.4rem;
+}
+
+/* Section */
+.pseo-section {
+  padding: 3rem 0;
+  border-top: 1px solid var(--color-border, #e2e8f0);
+}
+
+.pseo-section h2 {
+  font-family: var(--font-headline, system-ui, -apple-system, sans-serif);
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  color: var(--color-on-background, #0f172a);
+  margin: 0 0 1.25rem;
+}
+
+/* FAQs */
+.pseo-faqs {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.pseo-faqs details {
+  background: var(--color-surface, #ffffff);
+  border: 1px solid var(--color-border, #e2e8f0);
+  border-radius: 10px;
+  padding: 1.125rem 1.5rem;
+  transition: all 150ms ease;
+}
+
+.pseo-faqs details:hover {
+  border-color: var(--color-border-strong, #cbd5e1);
+}
+
+.pseo-faqs details[open] {
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.05);
+}
+
+.pseo-faqs summary {
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--color-on-background, #0f172a);
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.pseo-faqs summary::-webkit-details-marker {
+  display: none;
+}
+
+.pseo-faqs summary::after {
+  content: "+";
+  font-size: 1.3rem;
+  font-weight: 400;
+  color: var(--color-primary, #0066ff);
+  margin-left: 1rem;
+}
+
+.pseo-faqs details[open] summary::after {
+  content: "−";
+}
+
+.pseo-faqs p {
+  margin-top: 0.75rem;
+  margin-bottom: 0;
+  color: var(--color-on-surface-muted, #475569);
+  line-height: 1.6;
+  font-size: 0.95rem;
+}
+
+/* Link Groups */
+.pseo-link-groups {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 2rem;
+}
+
+.pseo-link-groups h3 {
+  font-size: 0.85rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-on-background, #0f172a);
+  margin-bottom: 1rem;
+}
+
+.pseo-link-groups ul {
+  padding: 0;
+  list-style: none;
+  margin: 0;
+}
+
+.pseo-link-groups li {
+  display: flex;
+  flex-direction: column;
+  margin: 0.5rem 0;
+}
+
+.pseo-link-groups a {
+  color: var(--color-link, #0256d4);
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: color 150ms ease;
+}
+
+.pseo-link-groups a:hover {
+  color: var(--color-primary, #0066ff);
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .pseo-container {
+    width: min(100% - 32px, 1240px);
+  }
+  .pseo-hero {
+    padding: 1rem 0 1.75rem;
+  }
+  .pseo-stat-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
