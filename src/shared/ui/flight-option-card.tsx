@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { formatDuration, formatPriceEstimate, type PriceEstimate } from "@/shared/domain/route-values";
-import { getAirlineDisplay, getAirportDisplay } from "@/features/route-search/domain/route-filter-labels";
-import { AirlineLogo } from "./airline-logo";
+import { getAirportDisplay } from "@/features/route-search/domain/route-filter-labels";
+import { AirlineBadgeGroup } from "./airline-logo";
 
 export type FlightOptionData = Readonly<{
   id: string;
@@ -64,7 +64,6 @@ export function FlightOptionCard({
   const toIata = option.to.toUpperCase();
   const fromDisplay = option.fromAirportName ?? getAirportDisplay(option.from);
   const toDisplay = option.toAirportName ?? getAirportDisplay(option.to);
-  const airlineNames = option.airlines.map(getAirlineDisplay).join(", ");
   const stopLabel =
     option.stops === 0
       ? "NONSTOP"
@@ -134,14 +133,11 @@ export function FlightOptionCard({
           ) : (
             <span className="flight-option-card__freq">OPERATED BY</span>
           )}
-          <div style={{ display: "flex", alignItems: "center", gap: "6px", flexWrap: "wrap" }}>
-            {option.airlines.map((iata) => (
-              <AirlineLogo key={iata} iata={iata} size={18} />
-            ))}
-            <span className="flight-option-card__airlines" title={airlineNames}>
-              {airlineNames || "Scheduled service"}
-            </span>
-          </div>
+          <AirlineBadgeGroup
+            airlines={option.airlines}
+            size={18}
+            textClassName="flight-option-card__airlines"
+          />
         </div>
 
         {includePrice && formatOptionPrice(option.price) ? (

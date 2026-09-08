@@ -1,3 +1,5 @@
+import { renderAirlineLogosHtml } from "@/features/route-search/domain/route-filter-labels";
+
 export type SharedMapDestination = Readonly<{
   city: string;
   citySlug: string;
@@ -85,6 +87,7 @@ export function buildInteractiveRouteMapPopupHtml(
     typeof dest.frequency === "number" && dest.frequency > 0
       ? escapeHtml(`${dest.frequency} / week`)
       : "Varies";
+  const airlinesLogosHtml = renderAirlineLogosHtml(dest.airlines ?? [], 16);
   const airlinesText = escapeHtml((dest.airlines ?? []).join(", "));
   const durationRange = escapeHtml(
     dest.durationRange || formatMinutes(dest.minDuration) || durationText,
@@ -121,7 +124,7 @@ export function buildInteractiveRouteMapPopupHtml(
         </div>
         <div class="interactive-map-popup-row">
           <span class="interactive-map-popup-label">✈ Airlines</span>
-          <strong class="interactive-map-popup-val">${airlinesText}</strong>
+          <strong class="interactive-map-popup-val" style="display: flex; align-items: center; gap: 4px; flex-wrap: wrap;">${airlinesLogosHtml}${airlinesText}</strong>
         </div>
         ${
           fareText

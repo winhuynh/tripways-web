@@ -2,8 +2,9 @@ import Link from "next/link";
 import { formatDuration, formatPriceEstimate } from "@/shared/domain/route-values";
 import type { RouteSearchModel } from "../domain/route-search-model";
 import type { RouteFilterValues } from "../domain/route-filter";
-import { getAirlineDisplay, getAirportDisplay } from "../domain/route-filter-labels";
+import { getAirportDisplay } from "../domain/route-filter-labels";
 import { ActiveFilterChips } from "./active-filter-chips";
+import { AirlineBadgeGroup } from "@/shared/ui";
 
 type RouteResultsProps = Readonly<{
   model: RouteSearchModel;
@@ -44,7 +45,6 @@ export function RouteResults({
           {model.options.map((option) => {
             const fromDisplay = getAirportDisplay(option.from);
             const toDisplay = getAirportDisplay(option.to);
-            const airlineNames = option.airlines.map(getAirlineDisplay).join(", ");
 
             return (
               <li key={option.id} className="route-results__item">
@@ -59,7 +59,11 @@ export function RouteResults({
                   </span>
                 </div>
                 <div className="route-results__details">
-                  <span className="route-results__airlines">{airlineNames}</span>
+                  <AirlineBadgeGroup
+                    airlines={option.airlines}
+                    size={16}
+                    textClassName="route-results__airlines"
+                  />
                   <span className="route-results__duration">{formatDuration(option.durationMinutes)}</span>
                   {includePrice ? (
                     <span className="route-results__price">{formatPriceEstimate(option.price)}</span>

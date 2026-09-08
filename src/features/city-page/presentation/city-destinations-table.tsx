@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { getAirlineDisplay, getAirportDisplay } from "@/features/route-search/domain/route-filter-labels";
+import { getAirportDisplay } from "@/features/route-search/domain/route-filter-labels";
+import { AirlineBadgeGroup } from "@/shared/ui";
 import type { CityPageDestination } from "../domain/city-page-model";
 
 function formatDuration(minutes: number): string {
@@ -66,9 +67,6 @@ export function CityDestinationsTable({
                 const airportLabels = Array.from(new Set(dest.airports))
                   .map((code) => getAirportDisplay(code))
                   .join(", ");
-                const airlineNames = Array.from(new Set(dest.airlines))
-                  .map(getAirlineDisplay)
-                  .join(", ");
 
                 return (
                   <tr
@@ -93,7 +91,11 @@ export function CityDestinationsTable({
                       </div>
                     </td>
                     <td className="city-airlines-col">
-                      <span className="city-airlines-text">{airlineNames}</span>
+                      <AirlineBadgeGroup
+                        airlines={dest.airlines}
+                        size={16}
+                        textClassName="city-airlines-text"
+                      />
                     </td>
                     <td className="city-time-col">
                       <div className="city-time-group">

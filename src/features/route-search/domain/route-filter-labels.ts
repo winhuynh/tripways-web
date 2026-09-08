@@ -365,3 +365,39 @@ export function humanize(value: string): string {
     .replaceAll("-", " ")
     .replace(/\b\w/g, (letter) => letter.toUpperCase());
 }
+
+/**
+ * Returns internal proxy URL for an airline logo, cached at Cloudflare Edge.
+ */
+export function getAirlineLogoUrl(code: string): string {
+  const normalized = (code || "").trim().toUpperCase();
+  if (!normalized || !/^[A-Z0-9]{2}$/.test(normalized)) return "";
+  return `/api/airlines/${normalized}/logo`;
+}
+
+/**
+ * Renders inline HTML image tags for airline logos (for use in MapLibre popups / string templates).
+ */
+export function renderAirlineLogosHtml(
+  airlines: readonly string[],
+  size = 16
+): string {
+  const codes = Array.from(
+    new Set(
+      (airlines ?? [])
+        .map((a) => (a || "").trim().toUpperCase())
+        .filter((a) => /^[A-Z0-9]{2}$/.test(a))
+    )
+  );
+
+  if (codes.length === 0) return "";
+
+  return codes
+    .slice(0, 3)
+    .map(
+      (c) =>
+        `<img src="/api/airlines/${c}/logo" width="${size}" height="${size}" alt="${c}" style="width:${size}px;height:${size}px;object-fit:contain;border-radius:2px;display:inline-block;vertical-align:middle;margin-right:4px;" loading="lazy" />`
+    )
+    .join("");
+}
+

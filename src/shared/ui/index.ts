@@ -18,5 +18,5 @@ export { SponsoredTravelServices, type SponsoredServiceOffer, type SponsoredTrav
 export { FlightOptionCard, type FlightOptionData, type FlightOptionCardProps } from "./flight-option-card";
 export { RecommendationHighlights, type RecommendationItem, type RecommendationHighlightsProps } from "./recommendation-highlights";
 export { PracticalPlanningGrid, type PlanningSectionItem, type PlanningFactItem, type PracticalPlanningGridProps } from "./practical-planning-grid";
-export { AirlineLogo, type AirlineLogoProps } from "./airline-logo";
+export { AirlineLogo, type AirlineLogoProps, AirlineBadgeGroup, type AirlineBadgeGroupProps } from "./airline-logo";
 export { MasterRouteFilter } from "@/features/route-search/presentation/master-route-filter";

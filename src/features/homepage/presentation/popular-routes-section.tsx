@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { AirlineBadgeGroup } from "@/shared/ui";
 import { POPULAR_ROUTES, type PopularRouteCard } from "../domain/homepage-routes-data";
 
 export function PopularRoutesSection({
@@ -56,9 +57,11 @@ export function PopularRoutesSection({
               <div className="home-route-card__details">
                 <div className="home-route-detail-row">
                   <span className="home-route-detail-label">Airlines</span>
-                  <span className="home-route-detail-value">
-                    {route.airlines.join(", ")}
-                  </span>
+                  <AirlineBadgeGroup
+                    airlines={route.airlines}
+                    size={14}
+                    textClassName="home-route-detail-value"
+                  />
                 </div>
                 <div className="home-route-detail-row">
                   <span className="home-route-detail-label">Distance</span>

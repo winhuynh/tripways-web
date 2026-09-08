@@ -1,6 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import {
+  getAirlineDisplay,
+  getAirlineLogoUrl,
+} from "@/features/route-search/domain/route-filter-labels";
 
 export type AirlineLogoProps = Readonly<{
   iata: string;
@@ -10,8 +14,8 @@ export type AirlineLogoProps = Readonly<{
 }>;
 
 /**
- * Renders an airline logo using Travelpayouts / Aviasales Global CDN.
- * Automatically falls back to a clean typographic IATA badge on network or image error.
+ * Renders a single airline logo using the Cloudflare Edge-cached proxy route.
+ * Automatically falls back to a typographic IATA badge on network or image error.
  */
 export function AirlineLogo({
   iata,
@@ -42,8 +46,7 @@ export function AirlineLogo({
     );
   }
 
-  // Internal edge-cached proxy route (cached on Cloudflare CDN for 1 year)
-  const logoUrl = `/api/airlines/${normalized}/logo`;
+  const logoUrl = getAirlineLogoUrl(normalized);
 
   return (
     // eslint-disable-next-line @next/next/no-img-element
@@ -62,5 +65,90 @@ export function AirlineLogo({
       title={name || normalized}
       width={size}
     />
+  );
+}
+
+export type AirlineBadgeGroupProps = Readonly<{
+  airlines: readonly string[];
+  size?: number;
+  maxLogos?: number;
+  showNames?: boolean;
+  className?: string;
+  textClassName?: string;
+  fallbackText?: string;
+}>;
+
+/**
+ * Shared component to render a unified group of airline logos and textual names.
+ * Ensures consistent appearance, tooltips, and responsive layout across all pages.
+ */
+export function AirlineBadgeGroup({
+  airlines,
+  size = 18,
+  maxLogos = 3,
+  showNames = true,
+  className = "",
+  textClassName = "",
+  fallbackText = "Scheduled service",
+}: AirlineBadgeGroupProps) {
+  const codes = Array.from(
+    new Set(
+      (airlines ?? [])
+        .map((a) => (a || "").trim().toUpperCase())
+        .filter((a) => a.length > 0)
+    )
+  );
+
+  const airlineNames = codes.map(getAirlineDisplay).join(", ");
+  const displayedCodes = codes.slice(0, maxLogos);
+  const remainingCount = codes.length - displayedCodes.length;
+
+  return (
+    <div
+      className={["airline-badge-group", className].filter(Boolean).join(" ")}
+      style={{
+        display: "inline-flex",
+        alignItems: "center",
+        gap: "6px",
+        flexWrap: "wrap",
+        verticalAlign: "middle",
+      }}
+    >
+      {displayedCodes.length > 0 ? (
+        <div
+          className="airline-badge-group__logos"
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: "4px",
+            flexShrink: 0,
+          }}
+        >
+          {displayedCodes.map((code) => (
+            <AirlineLogo key={code} iata={code} size={size} />
+          ))}
+          {remainingCount > 0 ? (
+            <span
+              style={{
+                fontSize: "0.75rem",
+                color: "#64748b",
+                fontWeight: 600,
+              }}
+              title={`+${remainingCount} more airline${remainingCount > 1 ? "s" : ""}`}
+            >
+              +{remainingCount}
+            </span>
+          ) : null}
+        </div>
+      ) : null}
+      {showNames ? (
+        <span
+          className={textClassName}
+          title={airlineNames || fallbackText}
+        >
+          {airlineNames || fallbackText}
+        </span>
+      ) : null}
+    </div>
   );
 }
