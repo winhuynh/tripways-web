@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { formatDuration, formatPriceEstimate, type PriceEstimate } from "@/shared/domain/route-values";
 import { getAirlineDisplay, getAirportDisplay } from "@/features/route-search/domain/route-filter-labels";
+import { AirlineLogo } from "./airline-logo";
 
 export type FlightOptionData = Readonly<{
   id: string;
@@ -133,9 +134,14 @@ export function FlightOptionCard({
           ) : (
             <span className="flight-option-card__freq">OPERATED BY</span>
           )}
-          <span className="flight-option-card__airlines" title={airlineNames}>
-            {airlineNames || "Scheduled service"}
-          </span>
+          <div style={{ display: "flex", alignItems: "center", gap: "6px", flexWrap: "wrap" }}>
+            {option.airlines.map((iata) => (
+              <AirlineLogo key={iata} iata={iata} size={18} />
+            ))}
+            <span className="flight-option-card__airlines" title={airlineNames}>
+              {airlineNames || "Scheduled service"}
+            </span>
+          </div>
         </div>
 
         {includePrice && formatOptionPrice(option.price) ? (
