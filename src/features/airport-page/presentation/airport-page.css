@@ -174,31 +174,7 @@
   color: #64748b;
 }
 
-.airport-flight-explorer form {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1rem;
-  align-items: end;
-}
 
-.airport-flight-explorer label {
-  display: grid;
-  gap: 0.4rem;
-  font-size: 0.75rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  color: #64748b;
-}
-
-.airport-flight-explorer select {
-  min-height: 44px;
-  padding: 0.6rem 0.85rem;
-  border: 1px solid #cbd5e1;
-  border-radius: 8px;
-  background: #ffffff;
-  color: #0f172a;
-  font-size: 0.875rem;
-}
 
 .airport-data-note,
 .airport-provenance {
@@ -227,7 +203,4 @@
     width: 100%;
   }
 
-  .airport-flight-explorer form {
-    grid-template-columns: 1fr;
-  }
 }
