@@ -8,11 +8,9 @@ describe("location-suggest domain (English-first)", () => {
   describe("empty query & quick actions", () => {
     it("returns English quick actions when query is empty and no origin is set", () => {
       const results = searchLocationSuggestions("");
-      expect(results).toHaveLength(2);
+      expect(results).toHaveLength(1);
       expect(results[0]?.title).toBe("Explore everywhere");
       expect(results[0]?.actionType).toBe("everywhere");
-      expect(results[1]?.title).toBe("Multi-city search");
-      expect(results[1]?.actionType).toBe("multicity");
     });
   });
 
@@ -84,7 +82,7 @@ describe("location-suggest domain (English-first)", () => {
 
       // Check quick actions attached at bottom
       expect(titles).toContain("Explore everywhere");
-      expect(titles).toContain("Multi-city search");
+      expect(titles).not.toContain("Multi-city search");
     });
 
     it("suggests Guangzhou, Geneva, Gold Coast, Gimpo, Gimhae, Glasgow when typing 'G'", () => {

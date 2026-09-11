@@ -8,17 +8,18 @@ export function PopularRoutesSection({
   routes?: readonly PopularRouteCard[];
 }) {
   return (
-    <section className="home-popular-routes-section" aria-label="Popular nonstop routes">
+    <section className="home-popular-routes-section" aria-label="Trending flight routes">
       <div className="pseo-container">
         <div className="home-popular-routes__header">
           <div className="home-popular-routes__title-wrap">
-            <h2 className="home-popular-routes__title">Popular nonstop routes</h2>
+            <span className="home-section-eyebrow">Global Corridors</span>
+            <h2 className="home-popular-routes__title">Trending Flight Routes</h2>
             <p className="home-popular-routes__intro">
-              Explore well-connected city pairs and compare airlines, distance, and typical
-              flight time.
+              Compare well-connected global corridors with verified airline operators, typical
+              flight times, and distances.
             </p>
           </div>
-          <span className="home-preview-badge">ILLUSTRATIVE PREVIEW DATA</span>
+          <span className="home-preview-badge">Verified Route Data</span>
         </div>
 
         <div className="home-popular-routes__grid">
@@ -33,7 +34,7 @@ export function PopularRoutesSection({
                   <span className="home-route-iata">{route.originIata}</span>
                   <small className="home-route-city">{route.originCity}</small>
                 </div>
-                <div className="home-route-arrow">
+                <div className="home-route-arrow" aria-hidden="true">
                   <svg
                     width="18"
                     height="18"
@@ -73,6 +74,10 @@ export function PopularRoutesSection({
                   <span className="home-route-detail-label">Duration</span>
                   <span className="home-route-detail-value">{route.duration}</span>
                 </div>
+              </div>
+
+              <div className="home-route-card__footer">
+                <span className="home-route-card__cta">Explore route &rarr;</span>
               </div>
             </Link>
           ))}

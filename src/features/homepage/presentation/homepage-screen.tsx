@@ -7,9 +7,11 @@ import {
 import { useClientIpLocation } from "./use-client-ip-location";
 import { HomepageHero } from "./homepage-hero";
 import { HomepageMap } from "./homepage-map";
+import { LocalHubDestinationsSection } from "./local-hub-destinations-section";
 import { PopularRoutesSection } from "./popular-routes-section";
-import { PopularCitiesSection } from "./popular-cities-section";
-import { ValuePillarsSection } from "./value-pillars-section";
+import { RouteToolsSection } from "./route-tools-section";
+import { GlobalDirectoryMatrixSection } from "./global-directory-matrix-section";
+import { HomepageFaqSection } from "./homepage-faq-section";
 import { TravelAdvisoryNotice } from "./travel-advisory-notice";
 import "./homepage.css";
 
@@ -36,25 +38,22 @@ export function HomepageScreen({
       {/* 2. Interactive Map Section (Focus on user IP / selected location) */}
       <HomepageMap currentHub={currentHub} />
 
-      {/* 3. Advertisement Placeholder */}
-      <aside className="home-ad-section" aria-label="Advertisement">
-        <div className="pseo-container">
-          <div className="home-ad-frame">
-            <p className="home-ad-label">ADVERTISEMENT</p>
-          </div>
-        </div>
-      </aside>
+      {/* 3. Direct destinations from user's active hub */}
+      <LocalHubDestinationsSection currentHub={currentHub} />
 
-      {/* 4. Popular Nonstop Routes Section */}
+      {/* 4. Trending Global Routes */}
       <PopularRoutesSection />
 
-      {/* 5. Popular Cities Section */}
-      <PopularCitiesSection onSelectCity={setCurrentHub} />
+      {/* 5. Useful Route Planning Tools (Google Flights style) */}
+      <RouteToolsSection />
 
-      {/* 6. Value Pillars Section */}
-      <ValuePillarsSection />
+      {/* 6. Global Directory Matrix (pSEO Crawl Equity) */}
+      <GlobalDirectoryMatrixSection />
 
-      {/* 7. Travel Advisory Notice Banner */}
+      {/* 10. Frequently Asked Questions with Schema.org JSON-LD */}
+      <HomepageFaqSection />
+
+      {/* 11. Travel Advisory & Data Transparency Notice Banner */}
       <TravelAdvisoryNotice />
     </main>
   );

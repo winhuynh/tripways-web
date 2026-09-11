@@ -33,10 +33,6 @@ export function FlightSearchBar({
   const [toQuery, setToQuery] = useState("");
   const [toIata, setToIata] = useState("");
 
-  // Options: Direct flights only & Multi-city
-  const [directOnly, setDirectOnly] = useState(false);
-  const [isMultiCity, setIsMultiCity] = useState(false);
-
   // Dropdown state
   const [activeField, setActiveField] = useState<"from" | "to" | null>(null);
   const [activeIndex, setActiveIndex] = useState(-1);
@@ -125,8 +121,6 @@ export function FlightSearchBar({
       if (item.actionType === "everywhere") {
         setToQuery("Explore everywhere");
         setToIata("EVERYWHERE");
-      } else if (item.actionType === "multicity") {
-        setIsMultiCity(true);
       }
       setActiveField(null);
       return;
@@ -215,26 +209,6 @@ export function FlightSearchBar({
       }`}
       ref={containerRef}
     >
-      {/* Top Options: Direct flights / Multi-city toggle (Hero only) */}
-      {!isCompact && (
-        <div className="search-top-controls">
-          <button
-            type="button"
-            className={`search-pill-btn ${!isMultiCity ? "active" : ""}`}
-            onClick={() => setIsMultiCity(false)}
-          >
-            Flight search
-          </button>
-          <button
-            type="button"
-            className={`search-pill-btn ${isMultiCity ? "active" : ""}`}
-            onClick={() => setIsMultiCity(true)}
-          >
-            Multi-city search
-          </button>
-        </div>
-      )}
-
       {/* Main Clean Search Bar (From, Swap, To, Search) */}
       <form
         className={`flight-search-bar flight-search-bar--clean ${
@@ -349,7 +323,7 @@ export function FlightSearchBar({
               type="text"
               className="search-cell__input"
               value={toQuery}
-              placeholder={isCompact ? "Where to?" : "Country, city or airport..."}
+              placeholder={isCompact ? "Where to?" : "Where to? (or leave empty to explore all)"}
               onChange={(e) => {
                 setToQuery(e.target.value);
                 setActiveField("to");
@@ -393,24 +367,9 @@ export function FlightSearchBar({
 
         {/* Search CTA Button */}
         <button type="submit" className="search-submit-btn">
-          {isCompact ? "Search" : "Search flights"}
+          {isCompact ? "Search" : "Explore routes"}
         </button>
       </form>
-
-      {/* Bottom Options: Direct flights only (Hero only) */}
-      {!isCompact && (
-        <div className="search-bottom-options">
-          <label className="search-checkbox-label">
-            <input
-              type="checkbox"
-              className="search-checkbox"
-              checked={directOnly}
-              onChange={(e) => setDirectOnly(e.target.checked)}
-            />
-            <span>Direct flights only</span>
-          </label>
-        </div>
-      )}
     </div>
   );
 }

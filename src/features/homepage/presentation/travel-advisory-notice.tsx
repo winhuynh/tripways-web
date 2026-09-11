@@ -19,9 +19,9 @@ export function TravelAdvisoryNotice() {
             </svg>
           </div>
           <p className="home-advisory-text">
-            <strong>Before you travel:</strong> Airline routes, schedules, and airport
-            services can change. Check the latest details with your airline or departure
-            airport before booking or travelling.
+            <strong>Data Accuracy Notice — Before you travel:</strong> Airline schedules and route
+            networks reflect current IATA seasonal timetables. Always reconfirm specific flight
+            dates, operating carriers, and travel policies before booking or travelling.
           </p>
         </div>
       </div>

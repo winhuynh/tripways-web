@@ -34,15 +34,6 @@ export const DEFAULT_QUICK_ACTIONS: readonly LocationSuggestionItem[] = [
     countryName: "",
     actionType: "everywhere",
   },
-  {
-    id: "action-multi-city",
-    type: "action",
-    title: "Multi-city search",
-    subtitle: "",
-    cityName: "",
-    countryName: "",
-    actionType: "multicity",
-  },
 ] as const;
 
 /**

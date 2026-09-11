@@ -12,7 +12,7 @@ describe("GET /api/locations/suggest", () => {
 
     const body = await res.json();
     expect(body.data).toBeInstanceOf(Array);
-    expect(body.data.length).toBeGreaterThanOrEqual(2);
+    expect(body.data.length).toBeGreaterThanOrEqual(1);
     expect(body.data[0].title).toBe("Explore everywhere");
   });
 

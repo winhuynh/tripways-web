@@ -15,7 +15,7 @@ vi.mock("next/navigation", () => ({
 }));
 
 describe("Tripways Homepage Clean Search Bar & Autocomplete QA Test Suite", () => {
-  describe("1. Clean Search Bar Layout (From, To, Direct, Multi-city)", () => {
+  describe("1. Clean Search Bar Layout (From, To, Direct)", () => {
     it("renders From, Swap, To, and Search CTA without dates, travelers, baggage or accommodation", () => {
       const html = renderToStaticMarkup(<FlightSearchBar />);
 
@@ -34,14 +34,13 @@ describe("Tripways Homepage Clean Search Bar & Autocomplete QA Test Suite", () =
       expect(html).toContain("To");
       expect(html).toContain('value=""');
 
-      // CTA Search flights button
+      // CTA Explore routes button
       expect(html).toContain("search-submit-btn");
-      expect(html).toContain("Search flights");
+      expect(html).toContain("Explore routes");
 
       // Mode & options
-      expect(html).toContain("Flight search");
-      expect(html).toContain("Multi-city search");
-      expect(html).toContain("Direct flights only");
+      expect(html).not.toContain("Multi-city search");
+      expect(html).not.toContain("Direct flights only");
 
       // Removed bloat
       expect(html).not.toContain("Depart");
@@ -53,19 +52,15 @@ describe("Tripways Homepage Clean Search Bar & Autocomplete QA Test Suite", () =
   });
 
   describe("2. Focus 'To' Input with Empty Query (Quick Actions)", () => {
-    it("resolves quick actions: 'Explore everywhere' and 'Multi-city search' for empty 'To' query", () => {
+    it("resolves quick actions: 'Explore everywhere' for empty 'To' query", () => {
       const suggestions = searchLocationSuggestions("", {
         includeQuickActions: true,
       });
 
-      expect(suggestions).toHaveLength(2);
+      expect(suggestions).toHaveLength(1);
       expect(suggestions[0]?.title).toBe("Explore everywhere");
       expect(suggestions[0]?.type).toBe("action");
       expect(suggestions[0]?.actionType).toBe("everywhere");
-
-      expect(suggestions[1]?.title).toBe("Multi-city search");
-      expect(suggestions[1]?.type).toBe("action");
-      expect(suggestions[1]?.actionType).toBe("multicity");
     });
 
     it("renders quick actions popover dropdown with distinct action styling and icons", () => {
@@ -84,7 +79,7 @@ describe("Tripways Homepage Clean Search Bar & Autocomplete QA Test Suite", () =
       expect(html).toContain("location-suggest-dropdown");
       expect(html).toContain("suggest-item--action");
       expect(html).toContain("Explore everywhere");
-      expect(html).toContain("Multi-city search");
+      expect(html).not.toContain("Multi-city search");
     });
   });
 

@@ -13,7 +13,7 @@ export function HomepageHero({ currentHub, onSelectHub }: HomepageHeroProps) {
     <section className="home-hero-section">
       <div className="pseo-container home-hero-container">
         <h1 className="home-hero__title">
-          Compare and book cheap flights with ease
+          Find the best flight routes anywhere
         </h1>
 
         <FlightSearchBar currentHub={currentHub} onSelectHub={onSelectHub} />

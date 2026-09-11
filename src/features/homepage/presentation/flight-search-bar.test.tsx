@@ -12,15 +12,14 @@ vi.mock("next/navigation", () => ({
 }));
 
 describe("FlightSearchBar", () => {
-  it("renders with clean From and To inputs, Direct only, and Multi-city options in default hero mode", () => {
+  it("renders with clean From and To inputs, Direct only, and Explore routes option in default hero mode", () => {
     const html = renderToStaticMarkup(<FlightSearchBar />);
     expect(html).toContain("From");
     expect(html).toContain("To");
     expect(html).toContain("Country, city or airport...");
-    expect(html).toContain("Search flights");
-    expect(html).toContain("Direct flights only");
-    expect(html).toContain("Flight search");
-    expect(html).toContain("Multi-city search");
+    expect(html).toContain("Explore routes");
+    expect(html).not.toContain("Direct flights only");
+    expect(html).not.toContain("Multi-city search");
 
     // Ensure removed fields are not present
     expect(html).not.toContain("Depart");
@@ -39,6 +38,7 @@ describe("FlightSearchBar", () => {
     expect(html).toContain("Search");
 
     // Pill controls and checkboxes omitted in compact mode
+    expect(html).not.toContain("Explore routes");
     expect(html).not.toContain("Flight search");
     expect(html).not.toContain("Multi-city search");
     expect(html).not.toContain("Direct flights only");

@@ -145,6 +145,22 @@
   z-index: 45;
 }
 
+.search-cell--from {
+  padding-right: 24px;
+}
+
+.search-cell--to {
+  padding-left: 24px;
+}
+
+.flight-search-bar--compact .search-cell--from {
+  padding-right: 14px;
+}
+
+.flight-search-bar--compact .search-cell--to {
+  padding-left: 14px;
+}
+
 .search-cell__label {
   font-size: 0.725rem;
   font-weight: 700;

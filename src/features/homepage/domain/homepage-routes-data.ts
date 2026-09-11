@@ -89,6 +89,36 @@ export const POPULAR_ROUTES: readonly PopularRouteCard[] = [
     duration: "9h 45m",
     routePath: "/flights/tokyo-to-sydney",
   },
+  {
+    originIata: "SIN",
+    originCity: "Singapore",
+    destinationIata: "BKK",
+    destinationCity: "Bangkok",
+    airlines: ["SQ", "TG", "3K"],
+    distanceKm: 1430,
+    duration: "2h 25m",
+    routePath: "/flights/bangkok-to-singapore",
+  },
+  {
+    originIata: "LHR",
+    originCity: "London",
+    destinationIata: "JFK",
+    destinationCity: "New York",
+    airlines: ["BA", "VS", "AA", "DL"],
+    distanceKm: 5555,
+    duration: "7h 55m",
+    routePath: "/flights/london-to-new-york",
+  },
+  {
+    originIata: "DXB",
+    originCity: "Dubai",
+    destinationIata: "LHR",
+    destinationCity: "London",
+    airlines: ["EK", "BA"],
+    distanceKm: 5470,
+    duration: "7h 45m",
+    routePath: "/flights/london-to-dubai",
+  },
 ] as const;
 
 export const HUB_AIRPORTS: readonly HubAirport[] = [
