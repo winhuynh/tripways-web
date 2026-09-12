@@ -25,40 +25,41 @@
 .city-quick-facts {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 1.25rem;
+  gap: 1rem;
   padding: 0;
-  margin: 1.5rem 0 2.5rem;
+  margin: 1.25rem 0 2rem;
 }
 
 .city-fact-card {
   background: #ffffff;
   border: 1px solid #e2e8f0;
   border-radius: 12px;
-  padding: 1.25rem 1.5rem;
-  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+  padding: 1rem 1.25rem;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.03);
   display: flex;
   flex-direction: column;
-  transition: transform 150ms ease, box-shadow 150ms ease;
+  transition: transform 150ms ease, box-shadow 150ms ease, border-color 150ms ease;
 }
 
 .city-fact-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
+  border-color: #cbd5e1;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06);
 }
 
 .city-fact-value {
   font-family: var(--font-headline, system-ui, -apple-system, sans-serif);
-  font-size: 2.25rem;
+  font-size: 1.85rem;
   font-weight: 800;
   color: #0066ff;
-  line-height: 1;
-  margin-bottom: 0.4rem;
+  line-height: 1.1;
+  margin-bottom: 0.25rem;
   letter-spacing: -0.02em;
 }
 
 .city-fact-label {
-  font-size: 0.6875rem;
-  font-weight: 800;
+  font-size: 0.65rem;
+  font-weight: 700;
   letter-spacing: 0.08em;
   color: #64748b;
   text-transform: uppercase;
@@ -218,9 +219,9 @@
 .city-table-header {
   display: flex;
   justify-content: space-between;
-  align-items: baseline;
+  align-items: flex-start;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: 1rem;
 }
 
 .city-table-title {
@@ -236,6 +237,37 @@
   font-size: 0.85rem;
   color: #64748b;
   font-weight: 500;
+  display: block;
+  margin-top: 2px;
+}
+
+.city-table-controls {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.city-table-toggle-btn {
+  border: none;
+  background: transparent;
+  color: #0066ff;
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 4px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 150ms ease;
+}
+
+.city-table-toggle-btn:hover {
+  color: #0052cc;
+  background: #eff6ff;
+}
+
+.city-table-toggle-sep {
+  color: #cbd5e1;
+  font-size: 0.8rem;
+  user-select: none;
 }
 
 .city-table-wrap {
@@ -279,6 +311,16 @@
   background: #f8fafc;
 }
 
+.city-dest-link {
+  text-decoration: none;
+  display: inline-block;
+}
+
+.city-dest-link:hover .city-dest-name {
+  color: #0066ff;
+  text-decoration: underline;
+}
+
 .city-dest-name {
   display: block;
   font-size: 0.95rem;
@@ -291,6 +333,21 @@
   font-size: 0.75rem;
   color: #64748b;
   margin-top: 2px;
+}
+
+.city-dest-timetable-link {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #0284c7;
+  text-decoration: none;
+  margin-top: 4px;
+  transition: color 150ms ease;
+}
+
+.city-dest-timetable-link:hover {
+  color: #0369a1;
+  text-decoration: underline;
 }
 
 .city-region-col {
@@ -318,66 +375,121 @@
   font-size: 0.82rem;
 }
 
-.city-time-group {
+.city-schedule-group {
   display: flex;
   flex-direction: column;
+  gap: 4px;
 }
 
 .city-duration {
-  font-weight: 600;
+  font-weight: 700;
+  font-size: 0.92rem;
   color: #0f172a;
 }
 
-.city-fare-col {
+.city-freq-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 12px;
+  width: fit-content;
+  white-space: nowrap;
+}
+
+.city-freq-badge--daily {
+  background: #ecfdf5;
+  color: #047857;
+  border: 1px solid #a7f3d0;
+}
+
+.city-freq-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #10b981;
+}
+
+.city-freq-badge--regular {
+  background: #f1f5f9;
+  color: #475569;
+  border: 1px solid #e2e8f0;
+}
+
+.city-freq-badge--limited {
+  background: #fffbeb;
+  color: #b45309;
+  border: 1px solid #fde68a;
+}
+
+.city-freq-text {
+  font-size: 0.75rem;
+  color: #64748b;
+}
+
+.city-fare-booking-cluster {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 14px;
+}
+
+.city-fare-price-wrap {
   display: flex;
   flex-direction: column;
+  align-items: flex-end;
+  text-align: right;
 }
 
-.city-fare-range {
-  font-weight: 700;
+.city-fare-price {
+  font-weight: 800;
+  font-size: 0.95rem;
   color: #0f172a;
+  white-space: nowrap;
 }
 
 .city-fare-sub {
-  font-size: 0.72rem;
+  font-size: 0.7rem;
   color: #64748b;
-  margin-top: 2px;
+  white-space: nowrap;
+  margin-top: 1px;
 }
 
 .city-action-col {
   white-space: nowrap;
-}
-
-.city-dest-actions {
-  display: flex;
-  align-items: center;
-  gap: 8px;
+  text-align: right;
 }
 
 .city-dest-cta {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.72rem;
+  font-size: 0.75rem;
   font-weight: 700;
-  letter-spacing: 0.04em;
-  padding: 8px 14px;
+  letter-spacing: 0.02em;
+  padding: 8px 16px;
   border-radius: 8px;
   text-decoration: none;
   transition: all 150ms ease;
   white-space: nowrap;
+  cursor: pointer;
 }
 
 .city-dest-cta--primary {
   background: #0066ff;
-  color: #ffffff;
+  color: #ffffff !important;
   border: 1px solid #0066ff;
+  box-shadow: 0 1px 3px rgba(0, 102, 255, 0.2);
 }
 
 .city-dest-cta--primary:hover {
   background: #0052cc;
   border-color: #0052cc;
-  color: #ffffff;
+  color: #ffffff !important;
+  box-shadow: 0 4px 12px rgba(0, 102, 255, 0.3);
+  transform: translateY(-1px);
 }
 
 .city-dest-cta--secondary {
@@ -400,6 +512,170 @@
 }
 
 /* --------------------------------------------------------------------------
+   Country-Grouped View & Accordions
+   -------------------------------------------------------------------------- */
+
+.city-grouped-countries {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.city-country-accordion {
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  background: #ffffff;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.03);
+  transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+
+.city-country-accordion:hover {
+  border-color: #cbd5e1;
+}
+
+.city-country-header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 18px;
+  background: #f8fafc;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  transition: background 150ms ease;
+}
+
+.city-country-header:hover {
+  background: #f1f5f9;
+}
+
+.city-country-header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.city-country-chevron {
+  font-size: 0.7rem;
+  color: #94a3b8;
+  width: 14px;
+  text-align: center;
+}
+
+.city-country-flag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.country-flag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+.country-flag__img {
+  display: inline-block;
+  border-radius: 3px;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.12);
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  vertical-align: middle;
+}
+
+.city-country-title {
+  font-family: var(--font-headline, system-ui, -apple-system, sans-serif);
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.city-country-domestic-tag {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #059669;
+  background: #ecfdf5;
+  border: 1px solid #a7f3d0;
+  padding: 2px 7px;
+  border-radius: 4px;
+  letter-spacing: 0.02em;
+}
+
+.city-country-count-badge {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #64748b;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  padding: 2px 8px;
+  border-radius: 12px;
+}
+
+.city-country-fare-badge {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #0284c7;
+  background: #e0f2fe;
+  border: 1px solid #bae6fd;
+  padding: 4px 10px;
+  border-radius: 6px;
+  white-space: nowrap;
+}
+
+.city-table-wrap--grouped {
+  border: none;
+  border-top: 1px solid #e2e8f0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.city-table-empty {
+  text-align: center;
+  padding: 3rem 1.5rem;
+  background: #ffffff;
+  border-radius: 12px;
+  border: 1px dashed #cbd5e1;
+  color: #64748b;
+  font-size: 0.95rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.city-table-empty-lead {
+  margin: 0;
+  font-size: 0.95rem;
+  color: #64748b;
+}
+
+.city-table-empty-reset-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 18px;
+  border-radius: 8px;
+  background: #0f172a;
+  color: #ffffff !important;
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: background 150ms ease;
+}
+
+.city-table-empty-reset-btn:hover {
+  background: #334155;
+}
+
+/* --------------------------------------------------------------------------
    4. Airport Comparison Cards
    -------------------------------------------------------------------------- */
 
@@ -408,25 +684,119 @@
   border-top: 1px solid #e2e8f0;
 }
 
+.city-airports-header {
+  margin-bottom: 2rem;
+}
+
 .city-airports-heading {
   font-family: var(--font-headline, system-ui, -apple-system, sans-serif);
   font-size: 1.65rem;
   font-weight: 800;
   letter-spacing: -0.025em;
   color: #0f172a;
-  margin-bottom: 2rem;
+  margin: 0;
 }
 
-.city-airports-grid {
+.city-airports-subheadline {
+  font-size: 0.95rem;
+  color: #64748b;
+  line-height: 1.5;
+  margin: 8px 0 0;
+  max-width: 720px;
+}
+
+/* --------------------------------------------------------------------------
+   Single Airport Spotlight Layout
+   -------------------------------------------------------------------------- */
+
+.city-airport-spotlight-card {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+}
+
+.city-airport-spotlight-main {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.city-airport-spotlight-title {
+  font-family: var(--font-headline, system-ui, -apple-system, sans-serif);
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0;
+}
+
+.city-airport-spotlight-sidebar {
+  background: #f8fafc;
+  border-left: 1px solid #e2e8f0;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.city-airport-transit-box {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.city-airport-transit-title {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0;
+}
+
+.city-airport-transit-text {
+  font-size: 0.88rem;
+  color: #64748b;
+  line-height: 1.55;
+  margin: 0;
+}
+
+.city-airport-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 18px;
+  border-radius: 10px;
+  background: #0066ff;
+  color: #ffffff !important;
+  font-weight: 700;
+  font-size: 0.88rem;
+  text-decoration: none;
+  transition: all 150ms ease;
+  margin-top: 4px;
+}
+
+.city-airport-cta-btn:hover {
+  background: #0052cc;
+  transform: translateY(-1px);
+}
+
+/* --------------------------------------------------------------------------
+   Multi-Airport Matchup Cards (>= 2 airports)
+   -------------------------------------------------------------------------- */
+
+.city-airports-matchup-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   gap: 1.5rem;
 }
 
-.city-airport-card {
+.city-airport-matchup-card {
   background: #ffffff;
   border: 1px solid #e2e8f0;
-  border-radius: 14px;
+  border-radius: 16px;
   padding: 1.75rem;
   box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
   display: flex;
@@ -435,40 +805,84 @@
   transition: transform 150ms ease, box-shadow 150ms ease;
 }
 
-.city-airport-card:hover {
+.city-airport-matchup-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.08);
 }
 
-.city-airport-card__header {
+.city-airport-matchup-card--primary {
+  border-top: 4px solid #0066ff;
+}
+
+.city-airport-matchup-card--secondary {
+  border-top: 4px solid #0ea5e9;
+}
+
+.city-airport-card__top {
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
+  flex-direction: column;
+  gap: 6px;
 }
 
-.city-airport-card__title {
-  font-size: 1.3rem;
+.city-airport-badge-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.city-airport-pill {
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 20px;
+  letter-spacing: 0.02em;
+}
+
+.city-airport-pill--primary {
+  background: #eff6ff;
+  color: #1d4ed8;
+  border: 1px solid #bfdbfe;
+}
+
+.city-airport-pill--budget {
+  background: #fef3c7;
+  color: #b45309;
+  border: 1px solid #fde68a;
+}
+
+.city-airport-iata-pill {
+  font-size: 0.75rem;
+  font-weight: 800;
+  background: #0f172a;
+  color: #ffffff;
+  padding: 2px 8px;
+  border-radius: 6px;
+  letter-spacing: 0.05em;
+}
+
+.city-airport-matchup-title {
+  font-family: var(--font-headline, system-ui, -apple-system, sans-serif);
+  font-size: 1.35rem;
   font-weight: 800;
   letter-spacing: -0.02em;
   color: #0f172a;
+  margin: 4px 0 0;
+}
+
+.city-airport-description {
+  font-size: 0.88rem;
+  color: #475569;
+  line-height: 1.5;
   margin: 0;
 }
 
-.city-airport-card__role {
-  font-size: 0.75rem;
-  font-weight: 700;
-  color: #64748b;
-  margin: 3px 0 0;
-}
-
-.city-airport-icon-wrap {
-  color: #0284c7;
-}
-
-.city-airport-stats {
-  display: flex;
-  gap: 2.5rem;
-  padding: 0.85rem 0;
+/* Stat triad bar */
+.city-airport-stats-bar {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  padding: 1rem 0;
   border-top: 1px solid #f1f5f9;
   border-bottom: 1px solid #f1f5f9;
 }
@@ -479,35 +893,82 @@
 }
 
 .city-airport-stat__val {
-  font-size: 1.6rem;
+  font-size: 1.4rem;
   font-weight: 800;
-  color: #0066ff;
-  line-height: 1;
+  color: #0f172a;
+  line-height: 1.1;
 }
 
 .city-airport-stat__label {
-  font-size: 0.625rem;
+  font-size: 0.65rem;
   font-weight: 800;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.06em;
   color: #64748b;
   text-transform: uppercase;
   margin-top: 4px;
 }
 
-.city-airport-description {
-  font-size: 0.9rem;
-  color: #475569;
-  line-height: 1.55;
-  margin: 0;
+/* Decision criteria checklist */
+.city-airport-decision-box {
+  background: #f8fafc;
+  border: 1px solid #f1f5f9;
+  border-radius: 12px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
   flex-grow: 1;
 }
 
-.city-airport-link {
-  font-size: 0.85rem;
+.city-airport-decision-row {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.city-airport-decision-label {
+  font-size: 0.75rem;
   font-weight: 800;
+  color: #0f172a;
+  letter-spacing: 0.02em;
+}
+
+.city-airport-decision-val {
+  font-size: 0.84rem;
+  color: #334155;
+  line-height: 1.45;
+  margin: 0;
+}
+
+.city-airport-meta-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.city-airport-meta-label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #64748b;
+}
+
+.city-airport-meta-val {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.city-airport-card__footer {
+  margin-top: auto;
+  padding-top: 4px;
+}
+
+.city-airport-link {
+  font-size: 0.88rem;
+  font-weight: 700;
   color: #0066ff;
   text-decoration: none;
-  margin-top: 0.5rem;
   display: inline-flex;
   align-items: center;
   gap: 4px;
@@ -517,6 +978,42 @@
 .city-airport-link:hover {
   color: #0052cc;
   text-decoration: underline;
+}
+
+/* Transit Advisory Banner */
+.city-airport-transit-advisory {
+  margin-top: 1.75rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  border-radius: 12px;
+  padding: 16px 20px;
+}
+
+.city-airport-transit-icon {
+  font-size: 1.4rem;
+  line-height: 1;
+}
+
+.city-airport-transit-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.city-airport-transit-lead {
+  font-size: 0.92rem;
+  font-weight: 800;
+  color: #1e3a8a;
+}
+
+.city-airport-transit-desc {
+  font-size: 0.85rem;
+  color: #1e40af;
+  line-height: 1.5;
+  margin: 0;
 }
 
 /* --------------------------------------------------------------------------
@@ -578,16 +1075,50 @@
     border-bottom: none;
   }
 
-  .city-dest-actions {
+  .city-dest-actions,
+  .city-fare-booking-cluster {
     margin-top: 10px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
     gap: 8px;
+  }
+
+  .city-fare-price-wrap {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    text-align: left;
+    padding: 6px 0 2px;
+    border-top: 1px dashed #e2e8f0;
   }
 
   .city-dest-cta {
     width: 100%;
     text-align: center;
-    padding: 8px 12px;
+    padding: 10px 14px;
+  }
+
+  .city-country-header {
+    padding: 12px 14px;
+  }
+
+  .city-airport-spotlight-card {
+    grid-template-columns: 1fr;
+  }
+
+  .city-airport-spotlight-sidebar {
+    border-left: none;
+    border-top: 1px solid #e2e8f0;
+    padding: 1.5rem;
+  }
+
+  .city-airports-matchup-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .city-airport-transit-advisory {
+    flex-direction: column;
+    gap: 8px;
   }
 }

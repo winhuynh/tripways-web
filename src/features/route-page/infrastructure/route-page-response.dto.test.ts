@@ -56,6 +56,48 @@ describe("parseRoutePageResponse", () => {
     expect(m.links?.[0]?.title).toBe("Reverse route");
     expect((m as unknown as Record<string, unknown>).options).toBeUndefined();
   });
+
+  it("parses flight schedules with flight numbers and active days of week", () => {
+    const m = parseRoutePageResponse({
+      route: {
+        origin: { name: "Bangkok", slug: "bangkok", iata_code: "BKK" },
+        destination: { name: "London", slug: "london", iata_code: "LHR" },
+      },
+      content: {
+        seo: { h1: "Flights from Bangkok to London" },
+        intro: "Compare flight options.",
+      },
+      route_options: [
+        {
+          from: "BKK",
+          to: "LHR",
+          stops: 0,
+          operating_airlines: ["TG"],
+          flight_numbers: ["TG910", "TG916"],
+          total_duration_minutes: 765,
+          days_of_week: [1, 2, 3, 4, 5, 6, 7],
+        },
+        {
+          from: "BKK",
+          to: "LHR",
+          stops: 0,
+          operating_airlines: ["BR"],
+          flight_numbers: ["BR67"],
+          total_duration_minutes: 780,
+          days_of_week: [2, 4, 6],
+        },
+      ],
+    });
+
+    expect(m.schedules).toBeDefined();
+    expect(m.schedules?.length).toBe(2);
+    expect(m.schedules?.[0]?.airlineIata).toBe("TG");
+    expect(m.schedules?.[0]?.flightNumbers).toEqual(["TG910", "TG916"]);
+    expect(m.schedules?.[0]?.daysOfWeek).toEqual([1, 2, 3, 4, 5, 6, 7]);
+    expect(m.schedules?.[1]?.airlineIata).toBe("BR");
+    expect(m.schedules?.[1]?.flightNumbers).toEqual(["BR67"]);
+    expect(m.schedules?.[1]?.daysOfWeek).toEqual([2, 4, 6]);
+  });
 });
 
 describe("observed route prices", () => {

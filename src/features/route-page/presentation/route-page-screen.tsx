@@ -23,6 +23,7 @@ import {
 } from "@/shared/ui";
 import type { RoutePageModel } from "../domain/route-page-model";
 import { RouteFlightMap } from "./route-flight-map";
+import { RouteTimetableSection } from "./route-timetable-section";
 import "./route-page.css";
 
 type RoutePageScreenProps = {
@@ -252,7 +253,18 @@ export function RoutePageScreen({
           </div>
         </section>
 
-        {/* 4. Practical Route Planning Grid (Shared PracticalPlanningGrid) */}
+        {/* 4. Flight Timetable & Schedules Section */}
+        <RouteTimetableSection
+          originName={origin.name}
+          originIata={origin.iataCode ?? "ORIGIN"}
+          destinationName={destination.name}
+          destinationIata={destination.iataCode ?? "DEST"}
+          schedules={model.schedules}
+          weeklyDirectFlights={model.summary.weeklyDirectFlights}
+          directOptions={model.summary.directOptions}
+        />
+
+        {/* 5. Practical Route Planning Grid (Shared PracticalPlanningGrid) */}
         {(model.sections.length > 0 || model.facts.length > 0) && (
           <PracticalPlanningGrid
             title={`Plan your ${origin.name} – ${destination.name} journey`}

@@ -5,12 +5,13 @@ export const BANGKOK_CITY_PAGE_FIXTURE: CityPageModel = {
   country: { name: "Thailand", slug: "thailand", region: "Asia" },
   seo: {
     h1: "Direct flights from Bangkok",
-    subheadline: "Explore nonstop destinations across Asia, Europe, and beyond",
+    subheadline:
+      "Explore 180+ direct routes and compare departures from Suvarnabhumi (BKK) and Don Mueang (DMK)",
     title: "Direct Flights from Bangkok: Routes & Airlines | Tripways",
     description:
-      "Explore nonstop destinations accessible from Thailand's primary aviation hubs across Suvarnabhumi (BKK) and Don Mueang (DMK).",
+      "Explore verified direct flights from Bangkok. Compare departures across Suvarnabhumi (BKK) and Don Mueang (DMK), with weekly schedules, flight times, and fares.",
     intro:
-      "Explore nonstop destinations accessible from Thailand's primary aviation hubs. Whether you're departing from Suvarnabhumi (BKK) or Don Mueang (DMK), find direct connections across Asia, Europe, and beyond.",
+      "Bangkok connects travelers globally through two major hubs: Suvarnabhumi (BKK) for long-haul intercontinental flights and full-service carriers, and Don Mueang (DMK) for low-cost and regional flights. Compare all direct destinations, check weekly flight schedules, and find the best fares.",
   },
   quickFacts: {
     destinations: 182,
@@ -25,9 +26,9 @@ export const BANGKOK_CITY_PAGE_FIXTURE: CityPageModel = {
       primary: true,
       destinations: 128,
       airlines: 84,
-      role: "Primary Hub",
+      role: "International & Long-Haul",
       description:
-        "Bangkok's main long-haul and full-service international gateway.",
+        "Bangkok's premier international gateway. Home to Thai Airways and major global flag carriers connecting direct to Europe, the Middle East, and beyond.",
     },
     {
       iata: "DMK",
@@ -35,9 +36,9 @@ export const BANGKOK_CITY_PAGE_FIXTURE: CityPageModel = {
       primary: false,
       destinations: 64,
       airlines: 12,
-      role: "LCC Hub",
+      role: "Budget & Regional Flights",
       description:
-        "Bangkok's main domestic and regional low-cost carrier terminal.",
+        "The primary hub for low-cost carriers like Thai AirAsia, Lion Air, and Nok Air, specializing in affordable domestic routes and regional Asian travel.",
     },
   ],
   destinations: [
@@ -166,17 +167,27 @@ export const BANGKOK_CITY_PAGE_FIXTURE: CityPageModel = {
     {
       question: "Which airports serve Bangkok?",
       answer:
-        "Suvarnabhumi (BKK) is the primary hub for legacy carriers like Thai Airways, Emirates, and Singapore Airlines, offering nonstop long-haul and full-service flights. Don Mueang (DMK) is a hub for low-cost carriers like AirAsia and Nok Air, specializing in domestic Thai flights and regional routes within Asia.",
+        "Bangkok is served by two international airports: Suvarnabhumi Airport (BKK) and Don Mueang International Airport (DMK). Don Mueang (DMK) is generally 25–40% cheaper for budget travelers flying across Southeast Asia via low-cost carriers like Thai AirAsia, Lion Air, and Nok Air. Suvarnabhumi (BKK) caters to full-service carriers and long-haul intercontinental routes to Europe, the Middle East, and the Americas.",
+    },
+    {
+      question: "Which direct routes from Bangkok offer the lowest fares?",
+      answer:
+        "Short direct flights from Bangkok to Cambodia (Siem Reap, Phnom Penh), Malaysia (Kuala Lumpur, Penang), and domestic Thai beach hubs (Phuket, Krabi) frequently feature the lowest one-way fares starting from £25 to £45 depending on advance booking.",
+    },
+    {
+      question: "What direct flights operate from Bangkok to Europe?",
+      answer:
+        "Direct nonstop flights from Bangkok connect to major European capitals including London Heathrow (LHR), Paris (CDG), Frankfurt (FRA), Zurich (ZRH), and Vienna (VIE), operated by Thai Airways, British Airways, Air France, and Lufthansa.",
+    },
+    {
+      question: "When is the best time to book flights out of Bangkok for the lowest price?",
+      answer:
+        "Fares are typically most economical during the shoulder and off-peak travel seasons from May to October. For international long-haul routes, booking 4 to 8 weeks in advance secures the best promotional fares on Aviasales.",
     },
     {
       question: "How many nonstop destinations can I reach from Bangkok?",
       answer:
-        "You can fly nonstop to over 180 direct destinations across Asia, Europe, Australia, and the Middle East from Bangkok's two airports.",
-    },
-    {
-      question: "How do I know whether a route departs from BKK or DMK?",
-      answer:
-        "Full-service and intercontinental flights predominantly operate out of Suvarnabhumi (BKK), while budget carriers and domestic regional flights frequently depart from Don Mueang (DMK). Check the Origin badge on each route for exact departure terminals.",
+        "Travelers can fly nonstop to over 180 destinations across 67 countries in Asia, Europe, Australia, and the Middle East departing from Bangkok's two airports.",
     },
   ],
   links: [

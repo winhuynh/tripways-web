@@ -1,6 +1,7 @@
 import type {
   ObservedPrice,
   RouteAffiliateOffer,
+  RouteFlightSchedule,
   RouteInternalLinkGroup,
   RoutePageModel,
   RouteRecommendation,
@@ -146,6 +147,18 @@ export function parseRoutePageResponse(
       root.internal_link_groups ?? root.links,
     ).map(parseLinkGroup);
 
+    const rawSchedules = optionalArray(root.schedules ?? root.flight_schedules);
+    const schedules: RouteFlightSchedule[] =
+      rawSchedules.length > 0
+        ? rawSchedules.map(parseFlightSchedule)
+        : routeOptions.length > 0
+          ? parseRouteOptionsToSchedules(
+              routeOptions,
+              originModel.iataCode ?? "BKK",
+              destinationModel.iataCode ?? "LHR",
+            )
+          : [];
+
     return {
       route: {
         origin: originModel,
@@ -182,6 +195,7 @@ export function parseRoutePageResponse(
         minFare,
       },
       recommendations,
+      schedules: schedules.length > 0 ? schedules : undefined,
       facts: optionalArray(root.travel_facts).map(parseFact),
       sections: optionalArray(root.editorial_sections).map(parseSection),
       faqs: optionalArray(root.faqs).map(parseFaq),
@@ -381,4 +395,92 @@ function observationReference(value: unknown): string {
   const reference = text(value);
   if (!/^obs_[0-9a-f]{32}$/.test(reference)) throw 0;
   return reference;
+}
+
+function parseFlightSchedule(value: unknown): RouteFlightSchedule {
+  const row = record(value);
+  return {
+    fromAirport: text(row.fromAirport ?? row.from_airport ?? row.from ?? "BKK"),
+    toAirport: text(row.toAirport ?? row.to_airport ?? row.to ?? "LHR"),
+    airlineIata: text(row.airlineIata ?? row.airline_iata ?? row.airline ?? "TG"),
+    airlineName: optionalText(row.airlineName ?? row.airline_name) ?? undefined,
+    flightNumbers: optionalArray(row.flightNumbers ?? row.flight_numbers).map((fn) => String(fn)),
+    durationMinutes:
+      optionalNumber(row.durationMinutes ?? row.duration_minutes ?? row.total_duration_minutes) ?? 0,
+    stops: optionalNumber(row.stops) ?? 0,
+    layoverAirports: optionalArray(row.layoverAirports ?? row.layover_airports).map((a) => String(a)),
+    daysOfWeek: optionalArray(row.daysOfWeek ?? row.days_of_week)
+      .map((d) => (typeof d === "number" ? d : Number.parseInt(String(d), 10)))
+      .filter((d) => Number.isFinite(d)),
+    departureTimeBuckets: optionalArray(row.departureTimeBuckets ?? row.departure_time_buckets).map((b) =>
+      String(b),
+    ),
+    aircraftTypes: optionalArray(row.aircraftTypes ?? row.aircraft_types).map((ac) => String(ac)),
+  };
+}
+
+function parseRouteOptionsToSchedules(
+  options: unknown[],
+  defaultOriginIata: string,
+  defaultDestIata: string,
+): RouteFlightSchedule[] {
+  const schedules: RouteFlightSchedule[] = [];
+  for (const item of options) {
+    if (typeof item !== "object" || item === null) continue;
+    const row = item as Record<string, unknown>;
+    const fromAirport = optionalText(row.from ?? row.from_airport) ?? defaultOriginIata;
+    const toAirport = optionalText(row.to ?? row.to_airport) ?? defaultDestIata;
+    const stops = optionalNumber(row.stops) ?? 0;
+    const durationMinutes =
+      optionalNumber(row.total_duration_minutes) ??
+      optionalNumber(row.flight_duration_minutes) ??
+      optionalNumber(row.duration_minutes) ??
+      0;
+    const rawAirlines = optionalArray(row.operating_airlines ?? row.airlines);
+    const airlines = rawAirlines.map((a) => String(a));
+    const rawFlightNumbers = optionalArray(row.flight_numbers);
+    const flightNumbers = rawFlightNumbers.map((fn) => String(fn));
+    const rawDays = optionalArray(row.days_of_week);
+    const daysOfWeek =
+      rawDays.length > 0
+        ? rawDays
+            .map((d) => (typeof d === "number" ? d : Number.parseInt(String(d), 10)))
+            .filter((d) => Number.isFinite(d))
+        : [1, 2, 3, 4, 5, 6, 7];
+    const layoverAirports = optionalArray(row.layover_airports).map((a) => String(a));
+    const departureTimeBuckets = optionalArray(row.departure_time_buckets).map((b) => String(b));
+    const aircraftTypes = optionalArray(row.aircraft_types).map((ac) => String(ac));
+
+    if (airlines.length > 0) {
+      for (const airline of airlines) {
+        const matchingFlightNumbers = flightNumbers.filter((fn) => fn.startsWith(airline));
+        schedules.push({
+          fromAirport,
+          toAirport,
+          airlineIata: airline,
+          flightNumbers: matchingFlightNumbers.length > 0 ? matchingFlightNumbers : flightNumbers,
+          durationMinutes,
+          stops,
+          layoverAirports: layoverAirports.length > 0 ? layoverAirports : undefined,
+          daysOfWeek,
+          departureTimeBuckets: departureTimeBuckets.length > 0 ? departureTimeBuckets : undefined,
+          aircraftTypes: aircraftTypes.length > 0 ? aircraftTypes : undefined,
+        });
+      }
+    } else {
+      schedules.push({
+        fromAirport,
+        toAirport,
+        airlineIata: "DIRECT",
+        flightNumbers,
+        durationMinutes,
+        stops,
+        layoverAirports: layoverAirports.length > 0 ? layoverAirports : undefined,
+        daysOfWeek,
+        departureTimeBuckets: departureTimeBuckets.length > 0 ? departureTimeBuckets : undefined,
+        aircraftTypes: aircraftTypes.length > 0 ? aircraftTypes : undefined,
+      });
+    }
+  }
+  return schedules;
 }

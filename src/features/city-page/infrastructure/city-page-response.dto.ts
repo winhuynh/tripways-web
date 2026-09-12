@@ -77,6 +77,11 @@ export function parseCityPageResponse(
         city: str(c.name),
         citySlug: str(c.slug),
         country: str(co.name),
+        countryCode:
+          optstr(co.code) ??
+          optstr(co.iso2) ??
+          optstr(co.country_code) ??
+          optstr(x.country_code),
         originAirports: strs(x.origin_airports),
         airports: strs(x.destination_airports),
         airlines: strs(x.airlines),
@@ -123,6 +128,7 @@ export function parseCityPageResponse(
 
         destMap.set(d.path, {
           ...existing,
+          countryCode: existing.countryCode ?? d.countryCode,
           originAirports: mergedOriginAirports,
           airports: mergedAirports,
           airlines: mergedAirlines,
@@ -151,6 +157,7 @@ export function parseCityPageResponse(
       country: {
         name: str(country.name),
         slug: str(country.slug),
+        code: optstr(country.iso2) ?? optstr(country.code),
         region,
       },
       seo: {

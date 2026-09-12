@@ -6,7 +6,7 @@ describe("parseCityPageResponse", () => {
     const model = parseCityPageResponse(
       {
         city: { name: "Bangkok", slug: "bangkok", latitude: 13.7563, longitude: 100.5018 },
-        country: { name: "Thailand", slug: "thailand", region: "Asia" },
+        country: { name: "Thailand", slug: "thailand", iso2: "TH", region: "Asia" },
         page: {
           h1: "Direct flights from Bangkok",
           subheadline: "Explore routes",
@@ -36,7 +36,7 @@ describe("parseCityPageResponse", () => {
         featured_destinations: [
           {
             city: { name: "Singapore", slug: "singapore", latitude: 1.3644, longitude: 103.9915 },
-            country: { name: "Singapore", region: "SE Asia" },
+            country: { name: "Singapore", code: "SG", region: "SE Asia" },
             origin_airports: ["BKK", "DMK"],
             destination_airports: ["SIN"],
             airlines: ["SQ", "TG"],
@@ -57,6 +57,7 @@ describe("parseCityPageResponse", () => {
     expect(model.city.slug).toBe("bangkok");
     expect(model.city.latitude).toBe(13.7563);
     expect(model.country.region).toBe("Asia");
+    expect(model.country.code).toBe("TH");
     expect(model.quickFacts.destinations).toBe(182);
 
     const airport = model.airports[0];
@@ -67,6 +68,7 @@ describe("parseCityPageResponse", () => {
 
     const dest = model.destinations[0];
     expect(dest?.airports).toEqual(["SIN"]);
+    expect(dest?.countryCode).toBe("SG");
     expect(dest?.region).toBe("SE Asia");
     expect(dest?.fareMin).toBe(45);
     expect(dest?.fareMax).toBe(85);

@@ -1,4 +1,3 @@
-import { AdSlot } from "@/features/advertising";
 import {
   CITY_ROUTE_FILTER_FIELDS,
   getUsableNextCursor,
@@ -29,18 +28,10 @@ export function CityPageScreen({
   routes: RouteSearchModel;
   filterValues: RouteFilterValues;
 }) {
-  const verifiedDate = model.freshnessAt
-    ? new Date(model.freshnessAt).toLocaleDateString("en-GB", {
-        day: "numeric",
-        month: "long",
-        year: "numeric",
-      })
-    : "August 2026";
-
   return (
     <main className="pseo-page city-page-main">
       <div className="pseo-container">
-        {/* 1. Breadcrumbs (Shared component) */}
+        {/* 1. Breadcrumbs */}
         <Breadcrumbs
           items={[
             {
@@ -52,15 +43,10 @@ export function CityPageScreen({
           ]}
         />
 
-        {/* 2. Editorial Hero (Shared component) */}
+        {/* 2. Clean Editorial Hero */}
         <PageHero
           title={model.seo.h1}
           intro={model.seo.intro}
-          meta={
-            <div className="city-hero__verified">
-              <span>Data verified {verifiedDate}</span>
-            </div>
-          }
         />
 
         {/* 3. Quick Facts Overview Bar */}
@@ -71,12 +57,12 @@ export function CityPageScreen({
           airports={model.quickFacts.airports}
         />
 
-        {/* 4. Main Discovery: 2-Column Section (Sidebar Filter + Map & Table) */}
+        {/* 4. Main Discovery: 2-Column Section (Sticky Sidebar Filter + Map & Table) */}
         <section
           className="city-discovery-layout pseo-section"
           aria-label="Find nonstop flights"
         >
-          {/* Left Sidebar Filter (Shared MasterRouteFilter) */}
+          {/* Left Sidebar Filter */}
           <div className="city-sidebar-wrap">
             <MasterRouteFilter
               fields={CITY_ROUTE_FILTER_FIELDS}
@@ -98,7 +84,7 @@ export function CityPageScreen({
           <div className="city-main-content">
             {(() => {
               const hasActiveFilters = Object.keys(filterValues).some((key) => key !== "after");
-              const filteredDestinations = hasActiveFilters
+              let filteredDestinations = hasActiveFilters
                 ? model.destinations.filter((destination) =>
                     routes.options.some(
                       (route) =>
@@ -107,6 +93,18 @@ export function CityPageScreen({
                     ),
                   )
                 : model.destinations;
+
+              if (filterValues.counterpart_query) {
+                const q = filterValues.counterpart_query.toLowerCase().trim();
+                filteredDestinations = filteredDestinations.filter(
+                  (d) =>
+                    d.city.toLowerCase().includes(q) ||
+                    d.country.toLowerCase().includes(q) ||
+                    d.airports.some((a) => a.toLowerCase().includes(q)) ||
+                    d.originAirports.some((a) => a.toLowerCase().includes(q)),
+                );
+              }
+
               return (
                 <>
                   <CityRouteMap
@@ -117,8 +115,12 @@ export function CityPageScreen({
                   {filteredDestinations.length > 0 ? (
                     <CityDestinationsTable
                       cityName={model.city.name}
+                      originCountry={model.country.name}
+                      originCountryCode={model.country.code}
+                      originAirports={model.airports.map((airport) => airport.iata)}
                       destinations={filteredDestinations}
                       totalCount={model.quickFacts.destinations}
+                      clearHref={`/flights-from/${model.city.slug}`}
                     />
                   ) : (
                     <RouteResults
@@ -133,13 +135,11 @@ export function CityPageScreen({
           </div>
         </section>
 
-        {/* 5. Advertisement Slot */}
-        <AdSlot format="leaderboard" placement="city_destination_sidebar" />
-
-        {/* 6. Airport Hub Comparison */}
+        {/* 5. Airport Hub Comparison */}
         <CityAirportsComparison
           cityName={model.city.name}
           airports={model.airports}
+          destinations={model.destinations}
         />
 
         {/* 7. FAQ Accordion */}

@@ -89,6 +89,47 @@ export function CityRouteMap({
       ): d is NonNullable<typeof d> => d !== null,
     );
 
+  function renderAffiliatePopup(dest: Parameters<NonNullable<React.ComponentProps<typeof InteractiveRouteMap>["renderPopupHtml"]>>[0]): string {
+    const destCity = dest.city;
+    const destIata = dest.iata;
+    const duration = dest.typicalDuration || `${Math.floor((dest.minDuration ?? 120) / 60)}h ${(dest.minDuration ?? 120) % 60}m`;
+    const currency = dest.fareCurrency ?? "£";
+    const hasFare = typeof dest.fareMin === "number" && typeof dest.fareMax === "number";
+    const fareDealText = hasFare ? `deals from ${currency}${dest.fareMin}` : "fares";
+    const affUrl = `https://www.aviasales.com/search/${originIata.toUpperCase()}0101${destIata.toUpperCase()}1?marker=tripways.city_map_pin`;
+
+    return `
+      <div class="interactive-map-popup-card city-map-aff-popup">
+        <div class="interactive-map-popup-header">
+          <div>
+            <h3 class="interactive-map-popup-title">${destCity}</h3>
+            <p class="interactive-map-popup-subtitle">${destIata} · Direct flight</p>
+          </div>
+          <span class="interactive-map-popup-badge">${duration}</span>
+        </div>
+        <div class="interactive-map-popup-details">
+          <div class="interactive-map-popup-row">
+            <span class="interactive-map-popup-label">Flight duration</span>
+            <strong class="interactive-map-popup-val">${duration}</strong>
+          </div>
+          ${
+            hasFare
+              ? `<div class="interactive-map-popup-row">
+            <span class="interactive-map-popup-label">Observed fare</span>
+            <strong class="interactive-map-popup-val" style="color: #0066ff;">${currency}${dest.fareMin} - ${currency}${dest.fareMax}</strong>
+          </div>`
+              : ""
+          }
+        </div>
+        <div class="interactive-map-popup-actions" style="margin-top: 10px;">
+          <a href="${affUrl}" target="_blank" rel="noopener noreferrer" class="interactive-map-popup-btn interactive-map-popup-btn--primary" style="width: 100%; text-align: center; justify-content: center;">
+            Check ${fareDealText} on Aviasales ↗
+          </a>
+        </div>
+      </div>
+    `;
+  }
+
   return (
     <div
       className="city-map-frame"
@@ -105,6 +146,7 @@ export function CityRouteMap({
         showOriginBadge={false}
         autoOpenFirstPopup={true}
         height="480px"
+        renderPopupHtml={renderAffiliatePopup}
       />
     </div>
   );

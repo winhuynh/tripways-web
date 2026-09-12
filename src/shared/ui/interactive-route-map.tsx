@@ -27,6 +27,7 @@ export type InteractiveRouteMapProps = Readonly<{
   className?: string;
   ariaLabel?: string;
   bottomOverlay?: React.ReactNode;
+  renderPopupHtml?: (dest: SharedMapDestination, originIata?: string) => string;
 }>;
 
 export function InteractiveRouteMap({
@@ -38,6 +39,7 @@ export function InteractiveRouteMap({
   className = "",
   ariaLabel,
   bottomOverlay,
+  renderPopupHtml,
 }: InteractiveRouteMapProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<MapLibreMap | null>(null);
@@ -158,6 +160,9 @@ export function InteractiveRouteMap({
       // Auto open first destination popup if requested
       if (autoOpenFirstPopup && destinations.length > 0) {
         const firstDest = destinations[0]!;
+        const html = renderPopupHtml
+          ? renderPopupHtml(firstDest, origin.iata)
+          : buildInteractiveRouteMapPopupHtml(firstDest, origin.iata);
         activePopup = new maplibregl.Popup({
           offset: 14,
           closeButton: false,
@@ -165,7 +170,7 @@ export function InteractiveRouteMap({
           className: "shared-map-custom-popup",
         })
           .setLngLat([firstDest.longitude, firstDest.latitude])
-          .setHTML(buildInteractiveRouteMapPopupHtml(firstDest, origin.iata))
+          .setHTML(html)
           .addTo(map);
       }
 
@@ -180,13 +185,16 @@ export function InteractiveRouteMap({
       if (!props || !props.city) return;
 
       activePopup?.remove();
+      const clickHtml = renderPopupHtml
+        ? renderPopupHtml(props, origin.iata)
+        : buildInteractiveRouteMapPopupHtml(props, origin.iata);
       activePopup = new maplibregl.Popup({
         offset: 14,
         closeButton: true,
         className: "shared-map-custom-popup",
       })
         .setLngLat(feature.geometry.coordinates as [number, number])
-        .setHTML(buildInteractiveRouteMapPopupHtml(props, origin.iata))
+        .setHTML(clickHtml)
         .addTo(map);
     };
 

@@ -128,11 +128,18 @@ export function MasterRouteFilter({
         className={`master-filter ${isMobileOpen ? "master-filter--open" : ""}`}
       >
         <div className="master-filter__header">
-          <h2>{heading}</h2>
+          <div className="master-filter__header-info">
+            <h2>{heading}</h2>
+            {activeCount > 0 && (
+              <span className="master-filter__active-pill">
+                {activeCount} active
+              </span>
+            )}
+          </div>
           {activeCount > 0 && (
-            <span className="master-filter__active-pill">
-              {activeCount} active
-            </span>
+            <a href={clearHref} className="master-filter__header-reset">
+              Reset
+            </a>
           )}
           <button
             type="button"
@@ -239,6 +246,9 @@ function FilterField({
       );
 
     case "departure_airports":
+      if (departureAirports.length <= 1) {
+        return null;
+      }
       return (
         <SegmentedTabRow
           name="departure_airports"

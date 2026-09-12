@@ -73,8 +73,12 @@ describe("CityPageScreen", () => {
     expect(html).toContain("Nonstop destinations from Bangkok");
     expect(html).toContain("Showing 1 nonstop route option · 182 destinations in total");
     expect(html).toContain("Singapore");
-    expect(html).toContain("Check fares ↗");
-    expect(html).toContain("Route guide →");
+    expect(html).toContain("From £45");
+    expect(html).toContain("View flights →");
+    expect(html).toContain('href="/flights/bangkok-to-singapore"');
+    expect(html).toContain("1 route");
+    expect(html).not.toContain("Timetable & flights →");
+    expect(html).not.toContain("Route guide →");
     expect(html).toContain("Choose the Bangkok airport");
     expect(html).toContain("Suvarnabhumi");
     expect(html).toContain("Don Mueang");
@@ -115,5 +119,33 @@ describe("CityPageScreen", () => {
     );
     expect(html).toContain("No verified routes match these filters.");
     expect(html).not.toContain("Nonstop destinations from Bangkok");
+  });
+
+  it("renders single-airport spotlight layout when city has only 1 airport", () => {
+    const singleAirportModel: CityPageModel = {
+      ...model,
+      city: { name: "Da Nang", slug: "da-nang" },
+      airports: [
+        {
+          iata: "DAD",
+          name: "Da Nang International Airport",
+          primary: true,
+          destinations: 32,
+          airlines: 18,
+        },
+      ],
+    };
+    const html = renderToStaticMarkup(
+      <CityPageScreen
+        model={singleAirportModel}
+        routes={routeSearchFixture}
+        filterValues={{}}
+      />,
+    );
+    expect(html).toContain("Airport gateway for Da Nang");
+    expect(html).toContain("Primary Gateway");
+    expect(html).toContain("DAD");
+    expect(html).not.toContain("Choose the Da Nang airport");
+    expect(html).not.toContain("Self-transferring between");
   });
 });

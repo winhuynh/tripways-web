@@ -19,4 +19,5 @@ export { FlightOptionCard, type FlightOptionData, type FlightOptionCardProps } f
 export { RecommendationHighlights, type RecommendationItem, type RecommendationHighlightsProps } from "./recommendation-highlights";
 export { PracticalPlanningGrid, type PlanningSectionItem, type PlanningFactItem, type PracticalPlanningGridProps } from "./practical-planning-grid";
 export { AirlineLogo, type AirlineLogoProps, AirlineBadgeGroup, type AirlineBadgeGroupProps } from "./airline-logo";
+export { CountryFlag, type CountryFlagProps, getCountryIso2, getCountryFlagEmoji } from "./country-flag";
 export { MasterRouteFilter } from "@/features/route-search/presentation/master-route-filter";

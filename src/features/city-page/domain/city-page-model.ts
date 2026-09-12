@@ -2,6 +2,7 @@ export type CityPageDestination = Readonly<{
   city: string;
   citySlug: string;
   country: string;
+  countryCode?: string;
   originAirports: string[];
   airports: string[];
   airlines: string[];
@@ -34,7 +35,7 @@ export type CityPageAirport = Readonly<{
 
 export type CityPageModel = Readonly<{
   city: { name: string; slug: string; latitude?: number; longitude?: number };
-  country: { name: string; slug: string; region?: string };
+  country: { name: string; slug: string; code?: string; region?: string };
   seo: {
     h1: string;
     subheadline: string;

@@ -18,11 +18,10 @@ export type RouteFilterField =
 
 export const CITY_ROUTE_FILTER_FIELDS = [
   "departure_airports",
-  "destination_countries",
-  "destination_regions",
-  "airlines",
   "route_type",
-  "days_of_week",
+  "destination_regions",
+  "destination_countries",
+  "airlines",
   "max_duration_minutes",
   "max_one_way_fare",
 ] as const satisfies readonly RouteFilterField[];

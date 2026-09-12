@@ -149,4 +149,44 @@ describe("RoutePageScreen", () => {
     expect(html).toContain("GBP 850 (nonstop)");
     expect(html).not.toContain("£380 one-stop");
   });
+
+  it("renders flight timetable section with flight numbers, operating days, and affiliate cta", () => {
+    const modelWithSchedules: RoutePageModel = {
+      ...model,
+      schedules: [
+        {
+          fromAirport: "BKK",
+          toAirport: "LHR",
+          airlineIata: "TG",
+          airlineName: "Thai Airways",
+          flightNumbers: ["TG910", "TG916"],
+          durationMinutes: 765,
+          stops: 0,
+          daysOfWeek: [1, 2, 3, 4, 5, 6, 7],
+        },
+        {
+          fromAirport: "BKK",
+          toAirport: "LHR",
+          airlineIata: "BR",
+          airlineName: "EVA Air",
+          flightNumbers: ["BR67"],
+          durationMinutes: 780,
+          stops: 0,
+          daysOfWeek: [2, 4, 6],
+        },
+      ],
+    };
+
+    const html = renderToStaticMarkup(<RoutePageScreen model={modelWithSchedules} />);
+
+    expect(html).toContain('id="timetable"');
+    expect(html).toContain("Flight schedule: Bangkok to London");
+    expect(html).toContain("Thai Airways");
+    expect(html).toContain("TG910, TG916");
+    expect(html).toContain("Daily flight operation");
+    expect(html).toContain("EVA Air");
+    expect(html).toContain("BR67");
+    expect(html).toContain("Operates 3 days / week");
+    expect(html).toContain("Check fares ↗");
+  });
 });

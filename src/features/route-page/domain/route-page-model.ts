@@ -48,6 +48,20 @@ export type RouteInternalLinkGroup = Readonly<{
   }>;
 }>;
 
+export type RouteFlightSchedule = Readonly<{
+  fromAirport: string;
+  toAirport: string;
+  airlineIata: string;
+  airlineName?: string;
+  flightNumbers: readonly string[];
+  durationMinutes: number;
+  stops: number;
+  layoverAirports?: readonly string[];
+  daysOfWeek: readonly number[]; // 1 = Mon, 7 = Sun
+  departureTimeBuckets?: readonly string[];
+  aircraftTypes?: readonly string[];
+}>;
+
 export type RoutePageModel = Readonly<{
   route: {
     origin: RoutePlaceEntity;
@@ -66,6 +80,7 @@ export type RoutePageModel = Readonly<{
   };
   summary: RouteSummary;
   recommendations?: RouteRecommendation[];
+  schedules?: readonly RouteFlightSchedule[];
   facts: Array<{ type: string; title: string; body: string; sourceUrl?: string }>;
   sections: Array<{ type: string; heading: string; body: string }>;
   faqs: Array<{ question: string; answer: string }>;
